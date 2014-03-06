@@ -9,24 +9,39 @@ public class Engine {
 	private Action action;
 	private Board board;
 	private Distribution distribution;
-	private TalkDistribution linkDistribution;
+	private TalkDistribution talkDistribution;
 	private Games games;
+	private Thread threadGames;
 
 	public void run() {
 		startup();
+		try {
+			Thread.sleep(5000);
+		} catch (Exception e) {
+			// pass
+		}
+		shutdown();
 	}
 
 	private void startup() {
 		action = new Action();
 		board = new Board();
 		distribution = new Distribution();
-		linkDistribution = new TalkDistribution();
+		talkDistribution = new TalkDistribution();
 		games = new Games();
 
 		action.setBoard(board);
 		board.setAction(action);
-		linkDistribution.setGames(games);
-		distribution.setLinkDistribution(linkDistribution);
+		talkDistribution.setGames(games);
+		distribution.setTalkDistribution(talkDistribution);
+		games.setTalkDistribution(talkDistribution);
+
+		threadGames = new Thread(games);
+		threadGames.start();
 	}
 
+	public void shutdown() {
+		games.stop();
+		threadGames.interrupt();
+	}
 }
