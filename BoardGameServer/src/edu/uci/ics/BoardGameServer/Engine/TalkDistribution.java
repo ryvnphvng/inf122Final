@@ -43,7 +43,7 @@ public class TalkDistribution {
 		}
 		synchronizeInputQueue.notifyAll();
 	}
-	
+
 	public void waitForOutputQueue() {
 		synchronized (synchronizeOutputQueue) {
 			if (outputQueue.isEmpty()) {
@@ -60,6 +60,7 @@ public class TalkDistribution {
 		synchronized (synchronizeOutputQueue) {
 			outputQueue.add(message);
 		}
+		synchronizeOutputQueue.notifyAll();
 	}
 
 }

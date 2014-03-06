@@ -24,18 +24,28 @@ public class Game {
 		this.type = type;
 		this.numberOfPlayers = numberOfPlayers;
 	}
-	
+
 	public void setGames(Games games) {
 		this.games = games;
 	}
-	
+
 	public void messageFromClient(Message message) {
 		// send to action and/or board
 	}
-	
+
 	public void messageToClient(Message message) {
 		message.gameId = gameId;
 		games.sendMessageToClient(message);
+	}
+
+	@SuppressWarnings("unused")
+	private void setType() {
+		// set type in action and board
+	}
+
+	@SuppressWarnings("unused")
+	private void setNumberOfPlayers() {
+		// set numberOfPlayers in action and board
 	}
 
 }
