@@ -1,5 +1,6 @@
 package edu.uci.ics.BoardGameServer.Distribution;
 
+import edu.uci.ics.BoardGameServer.Common.Message;
 import edu.uci.ics.BoardGameServer.Engine.TalkDistribution;
 
 import java.util.ArrayList;
@@ -7,16 +8,24 @@ import java.util.List;
 
 public class Distribution {
 
-	private TalkDistribution linkDistribution;
+	private TalkDistribution talkDistribution;
 	private List<Integer> gameIds = new ArrayList<Integer>();
 
-	public void setLinkDistribution(TalkDistribution linkDistribution) {
-		this.linkDistribution = linkDistribution;
+	public void setTalkDistribution(TalkDistribution talkDistribution) {
+		this.talkDistribution = talkDistribution;
 	}
 
+	@SuppressWarnings("unused")
 	private void createGame() {
-		int gameId = linkDistribution.createGame("temp", 2);
+		int gameId = talkDistribution.createGame("temp", 2);
 		gameIds.add(gameId);
+	}
+	
+	@SuppressWarnings("unused")
+	private void sendMessageToGame(Message message) {
+		message.gameId = 2;
+		message.message = "blah";
+		talkDistribution.sendMessageToGame(message);
 	}
 
 }
