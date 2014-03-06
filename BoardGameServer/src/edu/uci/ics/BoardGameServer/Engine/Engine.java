@@ -1,8 +1,5 @@
 package edu.uci.ics.BoardGameServer.Engine;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 import edu.uci.ics.BoardGameServer.Action.Action;
 import edu.uci.ics.BoardGameServer.Board.Board;
 import edu.uci.ics.BoardGameServer.Distribution.Distribution;
@@ -12,8 +9,8 @@ public class Engine {
 	private Action action;
 	private Board board;
 	private Distribution distribution;
-	private Map<Integer, Game> games = new TreeMap<Integer, Game>();
-	private int nextGameNumber = 0;
+	private TalkDistribution linkDistribution;
+	private Games games;
 
 	public void run() {
 		startup();
@@ -23,18 +20,13 @@ public class Engine {
 		action = new Action();
 		board = new Board();
 		distribution = new Distribution();
+		linkDistribution = new TalkDistribution();
+		games = new Games();
 
 		action.setBoard(board);
 		board.setAction(action);
+		linkDistribution.setGames(games);
+		distribution.setLinkDistribution(linkDistribution);
 	}
 
-	public int createGame(String type, int numberOfPlayers) {
-		int gameNumber = nextGameNumber++; 
-		games.put(gameNumber, new Game(type, numberOfPlayers));
-		return gameNumber;
-	}
-	
-	public void destroyGame(int gameNumber) {
-		games.remove(gameNumber);
-	}
 }

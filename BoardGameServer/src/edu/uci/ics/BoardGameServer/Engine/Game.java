@@ -16,4 +16,5 @@ public class Game {
 		this.type = type;
 		this.numberOfPlayers = numberOfPlayers;
 	}
+
 }
