@@ -1,11 +1,16 @@
 package edu.uci.ics.BoardGameServer.Engine;
 
+import java.util.Scanner;
+import java.util.regex.Pattern;
+
 import edu.uci.ics.BoardGameServer.Action.Action;
 import edu.uci.ics.BoardGameServer.Board.Board;
 import edu.uci.ics.BoardGameServer.Distribution.Distribution;
 
 public class Engine {
 
+	private Scanner scanner = new Scanner(System.in);
+	private String inputString;
 	private Action action;
 	private Board board;
 	private Distribution distribution;
@@ -15,11 +20,7 @@ public class Engine {
 
 	public void run() {
 		startup();
-		try {
-			Thread.sleep(5000);
-		} catch (Exception e) {
-			// pass
-		}
+		pause();
 		shutdown();
 	}
 
@@ -43,5 +44,33 @@ public class Engine {
 	public void shutdown() {
 		games.stop();
 		threadGames.interrupt();
+	}
+
+	public void pause() {
+		getInputString("Please type anything and enter to shutdown: ",
+				Pattern.compile(".*"));
+	}
+
+	private void getInputString(String message, Pattern pattern) {
+		while (true) {
+			System.out.print(message);
+			while (!scanner.hasNext()) {
+				try {
+					Thread.sleep(1000);
+				} catch (Exception e) {
+					// pass
+				}
+			}
+			try {
+				inputString = scanner.next(pattern);
+			} catch (Exception e) {
+				scanner.next();
+				continue;
+			}
+			if (!inputString.isEmpty()) {
+				System.out.println();
+				break;
+			}
+		}
 	}
 }
