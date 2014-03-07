@@ -33,8 +33,17 @@ public class Games implements Runnable {
 	}
 
 	public int createGame(String type, int numberOfPlayers) {
+		if (nextGameId > 999999999){
+			nextGameId = 0;
+		}
 		int gameNumber = nextGameId++;
-		games.put(gameNumber, new Game(nextGameId, type, numberOfPlayers));
+		while (games.containsKey(gameNumber)) {
+			gameNumber = nextGameId++;
+			if (nextGameId > 999999999){
+				nextGameId = 0;
+			}
+		}
+		games.put(gameNumber, new Game(gameNumber, type, numberOfPlayers));
 		return gameNumber;
 	}
 

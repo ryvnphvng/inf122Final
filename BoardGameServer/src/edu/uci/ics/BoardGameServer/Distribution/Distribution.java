@@ -24,6 +24,7 @@ public class Distribution {
 	@SuppressWarnings("unused")
 	private void sendMessageToGame(Message message) {
 		message.gameId = 2;
+		message.playerNumber = 0;
 		message.message = "blah";
 		talkDistribution.sendMessageToGame(message);
 	}
