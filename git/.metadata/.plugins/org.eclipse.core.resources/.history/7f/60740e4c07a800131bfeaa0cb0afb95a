@@ -1,0 +1,5 @@
+package edu.uci.ics.BoardGameServer.Board;
+
+public class GameObject {
+	
+}

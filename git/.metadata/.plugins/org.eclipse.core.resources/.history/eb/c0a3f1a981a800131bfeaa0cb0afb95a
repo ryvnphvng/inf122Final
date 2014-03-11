@@ -1,0 +1,31 @@
+package edu.uci.ics.BoardGameServer.Board;
+
+
+public class Player {
+	private String username; //should we just generate an ID for each player?
+	private String password;
+	//private Score score;
+	
+	public String getUsername(){
+		return this.username;
+	}
+	
+	public void setUsername(String username){
+		this.username = username;
+	}
+	
+	public String getPassword(){
+		return this.password;
+	}
+	
+	public void setPassword(String password){
+		this.password = password;
+	}
+	
+	/*
+	public Score getScore(){
+		return score;
+	}
+	*/
+	
+}
