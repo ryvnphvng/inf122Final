@@ -4,7 +4,7 @@ import edu.uci.ics.BoardGameServer.Board.Board;
 import edu.uci.ics.BoardGameServer.Common.Message;
 import edu.uci.ics.BoardGameServer.Engine.Game;
 
-public abstract class Action {
+public class Action {
 
 	@SuppressWarnings("unused")
 	private Board board;
