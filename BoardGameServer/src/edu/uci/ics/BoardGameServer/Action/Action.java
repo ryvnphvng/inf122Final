@@ -1,17 +1,14 @@
 package edu.uci.ics.BoardGameServer.Action;
 
-import edu.uci.ics.BoardGameServer.Board.Board;
 import edu.uci.ics.BoardGameServer.Common.Message;
 import edu.uci.ics.BoardGameServer.Engine.Game;
 
 public abstract class Action {
 
-	@SuppressWarnings("unused")
-	private Board board;
 	private Game game;
 
-	public void setBoard(Board board) {
-		this.board = board;
+	public void setBoard(Game game) {
+		this.game = game;
 	}
 
 	public void setGame(Game game) {
