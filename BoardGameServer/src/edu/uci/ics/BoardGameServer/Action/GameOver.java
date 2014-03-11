@@ -5,7 +5,7 @@ import edu.uci.ics.BoardGameServer.Board.Board;
 public abstract class GameOver {
 	private Board board;
 	
-	public GameOver(Baord board)
+	public GameOver(Board board)
 	{
 		this.board = board;
 	}
