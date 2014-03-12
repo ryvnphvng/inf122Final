@@ -10,6 +10,7 @@ public class Engine {
 	private Scanner scanner = new Scanner(System.in);
 	private String inputString;
 	private Distribution distribution;
+	private Thread threadDistribution;
 	private TalkDistribution talkDistribution;
 	private Games games;
 	private Thread threadGames;
@@ -24,21 +25,26 @@ public class Engine {
 		distribution = new Distribution();
 		talkDistribution = new TalkDistribution();
 		games = new Games();
-		
+
 		talkDistribution.setGames(games);
 		distribution.setTalkDistribution(talkDistribution);
 		games.setTalkDistribution(talkDistribution);
 
 		threadGames = new Thread(games);
 		threadGames.start();
+
+		threadDistribution = new Thread(distribution);
+		threadDistribution.start();
 	}
 
-	public void shutdown() {
+	private void shutdown() {
 		games.stop();
+		distribution.stop();
 		threadGames.interrupt();
+		threadDistribution.interrupt();
 	}
 
-	public void pause() {
+	private void pause() {
 		getInputString("Please type anything and enter to shutdown: ",
 				Pattern.compile(".*"));
 	}

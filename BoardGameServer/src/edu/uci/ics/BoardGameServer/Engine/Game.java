@@ -26,7 +26,7 @@ public class Game {
 
 	public void messageToClient(Message message) {
 		message.gameId = gameId;
-		games.sendMessageToClient(message);
+		games.messageToClient(message);
 	}
 
 }

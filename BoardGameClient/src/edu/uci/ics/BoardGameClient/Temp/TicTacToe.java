@@ -1,4 +1,4 @@
-package edu.ics.BoardGameClient;
+package edu.uci.ics.BoardGameClient.Temp;
 
 import javax.swing.*;
 

@@ -9,7 +9,7 @@ public class TalkDistribution {
 
 	private Games games;
 	private Object synchronizeInputQueue = new Object();
-	private Queue<Message> inputQueue;
+	private Queue<Message> inputQueue = new ArrayBlockingQueue<Message>(32);
 	private Object synchronizeOutputQueue = new Object();
 	private Queue<Message> outputQueue = new ArrayBlockingQueue<Message>(32);
 
@@ -24,9 +24,20 @@ public class TalkDistribution {
 	public int createGame(int gameType, int numberOfPlayers) {
 		return games.createGame(gameType, numberOfPlayers);
 	}
-	
+
 	public void destroyGame(int gameNumber) {
 		games.destroyGame(gameNumber);
+	}
+
+	public void addMessageToInputQueue(Message message) {
+		synchronized (synchronizeInputQueue) {
+			inputQueue.add(message);
+		}
+		synchronizeInputQueue.notifyAll();
+	}
+
+	public Message getMessageFromInputQueue() {
+		return inputQueue.poll();
 	}
 
 	public void waitForInputQueue() {
@@ -41,11 +52,22 @@ public class TalkDistribution {
 		}
 	}
 
-	public void sendMessageToGame(Message message) {
+	public void messageFromClient(Message message) {
 		synchronized (synchronizeInputQueue) {
 			inputQueue.add(message);
 		}
 		synchronizeInputQueue.notifyAll();
+	}
+
+	public Message getInputQueue() {
+		return inputQueue.poll();
+	}
+
+	public void messageToClient(Message message) {
+		synchronized (synchronizeOutputQueue) {
+			outputQueue.add(message);
+		}
+		synchronizeOutputQueue.notifyAll();
 	}
 
 	public void waitForOutputQueue() {
@@ -60,11 +82,8 @@ public class TalkDistribution {
 		}
 	}
 
-	public void sendMessageToClient(Message message) {
-		synchronized (synchronizeOutputQueue) {
-			outputQueue.add(message);
-		}
-		synchronizeOutputQueue.notifyAll();
+	public Message getOutputQueue() {
+		return outputQueue.poll();
 	}
 
 }
