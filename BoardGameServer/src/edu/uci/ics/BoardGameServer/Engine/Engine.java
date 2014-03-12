@@ -3,16 +3,12 @@ package edu.uci.ics.BoardGameServer.Engine;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-import edu.uci.ics.BoardGameServer.Action.Action;
-import edu.uci.ics.BoardGameServer.Board.Board;
 import edu.uci.ics.BoardGameServer.Distribution.Distribution;
 
 public class Engine {
 
 	private Scanner scanner = new Scanner(System.in);
 	private String inputString;
-	private Action action;
-	private Board board;
 	private Distribution distribution;
 	private TalkDistribution talkDistribution;
 	private Games games;
@@ -25,14 +21,10 @@ public class Engine {
 	}
 
 	private void startup() {
-		action = new Action();
-		board = new Board();
 		distribution = new Distribution();
 		talkDistribution = new TalkDistribution();
 		games = new Games();
-
-		action.setBoard(board);
-		board.setAction(action);
+		
 		talkDistribution.setGames(games);
 		distribution.setTalkDistribution(talkDistribution);
 		games.setTalkDistribution(talkDistribution);

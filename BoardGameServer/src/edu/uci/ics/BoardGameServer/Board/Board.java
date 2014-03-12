@@ -1,15 +1,11 @@
 package edu.uci.ics.BoardGameServer.Board;
 
 import edu.uci.ics.BoardGameServer.Action.Action;
-import edu.uci.ics.BoardGameServer.Common.Message;
-import edu.uci.ics.BoardGameServer.Engine.Game;
 
 public class Board {
 
-	@SuppressWarnings("unused")
 	private Action action;
-	private Game game;
-	private Tile[][] board; 
+	private Tile[][] board;
 	private int width;
 	private int height;
 
@@ -17,44 +13,31 @@ public class Board {
 		this.action = action;
 	}
 
-	public void setGame(Game game) {
-		this.game = game;
-	}
-	
-	public void messageFromClient(Message message) {
-	}
-	
-	public int getWidth(){
+	public int getWidth() {
 		return this.width;
 	}
-	
-	public void setWidth(int w){
+
+	public void setWidth(int w) {
 		this.width = w;
 	}
-	
-	public int getHeight(){
+
+	public int getHeight() {
 		return this.height;
 	}
-	
-	public void setHeight(int h){
+
+	public void setHeight(int h) {
 		this.height = h;
 	}
-	
-	public Tile getTile(int row, int column){
-		if(row < this.height && column < this.width) 
+
+	public Tile getTile(int row, int column) {
+		if (row < this.height && column < this.width)
 			return board[row][column];
-		return null; 
+		return null;
 	}
-	
-	public void setTile(Tile t, int row, int column){
-		if(row < this.height && column < this.width)
+
+	public void setTile(Tile t, int row, int column) {
+		if (row < this.height && column < this.width)
 			board[row][column] = t;
 	}
 
-	@SuppressWarnings("unused")
-	private void messageToClient(Message message) {
-		message.message = "blah";
-		message.playerNumber = 0;
-		game.messageToClient(message);
-	}
 }

@@ -1,28 +1,19 @@
 package edu.uci.ics.BoardGameServer.Engine;
 
 import edu.uci.ics.BoardGameServer.Action.Action;
-import edu.uci.ics.BoardGameServer.Board.Board;
 import edu.uci.ics.BoardGameServer.Common.Message;
 
 public class Game {
 
 	private Action action = new Action();
-	private Board board = new Board();
 	private Games games;
 	private int gameId;
-	@SuppressWarnings("unused")
-	private String type;
-	@SuppressWarnings("unused")
-	private int numberOfPlayers;
 
-	Game(int gameId, String type, int numberOfPlayers) {
-		action.setBoard(board);
+	Game(int gameId, int gameType, int numberOfPlayers) {
 		action.setGame(this);
-		board.setAction(action);
-		board.setGame(this);
+		action.setGameType(gameType);
+		action.setNumberOfPlayers(numberOfPlayers);
 		this.gameId = gameId;
-		this.type = type;
-		this.numberOfPlayers = numberOfPlayers;
 	}
 
 	public void setGames(Games games) {
@@ -30,22 +21,12 @@ public class Game {
 	}
 
 	public void messageFromClient(Message message) {
-		// send to action and/or board
+		action.messageFromClient(message);
 	}
 
 	public void messageToClient(Message message) {
 		message.gameId = gameId;
 		games.sendMessageToClient(message);
-	}
-
-	@SuppressWarnings("unused")
-	private void setType() {
-		// set type in action and board
-	}
-
-	@SuppressWarnings("unused")
-	private void setNumberOfPlayers() {
-		// set numberOfPlayers in action and board
 	}
 
 }

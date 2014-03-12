@@ -1,5 +1,6 @@
 package edu.uci.ics.BoardGameServer.Distribution;
 
+import edu.uci.ics.BoardGameServer.Common.Definitions;
 import edu.uci.ics.BoardGameServer.Common.Message;
 import edu.uci.ics.BoardGameServer.Engine.TalkDistribution;
 
@@ -15,13 +16,15 @@ public class Distribution {
 		this.talkDistribution = talkDistribution;
 	}
 
-	@SuppressWarnings("unused")
 	private void createGame() {
-		int gameId = talkDistribution.createGame("temp", 2);
+		int gameId = talkDistribution.createGame(Definitions.GAMETYPETICTACTOE, 2);
 		gameIds.add(gameId);
 	}
 	
-	@SuppressWarnings("unused")
+	private void destroyGame() {
+		talkDistribution.destroyGame(2);
+	}
+	
 	private void sendMessageToGame(Message message) {
 		message.gameId = 2;
 		message.playerNumber = 0;

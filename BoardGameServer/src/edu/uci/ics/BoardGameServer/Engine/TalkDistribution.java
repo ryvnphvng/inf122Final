@@ -21,8 +21,12 @@ public class TalkDistribution {
 		this.inputQueue = inputQueue;
 	}
 
-	public int createGame(String type, int numberOfPlayers) {
-		return games.createGame(type, numberOfPlayers);
+	public int createGame(int gameType, int numberOfPlayers) {
+		return games.createGame(gameType, numberOfPlayers);
+	}
+	
+	public void destroyGame(int gameNumber) {
+		games.destroyGame(gameNumber);
 	}
 
 	public void waitForInputQueue() {
