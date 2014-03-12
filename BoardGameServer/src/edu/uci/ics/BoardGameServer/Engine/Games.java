@@ -1,23 +1,18 @@
 package edu.uci.ics.BoardGameServer.Engine;
 
 import java.util.Map;
-import java.util.Queue;
 import java.util.TreeMap;
-import java.util.concurrent.ArrayBlockingQueue;
-
 import edu.uci.ics.BoardGameServer.Common.Message;
 
 public class Games implements Runnable {
 
 	private TalkDistribution talkDistribution;
-	private Queue<Message> inputQueue = new ArrayBlockingQueue<Message>(32);
 	private Map<Integer, Game> games = new TreeMap<Integer, Game>();
 	private int nextGameId = 0;
 	private volatile boolean stopRunning = false;
 
 	public void setTalkDistribution(TalkDistribution talkDistribution) {
 		this.talkDistribution = talkDistribution;
-		talkDistribution.setInputQueue(inputQueue);
 	}
 
 	public void stop() {
@@ -28,18 +23,18 @@ public class Games implements Runnable {
 	public void run() {
 		while (!stopRunning) {
 			talkDistribution.waitForInputQueue();
-			sendMessageToGame(inputQueue.poll());
+			messageFromClient(talkDistribution.getMessageFromInputQueue());
 		}
 	}
 
 	public int createGame(int gameType, int numberOfPlayers) {
-		if (nextGameId > 999999999){
+		if (nextGameId > 999999999) {
 			nextGameId = 0;
 		}
 		int gameNumber = nextGameId++;
 		while (games.containsKey(gameNumber)) {
 			gameNumber = nextGameId++;
-			if (nextGameId > 999999999){
+			if (nextGameId > 999999999) {
 				nextGameId = 0;
 			}
 		}
@@ -51,7 +46,7 @@ public class Games implements Runnable {
 		games.remove(gameNumber);
 	}
 
-	private void sendMessageToGame(Message message) {
+	private void messageFromClient(Message message) {
 		if (message == null) {
 			return;
 		}
@@ -61,9 +56,9 @@ public class Games implements Runnable {
 		}
 		game.messageFromClient(message);
 	}
-	
-	public void sendMessageToClient(Message message) {
-		talkDistribution.sendMessageToClient(message);
+
+	public void messageToClient(Message message) {
+		talkDistribution.messageToClient(message);
 	}
 
 }

@@ -26,7 +26,6 @@ public class Action {
 	public void messageFromClient(Message message) {
 	}
 
-	@SuppressWarnings("unused")
 	private void messageToClient(Message message) {
 		message.message = "blah";
 		message.playerNumber = 0;
