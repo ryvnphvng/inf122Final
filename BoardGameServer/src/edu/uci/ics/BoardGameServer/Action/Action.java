@@ -1,18 +1,26 @@
 package edu.uci.ics.BoardGameServer.Action;
 
+import edu.uci.ics.BoardGameServer.Board.Board;
 import edu.uci.ics.BoardGameServer.Common.Message;
 import edu.uci.ics.BoardGameServer.Engine.Game;
 
-public abstract class Action {
+public class Action {
 
 	private Game game;
-
-	public void setBoard(Game game) {
-		this.game = game;
-	}
+	private Board board;
+	private int gameType;
+	private int numberOfPlayers;
 
 	public void setGame(Game game) {
 		this.game = game;
+	}
+
+	public void setGameType(int gameType) {
+		this.gameType = gameType;
+	}
+
+	public void setNumberOfPlayers(int numberOfPlayers) {
+		this.numberOfPlayers = numberOfPlayers;
 	}
 
 	public void messageFromClient(Message message) {

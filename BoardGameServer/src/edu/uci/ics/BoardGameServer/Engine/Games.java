@@ -32,7 +32,7 @@ public class Games implements Runnable {
 		}
 	}
 
-	public int createGame(String type, int numberOfPlayers) {
+	public int createGame(int gameType, int numberOfPlayers) {
 		if (nextGameId > 999999999){
 			nextGameId = 0;
 		}
@@ -43,7 +43,7 @@ public class Games implements Runnable {
 				nextGameId = 0;
 			}
 		}
-		games.put(gameNumber, new Game(gameNumber, type, numberOfPlayers));
+		games.put(gameNumber, new Game(gameNumber, gameType, numberOfPlayers));
 		return gameNumber;
 	}
 
