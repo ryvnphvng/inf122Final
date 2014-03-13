@@ -1,32 +1,33 @@
 package edu.uci.ics.BoardGameClient.Engine;
 
 import edu.uci.ics.BoardGameClient.Common.Message;
+import edu.uci.ics.BoardGameClient.Distribution.Distribution;
 
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class TalkDistribution {
 
-	private Games games;
+	private Distribution distribution;
 	private Object synchronizeInputQueue = new Object();
 	private Queue<Message> inputQueue = new ArrayBlockingQueue<Message>(32);
 	private Object synchronizeOutputQueue = new Object();
 	private Queue<Message> outputQueue = new ArrayBlockingQueue<Message>(32);
 
-	public void setGames(Games games) {
-		this.games = games;
+	public void setDistribution(Distribution distribution) {
+		this.distribution = distribution;
 	}
 
 	public void setInputQueue(Queue<Message> inputQueue) {
 		this.inputQueue = inputQueue;
 	}
 
-	public int createGame(int gameType, int numberOfPlayers) {
-		return games.createGame(gameType, numberOfPlayers);
+	public void createGame(int gameType) {
+		distribution.createGame(gameType);
 	}
 
-	public void destroyGame(int gameNumber) {
-		games.destroyGame(gameNumber);
+	public void disconnect() {
+		distribution.disconnect();
 	}
 
 	public void addMessageToInputQueue(Message message) {

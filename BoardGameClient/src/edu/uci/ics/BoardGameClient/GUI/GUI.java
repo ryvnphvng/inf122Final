@@ -1,53 +1,52 @@
 package edu.uci.ics.BoardGameClient.GUI;
 
-import java.util.Scanner;
-import java.util.regex.Pattern;
-
 import edu.uci.ics.BoardGameClient.Action.Action;
+
+import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.swing.JFrame;
+import javax.swing.JTabbedPane;
 
 public class GUI {
 
 	private Action action;
-	private Scanner scanner = new Scanner(System.in);
-	private String inputString;
+	private JFrame frame = new JFrame("Board Game Client");
 
 	public void setAction(Action action) {
 		this.action = action;
+		setupWindow();
 	}
 
-	public void run() {
-		// pause and getInputString is temporary code
-		pause();
+	private void setupWindow() {
+		// tabbedPane
+		JTabbedPane tabbedPane = new JTabbedPane();
+
+		// tabHome
+		@SuppressWarnings("unused")
+		TabHome tabHome = new TabHome(action, frame, tabbedPane);
+
+		// frame
+		frame.add(tabbedPane, 0);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent event) {
+				closeFrame();
+			}
+		});
+		frame.setPreferredSize(new Dimension(800, 600));
+		frame.setSize(800, 600);
+		frame.pack();
+		frame.setVisible(true);
+
 	}
 
-	// temporary method
-	private void pause() {
-		getInputString("Please type anything and enter to shutdown: ",
-				Pattern.compile(".*"));
-	}
-
-	// temporary method
-	private void getInputString(String message, Pattern pattern) {
-		while (true) {
-			System.out.print(message);
-			while (!scanner.hasNext()) {
-				try {
-					Thread.sleep(1000);
-				} catch (Exception e) {
-					// pass
-				}
-			}
-			try {
-				inputString = scanner.next(pattern);
-			} catch (Exception e) {
-				scanner.next();
-				continue;
-			}
-			if (!inputString.isEmpty()) {
-				System.out.println();
-				break;
-			}
-		}
+	private void closeFrame() {
+		frame.setVisible(false);
+		frame.dispose();
+		action.disconnect();
+		action.shutdown();
 	}
 
 }
