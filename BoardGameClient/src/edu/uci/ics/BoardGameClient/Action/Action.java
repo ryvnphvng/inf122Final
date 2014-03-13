@@ -11,7 +11,6 @@ public class Action {
 	private Game game;
 	private Board board;
 	private int gameType;
-	private int numberOfPlayers;
 
 	public Action() {
 		gui.setAction(this);
@@ -21,15 +20,21 @@ public class Action {
 		this.game = game;
 	}
 
-	public void setGameType(int gameType) {
+	public void createGame(int gameType) {
 		this.gameType = gameType;
+		game.createGame(gameType);
 	}
 
-	public void setNumberOfPlayers(int numberOfPlayers) {
-		this.numberOfPlayers = numberOfPlayers;
+	public void disconnect() {
+		game.disconnect();
+	}
+	
+	public void shutdown() {
+		game.shutdown();
 	}
 
 	public void messageFromServer(Message message) {
+		// implement message from server
 	}
 
 	private void messageToServer(Message message) {

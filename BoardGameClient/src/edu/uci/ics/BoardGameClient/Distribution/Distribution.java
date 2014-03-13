@@ -24,12 +24,14 @@ public class Distribution implements Runnable {
 		}
 	}
 
-	private void createGame() {
-		// implement sending the message to server
+	public void createGame(int gameType) {
+		System.out.println("createGame");
+		// implement sending to server
 	}
 
-	private void destroyGame() {
-		// implement sending the message to server
+	public void disconnect() {
+		System.out.println("disconnect");
+		// implement sending to server
 	}
 
 	private void messageFromServer(Message message) {

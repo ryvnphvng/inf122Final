@@ -5,9 +5,10 @@ import edu.uci.ics.BoardGameClient.Distribution.Distribution;
 public class Engine {
 
 	private Distribution distribution;
+	private Thread threadDistribution;
 	private TalkDistribution talkDistribution;
 	private Game game;
-	private TalkGame talkGame;
+	private Thread threadGame;
 
 	public void run() {
 		startup();
@@ -17,9 +18,25 @@ public class Engine {
 		distribution = new Distribution();
 		talkDistribution = new TalkDistribution();
 		game = new Game();
-		talkGame = new TalkGame();
 
 		distribution.setTalkDistribution(talkDistribution);
+		talkDistribution.setDistribution(distribution);
+		game.setEngine(this);
+		game.setTalkDistribution(talkDistribution);
+
+		threadDistribution = new Thread(distribution);
+		threadDistribution.start();
+		
+		threadGame = new Thread(game);
+		threadGame.start();
 	}
+	
+	public void shutdown() {
+		distribution.stop();
+		game.stop();
+		threadDistribution.interrupt();
+		threadGame.interrupt();
+	}
+
 
 }
