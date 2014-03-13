@@ -9,7 +9,9 @@ public abstract class GameOver {
 		this.board = board;
 	}
 
-	public abstract Boolean isWinCondidtionMet(String s);
-
-	public abstract Boolean isLoseCondidtionMet(String s);
+	public abstract boolean isWinCondidtionMet(String s);
+	
+	public abstract boolean isLoseCondidtionMet(String s);
+	
+	public abstract boolean isTieCondidtionMet(String s);
 }
