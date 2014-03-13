@@ -41,7 +41,7 @@ public class Action {
 		Object obj=JSONValue.parse(message);
 		JSONArray array=(JSONArray)obj;		
 		JSONObject gameMessage=(JSONObject)array.get(0);
-		  //to debug
+		  //testing; listing out the gameMessages 
 		  System.out.println(obj.toString());
 		  System.out.println("======Game Messages==========");
 		  System.out.println("MessageType :" + gameMessage.get("MessageType")); 
