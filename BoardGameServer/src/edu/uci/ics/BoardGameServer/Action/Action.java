@@ -37,8 +37,8 @@ public class Action {
 		this.numberOfPlayers = numberOfPlayers;
 	}
 
-	public static void messageFromClient(String message) {
-		Object obj=JSONValue.parse(message);
+	public static void messageFromClient(Message message) {
+		Object obj=JSONValue.parse(message.message);
 		JSONArray array=(JSONArray)obj;		
 		JSONObject gameMessage=(JSONObject)array.get(0);
 		  //testing; listing out the gameMessages 
@@ -54,17 +54,19 @@ public class Action {
 		  
 	}
 	
-	public static String messageToClient() {
+	public static Message messageToClient() {
 		
-		String message = "[{\"MessageType\":\"startGame\" , \"GameID\":\"25\", \"PlayerID\":\"25\", \"ObjectID\":\"25\",\"Row\":\"0\",\"Col\":\"1\",\"Message\":\"Place\" }]";
+		Message message = new Message();
+		message.message = "[{\"MessageType\":\"startGame\" , \"GameID\":\"25\", \"PlayerID\":\"25\", \"ObjectID\":\"25\",\"Row\":\"0\",\"Col\":\"1\",\"Message\":\"Place\" }]";
 		return message;
 	}
 
 	//for testing purposes only!
 	public static void main(String [ ] args)
 	{
-		String Message="[{\"MessageType\":\"startGame\" , \"GameID\":\"25\", \"PlayerID\":\"25\", \"ObjectID\":\"25\",\"Row\":\"0\",\"Col\":\"1\",\"Message\":\"Place\" }]";
-		messageFromClient(Message);
+		Message message = new Message();
+		message.message = "[{\"MessageType\":\"startGame\" , \"GameID\":\"25\", \"PlayerID\":\"25\", \"ObjectID\":\"25\",\"Row\":\"0\",\"Col\":\"1\",\"Message\":\"Place\" }]";
+		messageFromClient(message);
 		
 	}
 
