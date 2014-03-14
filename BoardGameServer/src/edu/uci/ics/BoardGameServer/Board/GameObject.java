@@ -1,14 +1,14 @@
 package edu.uci.ics.BoardGameServer.Board;
 
 
-public abstract class GameObject {
+public class GameObject {
 	private int row;
 	private int col;
 	private int objID;
-	private String objType; 
+	private int objType; 
 	private int playerID;
 	
-	public GameObject(int row, int col, int objID, String objType, int playerID){
+	public GameObject(int row, int col, int objID, int objType, int playerID){
 		this.row = row;
 		this.col = col;
 		this.objID = objID;
@@ -36,7 +36,7 @@ public abstract class GameObject {
 		return this.objID;
 	}
 	
-	public String getObjectType(){
+	public int getObjectType(){
 		return this.objType;
 	}
 	 
