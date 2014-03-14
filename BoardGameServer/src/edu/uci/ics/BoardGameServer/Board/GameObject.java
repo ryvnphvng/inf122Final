@@ -1,42 +1,46 @@
 package edu.uci.ics.BoardGameServer.Board;
 
-public class GameObject {
 
-	private int x;
-	private int y;
-	private String type;
-	private Player player;
-
-	public int getX() {
-		return this.x;
+public abstract class GameObject {
+	private int row;
+	private int col;
+	private int objID;
+	private String objType; 
+	private int playerID;
+	
+	public GameObject(int row, int col, int objID, String objType, int playerID){
+		this.row = row;
+		this.col = col;
+		this.objID = objID;
+		this.objType = objType;
+		this.playerID = playerID;
 	}
-
-	public void setX(int newX) {
-		this.x = newX;
+	
+	public int getRow(){
+		return this.row;
 	}
-
-	public int getY() {
-		return this.y;
+	
+	public void setRow(int newRow){
+		this.row = newRow;
 	}
-
-	public void setY(int newY) {
-		this.y = newY;
+	
+	public int getCol(){
+		return this.col;
 	}
-
-	public String getType() {
-		return this.type;
+	
+	public void setCol(int newCol){
+		this.col = newCol;
 	}
-
-	public void setType(String t) {
-		this.type = t;
+	
+	public int getObjID(){
+		return this.objID;
 	}
-
-	public Player getOwner() {
-		return this.player;
+	
+	public String getObjectType(){
+		return this.objType;
 	}
-
-	public void setOwner(Player p) {
-		this.player = p;
+	 
+	public int getOwner(){
+		return playerID;
 	}
-
 }
