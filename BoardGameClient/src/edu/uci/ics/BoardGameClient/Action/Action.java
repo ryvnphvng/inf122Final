@@ -40,12 +40,29 @@ public class Action {
 	}
 
 	public void messageFromServer(Message message) {
+		JSONObject gameMessage;
 		// implement message from server
+		try {
+			gameMessage = (JSONObject) new JSONParser().parse(message.message);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 
-	private void messageToServer(Message message) {
-		message.message = "blah";
-		game.messageToServer(message);
+	private Message encodeMessage(JSONObject gameMessage) {
+		int playerID = Integer.parseInt(gameMessage.get("PlayerID").toString());
+		int gameID = Integer.parseInt(gameMessage.get("GameID").toString());
+		
+		Message messageToServer = new Message();
+		messageToServer.gameId = gameID;
+		messageToServer.playerNumber = playerID;
+		messageToServer.message = gameMessage.toJSONString();
+		
+		return messageToServer;
+		
 	}
 
 }
