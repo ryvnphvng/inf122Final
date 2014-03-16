@@ -1,8 +1,8 @@
 package edu.uci.ics.BoardGameServer.Action;
 
-import edu.uci.ics.BoardGameClient.Common.Definitions;
 import edu.uci.ics.BoardGameServer.Board.GameObject;
 import edu.uci.ics.BoardGameServer.Board.GameObjectDefinitions;
+import edu.uci.ics.BoardGameServer.Common.Definitions;
 
 public class GameObjectFactory {
 	

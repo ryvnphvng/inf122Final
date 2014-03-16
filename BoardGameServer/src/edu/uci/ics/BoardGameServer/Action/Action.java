@@ -1,11 +1,11 @@
 package edu.uci.ics.BoardGameServer.Action;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-import edu.uci.ics.BoardGameClient.Common.Definitions;
 import edu.uci.ics.BoardGameServer.Board.Board;
+import edu.uci.ics.BoardGameServer.Common.Definitions;
 import edu.uci.ics.BoardGameServer.Common.Message;
 import edu.uci.ics.BoardGameServer.Engine.Game;
 
@@ -49,23 +49,54 @@ public class Action {
 		this.numberOfPlayers = numberOfPlayers;
 	}
 
-	public static void messageFromClient(Message message) {
-		Object obj=JSONValue.parse(message.message);
-		JSONArray array=(JSONArray)obj;		
-		JSONObject gameMessage=(JSONObject)array.get(0);
+	public void messageFromClient(Message message) {
+//		Object obj=JSONValue.parse(message.message);
+//		JSONArray array=(JSONArray)obj;		
+//		JSONObject gameMessage=(JSONObject)array.get(0);
 		
-		/*
-		  //testing; listing out the gameMessages 
-		  System.out.println(obj.toString());
-		  System.out.println("======Game Messages==========");
-		  System.out.println("MessageType :" + gameMessage.get("MessageType")); 
-		  System.out.println("GameID :" + gameMessage.get("GameID"));
-		  System.out.println("PlayerID :" + gameMessage.get("PlayerID"));
-		  System.out.println("ObjectID :" + gameMessage.get("ObjectID"));
-		  System.out.println("Row :" + gameMessage.get("Row"));
-		  System.out.println("Col :" + gameMessage.get("Col"));
-		  System.out.println("Message :" + gameMessage.get("Message"));
-		*/
+		JSONObject gameMessage;
+		try {
+			gameMessage = (JSONObject) new JSONParser().parse(message.message);
+			
+			if  (validator.isValidMove(gameMessage)) {
+				
+				if(gameMessage.get("MessageType").equals("Create")){
+					manipulator.createGameObject(gof.createGameObject((int) gameMessage.get("GameType"), (int) gameMessage.get("PlayerID"), (int) gameMessage.get("Row"), (int) gameMessage.get("Col")), 
+					(int) gameMessage.get("GameID"), (int) gameMessage.get("GameType"), (int) gameMessage.get("ObjectID"), (int) gameMessage.get("ObjectType"), (int) gameMessage.get("PlayerID"), 
+					(int) gameMessage.get("Row"), (int) gameMessage.get("Col"));
+				}
+				
+				else if(gameMessage.get("MessageType").equals("Delete")){
+					manipulator.deleteGameObject((int) gameMessage.get("ObjectID"), (int) gameMessage.get("GameID"), (int) gameMessage.get("PlayerID"));
+				}
+				else if(gameMessage.get("MessageType").equals("Move")){
+					manipulator.moveGameObject((int) gameMessage.get("ObjectID"), (int) gameMessage.get("PlayerID"), (int) gameMessage.get("Row"), (int) gameMessage.get("Col"), (int) gameMessage.get("GameID"));
+					
+				}
+				else if(gameMessage.get("MessageType").equals("Swap")){
+					manipulator.swapGameObjects((int) gameMessage.get("ObjectID1"), (int) gameMessage.get("ObjectID2"), (int) gameMessage.get("PlayerID"), (int) gameMessage.get("GameID"));
+					
+				}
+					
+			}
+			else{
+				
+				JSONObject notValidMove = new JSONObject();
+				notValidMove.put("MessageType", "InvalidMove");
+				notValidMove.put("GameID", message.gameId);
+				notValidMove.put("PlayerID", message.playerNumber);
+				messageToClient(notValidMove);
+				
+			}	
+			
+			
+			
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}	
+		
+		
 	}
 	
 	public Message messageToClient(JSONObject gameMessage) {

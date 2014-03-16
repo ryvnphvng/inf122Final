@@ -18,17 +18,18 @@ public class BoardManipulator {
 		this.action = action; //need action for message passing
 	}
 	
-	public void createGameObject(GameObject g,int gameID, int objectID, int type, int playerNum, int row, int col)
+	public void createGameObject(GameObject g,int gameID, int gameType, int objectID, int objectType, int playerNum, int row, int col)
 	{	
 		board.addToBoard(g, row, col);
 		JSONObject gameMessage=new JSONObject();
 		  gameMessage.put("MessageType", "Create");
 		  gameMessage.put("GameID", gameID);
+		  gameMessage.put("GameType", gameType);
 		  gameMessage.put("PlayerID", playerNum);
 		  gameMessage.put("ObjectID", objectID);
 		  gameMessage.put("Row", row);
 		  gameMessage.put("Col", col);
-		  gameMessage.put("Message", type);
+		  gameMessage.put("ObjectType", objectType);
 
 		action.messageToClient(gameMessage); // Send creation message to client
 	}
