@@ -16,6 +16,36 @@ public class Action {
 	private int gameType;
 	private Board board;
 	private BoardManipulator manipulator;
+	private GUI gui = new GUI();
 
+	public Action() {
+		gui.setAction(this);
+	}
+
+	public void setGame(Game game) {
+		this.game = game;
+	}
+
+	public void createGame(int gameType) {
+		this.gameType = gameType;
+		game.createGame(gameType);
+	}
+
+	public void disconnect() {
+		game.disconnect();
+	}
+
+	public void shutdown() {
+		game.shutdown();
+	}
+
+	public void messageFromServer(Message message) {
+		// implement message from server
+	}
+
+	private void messageToServer(Message message) {
+		message.message = "blah";
+		game.messageToServer(message);
+	}
 
 }
