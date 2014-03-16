@@ -2,9 +2,12 @@ package edu.uci.ics.BoardGameClient.Action;
 
 
 import edu.uci.ics.BoardGameClient.Board.GameObject;
-import edu.uci.ics.BoardGameClient.Board.GameObjectDefinitions;
-import edu.uci.ics.BoardGameClient.Common.Definitions;
 
 public class GameObjectFactory {
-		
+	
+	public GameObject createGameObject(int playerNum, int objectType, int objectID, int row, int col)
+	{
+		return new GameObject(row, col, objectID, objectType, playerNum);
+	}	
+
 }
