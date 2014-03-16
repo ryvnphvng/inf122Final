@@ -5,6 +5,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import edu.uci.ics.BoardGameServer.Board.Board;
+import edu.uci.ics.BoardGameServer.Board.GameObject;
 import edu.uci.ics.BoardGameServer.Common.Definitions;
 import edu.uci.ics.BoardGameServer.Common.Message;
 import edu.uci.ics.BoardGameServer.Engine.Game;
@@ -61,20 +62,46 @@ public class Action {
 			if  (validator.isValidMove(gameMessage)) {
 				
 				if(gameMessage.get("MessageType").equals("Create")){
-					manipulator.createGameObject(gof.createGameObject((int) gameMessage.get("GameType"), (int) gameMessage.get("PlayerID"), (int) gameMessage.get("Row"), (int) gameMessage.get("Col")), 
-					(int) gameMessage.get("GameID"), (int) gameMessage.get("GameType"), (int) gameMessage.get("ObjectID"), (int) gameMessage.get("ObjectType"), (int) gameMessage.get("PlayerID"), 
-					(int) gameMessage.get("Row"), (int) gameMessage.get("Col"));
+					
+					Integer gameType = (Integer) gameMessage.get("GameType");
+					Integer playerID = (Integer) gameMessage.get("PlayerID");
+					Integer row = (Integer) gameMessage.get("Row");
+					Integer col = (Integer) gameMessage.get("Col");
+					Integer gameID = (Integer) gameMessage.get("GameID");
+					Integer objectID = (Integer) gameMessage.get("ObjectID");
+					Integer objectType = (Integer) gameMessage.get("ObjectType");
+					
+					manipulator.createGameObject(gof.createGameObject(gameType, playerID, row, col), 
+					gameID, gameType, objectID, objectType, playerID, row, col);
 				}
 				
 				else if(gameMessage.get("MessageType").equals("Delete")){
-					manipulator.deleteGameObject((int) gameMessage.get("ObjectID"), (int) gameMessage.get("GameID"), (int) gameMessage.get("PlayerID"));
+					
+					Integer playerID = (Integer) gameMessage.get("PlayerID");
+					Integer gameID = (Integer) gameMessage.get("GameID");
+					Integer objectID = (Integer) gameMessage.get("ObjectID");
+					
+					manipulator.deleteGameObject(objectID, gameID, playerID);
 				}
 				else if(gameMessage.get("MessageType").equals("Move")){
-					manipulator.moveGameObject((int) gameMessage.get("ObjectID"), (int) gameMessage.get("PlayerID"), (int) gameMessage.get("Row"), (int) gameMessage.get("Col"), (int) gameMessage.get("GameID"));
+					
+					Integer playerID = (Integer) gameMessage.get("PlayerID");
+					Integer objectID = (Integer) gameMessage.get("ObjectID");
+					Integer gameID = (Integer) gameMessage.get("GameID");
+					Integer row = (Integer) gameMessage.get("Row");
+					Integer col = (Integer) gameMessage.get("Col");
+					
+					manipulator.moveGameObject(objectID, playerID, row, col, gameID);
 					
 				}
 				else if(gameMessage.get("MessageType").equals("Swap")){
-					manipulator.swapGameObjects((int) gameMessage.get("ObjectID1"), (int) gameMessage.get("ObjectID2"), (int) gameMessage.get("PlayerID"), (int) gameMessage.get("GameID"));
+					
+					Integer objectID1 = (Integer) gameMessage.get("ObjectID1");
+					Integer objectID2 = (Integer) gameMessage.get("ObjectID2");
+					Integer gameID = (Integer) gameMessage.get("GameID");
+					Integer playerID = (Integer) gameMessage.get("PlayerID");
+					
+					manipulator.swapGameObjects(objectID1, objectID2, playerID, gameID);
 					
 				}
 					
