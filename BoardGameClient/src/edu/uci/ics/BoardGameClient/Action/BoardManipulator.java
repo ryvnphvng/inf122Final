@@ -14,6 +14,13 @@ public class BoardManipulator {
 	private Board board;
 	private Game game;
 	
+	public BoardManipulator(Board board, Game game, Action action)
+	{
+		this.board = board;
+		this.action = action; // need action for message passing
+		this.game = game; // need game for message passing
+	}
+	
 	@SuppressWarnings("unchecked")
 	public void createGameObject(GameObject g,int gameID, int gameType, int objectID, int objectType, int playerNum, int row, int col)
 	{	

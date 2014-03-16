@@ -5,6 +5,12 @@ import edu.uci.ics.BoardGameClient.Common.Message;
 import edu.uci.ics.BoardGameClient.Engine.Game;
 import edu.uci.ics.BoardGameClient.GUI.GUI;
 import edu.uci.ics.BoardGameClient.Action.BoardManipulator;
+import edu.uci.ics.BoardGameClient.Action.ActionReactor;
+import edu.uci.ics.BoardGameClient.Action.GameObjectFactory;
+import edu.uci.ics.BoardGameClient.Action.MoveValidator;
+import edu.uci.ics.BoardGameClient.Action.TicTacToeReactor;
+import edu.uci.ics.BoardGameClient.Action.TicTacToeValidator;
+import edu.uci.ics.BoardGameClient.Common.Definitions;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -16,9 +22,21 @@ public class Action {
 	private int gameType;
 	private Board board;
 	private BoardManipulator manipulator;
+	private ActionReactor reactor; // abstract
+	private GameObjectFactory gof;
+	private MoveValidator validator; // abstract
 	private GUI gui = new GUI();
 
-	public Action() {
+	public Action(Game game, int gameType, int numberOfPlayers) {
+		this.game = game;
+		this.gameType = gameType;
+		gof = new GameObjectFactory();
+		board = createBoard(gameType, numberOfPlayers);
+		manipulator = new BoardManipulator(board, game, this);
+		
+		reactor = setActionReactor();
+		validator = setMoveValidator();
+		
 		gui.setAction(this);
 	}
 
@@ -64,5 +82,38 @@ public class Action {
 		return messageToServer;
 		
 	}
+	
+	private Board createBoard(int gameType, int playerNum) // Perhaps encapsulate this in its own object?
+	{
+		if(gameType == Definitions.GAMETYPETICTACTOE)
+		{
+			int TicTacToe_BoardHeight = 3;
+			int TicTacToe_BoardWidth = 3;
+			
+			return new Board(TicTacToe_BoardHeight, TicTacToe_BoardWidth, Definitions.GAMETYPETICTACTOE);
+		}
+		
+		return null;
+	}
+	
+	private MoveValidator setMoveValidator() // Perhaps encapsulate this in its own object? 
+	{
+		if(gameType == Definitions.GAMETYPETICTACTOE)
+		{
+			return new TicTacToeValidator(board);
+		}
+		return null;
+	}
 
+	private ActionReactor setActionReactor() // Perhaps encapsulate this in its own object? 
+	{
+		if(gameType == Definitions.GAMETYPETICTACTOE)
+		{
+			return new TicTacToeReactor(gof, manipulator);
+		}
+		else
+		{
+			return null;
+		}
+	}
 }
