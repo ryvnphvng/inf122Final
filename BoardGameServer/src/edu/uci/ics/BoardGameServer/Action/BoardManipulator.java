@@ -1,5 +1,7 @@
 package edu.uci.ics.BoardGameServer.Action;
 
+import org.json.simple.JSONObject;
+
 import edu.uci.ics.BoardGameServer.Board.Board;
 import edu.uci.ics.BoardGameServer.Board.GameObject;
 
@@ -16,27 +18,66 @@ public class BoardManipulator {
 		this.action = action; //need action for message passing
 	}
 	
-	public void createGameObject(GameObject g, int objectID, String type, int playerNum, int row, int col)
-	{
+	public void createGameObject(GameObject g,int gameID, int objectID, int type, int playerNum, int row, int col)
+	{	
 		board.addToBoard(g, row, col);
-		action.messageToClient(); // Send creation message to client
+		JSONObject gameMessage=new JSONObject();
+		  gameMessage.put("MessageType", "Create");
+		  gameMessage.put("GameID", gameID);
+		  gameMessage.put("PlayerID", playerNum);
+		  gameMessage.put("ObjectID", objectID);
+		  gameMessage.put("Row", row);
+		  gameMessage.put("Col", col);
+		  gameMessage.put("Message", type);
+
+		action.messageToClient(gameMessage); // Send creation message to client
 	}
 	
-	public void deleteGameObject(int objectID)
+	public void deleteGameObject(int objectID, int gameID, int playerNum)
 	{
 		board.removeFromBoard(objectID);
-		action.messageToClient(); // Send removal message to client
+		JSONObject gameMessage=new JSONObject();
+		  gameMessage.put("MessageType", "Delete");
+		  gameMessage.put("GameID", gameID);
+		  gameMessage.put("PlayerID", playerNum);
+		  gameMessage.put("ObjectID", objectID);
+
+		action.messageToClient(gameMessage); // Send removal message to client
 	}
 	
-	public void moveGameObject(int objectID, int playerNum, int row, int col)
+	public void moveGameObject(int objectID, int playerNum, int row, int col, int gameID)
 	{
 		board.move(objectID, row, col);
-		action.messageToClient(); // Send move message to client
+		JSONObject gameMessage=new JSONObject();
+		  gameMessage.put("MessageType", "Move");
+		  gameMessage.put("GameID", gameID);
+		  gameMessage.put("PlayerID", playerNum);
+		  gameMessage.put("ObjectID", objectID);
+		  gameMessage.put("Row", row);
+		  gameMessage.put("Col", col);
+	
+		action.messageToClient(gameMessage); // Send move message to client
 	}
 	
-	public void swapGameObjects(int objectID1, int objectID2)
+	public void swapGameObjects(int objectID1, int objectID2, int playerNum, int gameID)
 	{
 		board.swap(objectID1, objectID2);
-		action.messageToClient(); // Send swap message to client
+		JSONObject gameMessage=new JSONObject();
+		  gameMessage.put("MessageType", "Swap");
+		  gameMessage.put("GameID", gameID);
+		  gameMessage.put("PlayerID", playerNum);
+		  gameMessage.put("ObjectID1", objectID1);
+		  gameMessage.put("ObjectID2", objectID2);
+		
+		action.messageToClient(gameMessage); // Send swap message to client
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

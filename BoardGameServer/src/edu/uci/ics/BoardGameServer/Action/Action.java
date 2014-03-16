@@ -68,14 +68,19 @@ public class Action {
 		*/
 	}
 	
-	public static Message messageToClient() {
-		/*
-		Message message = new Message();
-		message.message = "[{\"MessageType\":\"startGame\" , \"GameID\":\"25\", \"PlayerID\":\"25\", \"ObjectID\":\"25\",\"Row\":\"0\",\"Col\":\"1\",\"Message\":\"Place\" }]";
-		return message;
-		*/
+	public Message messageToClient(JSONObject gameMessage) {
+
 		
-		return null;
+		int playerID = Integer.parseInt(gameMessage.get("PlayerID").toString());
+		int gameID = Integer.parseInt(gameMessage.get("GameID").toString());
+		
+		Message messageToClient = new Message();
+		messageToClient.gameId = gameID;
+		messageToClient.playerNumber = playerID;
+		messageToClient.message = gameMessage.toJSONString();
+		
+		return messageToClient;
+		
 	}
 	
 	
