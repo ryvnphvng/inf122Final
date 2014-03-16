@@ -6,12 +6,12 @@ import edu.uci.ics.BoardGameClient.Common.Message;
 public class Game implements Runnable {
 
 	private Engine engine;
-	private Action action = new Action();
+	private Action action;
 	private TalkDistribution talkDistribution;
 	private volatile boolean stopRunning = false;
 	
 	public Game () {
-		action.setGame(this);
+		action = new Action(this);
 	}
 	
 	public void setEngine(Engine engine) {
