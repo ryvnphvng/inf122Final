@@ -37,6 +37,10 @@ public class Action {
 	public void setGame(Game game) {
 		this.game = game;
 	}
+	
+	public int getGameType(){
+		return gameType;
+	}
 
 	public void createGame(int gameType) {
 		this.gameType = gameType;
