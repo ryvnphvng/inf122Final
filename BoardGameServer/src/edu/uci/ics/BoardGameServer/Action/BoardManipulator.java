@@ -25,6 +25,7 @@ public class BoardManipulator {
 	public void createGameObject(GameObject g,int gameID, int gameType, int objectID, int objectType, int playerNum, int row, int col)
 	{	
 		board.addToBoard(g, row, col);
+		
 		JSONObject gameMessage=new JSONObject();
 		  gameMessage.put("MessageType", "Create");
 		  gameMessage.put("GameID", gameID);
@@ -35,13 +36,14 @@ public class BoardManipulator {
 		  gameMessage.put("Col", col);
 		  gameMessage.put("ObjectType", objectType);
 
-		game.messageToClient(action.decodeMessage(gameMessage)); // Send creation message to client
+		  game.messageToClient(action.decodeMessage(gameMessage)); // Send creation message to client
 	}
 	
 	@SuppressWarnings("unchecked")
 	public void deleteGameObject(int objectID, int gameID, int playerNum)
 	{
 		board.removeFromBoard(objectID);
+		
 		JSONObject gameMessage=new JSONObject();
 		  gameMessage.put("MessageType", "Delete");
 		  gameMessage.put("GameID", gameID);
@@ -55,6 +57,7 @@ public class BoardManipulator {
 	public void moveGameObject(int objectID, int playerNum, int row, int col, int gameID)
 	{
 		board.move(objectID, row, col);
+		
 		JSONObject gameMessage=new JSONObject();
 		  gameMessage.put("MessageType", "Move");
 		  gameMessage.put("GameID", gameID);
@@ -70,6 +73,7 @@ public class BoardManipulator {
 	public void swapGameObjects(int objectID1, int objectID2, int playerNum, int gameID)
 	{
 		board.swap(objectID1, objectID2);
+		
 		JSONObject gameMessage=new JSONObject();
 		  gameMessage.put("MessageType", "Swap");
 		  gameMessage.put("GameID", gameID);
