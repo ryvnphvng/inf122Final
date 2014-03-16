@@ -1,7 +1,12 @@
 package edu.uci.ics.BoardGameServer.Action;
 
+import java.util.ArrayList;
+
+import org.json.simple.JSONObject;
+
 import edu.uci.ics.BoardGameServer.Board.Board;
 import edu.uci.ics.BoardGameServer.Board.GameObject;
+import edu.uci.ics.BoardGameServer.Board.GameObjectDefinitions;
 
 public class TicTacToeGameOver extends GameOver {
 
@@ -12,7 +17,9 @@ public class TicTacToeGameOver extends GameOver {
 		this.board = b;
 	}
 	
-	public boolean isWinCondidtionMet(String s) {
+	public ArrayList<Integer> isWinConditionMet(JSONObject o) {
+		
+		ArrayList<Integer> winners = new ArrayList<Integer>();
 		
 		// Check if there is a horizontal three in a row
 		for(int i=0; i<3; i++)
@@ -28,7 +35,14 @@ public class TicTacToeGameOver extends GameOver {
 				if(go1.getObjectType() == go2.getObjectType() &&
 				   go1.getObjectType() == go3.getObjectType())
 				{
-					return true;
+					if(go1.getObjectType() == GameObjectDefinitions.TICTACTOE_X)
+					{
+						winners.add(0); // Player 1 is a winner
+					}
+					else
+					{
+						winners.add(1); // Player 2 is a winner
+					}
 				}
 			}
 			
@@ -48,7 +62,14 @@ public class TicTacToeGameOver extends GameOver {
 				if(go1.getObjectType() == go2.getObjectType() &&
 				   go1.getObjectType() == go3.getObjectType())
 				{
-					return true;
+					if(go1.getObjectType() == GameObjectDefinitions.TICTACTOE_X)
+					{
+						winners.add(0); // Player 1 is a winner
+					}
+					else
+					{
+						winners.add(1); // Player 2 is a winner
+					}
 				}
 			}
 			
@@ -66,7 +87,14 @@ public class TicTacToeGameOver extends GameOver {
 			if(go1.getObjectType() == go2.getObjectType() &&
 			   go1.getObjectType() == go3.getObjectType())
 			{
-				return true;
+				if(go1.getObjectType() == GameObjectDefinitions.TICTACTOE_X)
+				{
+					winners.add(0); // Player 1 is a winner
+				}
+				else
+				{
+					winners.add(1); // Player 2 is a winner
+				}
 			}
 		}
 		
@@ -81,14 +109,23 @@ public class TicTacToeGameOver extends GameOver {
 			if(go1.getObjectType() == go2.getObjectType() &&
 			   go1.getObjectType() == go3.getObjectType())
 			{
-				return true;
+				if(go1.getObjectType() == GameObjectDefinitions.TICTACTOE_X)
+				{
+					winners.add(0); // Player 1 is a winner
+				}
+				else
+				{
+					winners.add(1); // Player 2 is a winner
+				}
 			}
 		}
 		
-		return false;
+		return winners;
 	}
 
-	public boolean isLoseCondidtionMet(String s) {
+	public ArrayList<Integer> isLoseConditionMet(JSONObject o) {
+		ArrayList<Integer> losers = new ArrayList<Integer>();
+		
 		// Check if there is a horizontal three in a row
 		for(int i=0; i<3; i++)
 		{
@@ -103,7 +140,14 @@ public class TicTacToeGameOver extends GameOver {
 				if(go1.getObjectType() == go2.getObjectType() &&
 				   go1.getObjectType() == go3.getObjectType())
 				{
-					return true;
+					if(go1.getObjectType() == GameObjectDefinitions.TICTACTOE_X)
+					{
+						losers.add(1); // Player 2 is a loser
+					}
+					else
+					{
+						losers.add(0); // Player 1 is a loser
+					}
 				}
 			}
 			
@@ -123,7 +167,14 @@ public class TicTacToeGameOver extends GameOver {
 				if(go1.getObjectType() == go2.getObjectType() &&
 				   go1.getObjectType() == go3.getObjectType())
 				{
-					return true;
+					if(go1.getObjectType() == GameObjectDefinitions.TICTACTOE_X)
+					{
+						losers.add(1); // Player 2 is a loser
+					}
+					else
+					{
+						losers.add(0); // Player 1 is a loser
+					}
 				}
 			}
 			
@@ -141,7 +192,14 @@ public class TicTacToeGameOver extends GameOver {
 			if(go1.getObjectType() == go2.getObjectType() &&
 			   go1.getObjectType() == go3.getObjectType())
 			{
-				return true;
+				if(go1.getObjectType() == GameObjectDefinitions.TICTACTOE_X)
+				{
+					losers.add(1); // Player 2 is a loser
+				}
+				else
+				{
+					losers.add(0); // Player 1 is a loser
+				}
 			}
 		}
 		
@@ -156,26 +214,41 @@ public class TicTacToeGameOver extends GameOver {
 			if(go1.getObjectType() == go2.getObjectType() &&
 			   go1.getObjectType() == go3.getObjectType())
 			{
-				return true;
+				if(go1.getObjectType() == GameObjectDefinitions.TICTACTOE_X)
+				{
+					losers.add(1); // Player 2 is a loser
+				}
+				else
+				{
+					losers.add(0); // Player 1 is a loser
+				}
 			}
 		}
 		
-		return false;
+		return losers;
 	}
 
-	public boolean isTieCondidtionMet(String s) {
+	public ArrayList<Integer> isTieConditionMet(JSONObject o) {
+		ArrayList<Integer> ties = new ArrayList<Integer>();
+		
 		for(int i=0; i<3; i++)
 		{
 			for(int j=0; j<3; j++)
 			{
 				if(board.getTile(i, j).getGameObjects().size() == 0)
 				{
-					return false; // The board has not been filled up.
+					return ties; // The board has not been filled up.
 				}
 			}
 		}
 		
-		return !isWinCondidtionMet(s); // There was no three in a row. Tie game.
+		if(isWinConditionMet(o).size() == 0) // There was no three in a row. Tie game.
+		{
+			ties.add(0);
+			ties.add(1);
+		}
+		
+		return ties;
 	}
 
 }
