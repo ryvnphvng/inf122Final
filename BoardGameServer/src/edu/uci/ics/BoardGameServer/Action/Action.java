@@ -4,7 +4,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-import edu.uci.ics.BoardGameClient.Common.Definitions;
+import edu.uci.ics.BoardGameServer.Common.Definitions;
 import edu.uci.ics.BoardGameServer.Board.Board;
 import edu.uci.ics.BoardGameServer.Common.Message;
 import edu.uci.ics.BoardGameServer.Engine.Game;

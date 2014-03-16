@@ -1,6 +1,6 @@
 package edu.uci.ics.BoardGameServer.Action;
 
-import edu.uci.ics.BoardGameClient.Common.Definitions;
+import edu.uci.ics.BoardGameServer.Common.Definitions;
 import edu.uci.ics.BoardGameServer.Board.GameObject;
 import edu.uci.ics.BoardGameServer.Board.GameObjectDefinitions;
 
