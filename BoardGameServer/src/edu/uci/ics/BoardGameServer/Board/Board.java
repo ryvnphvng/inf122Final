@@ -9,11 +9,11 @@ public class Board {
 	private Tile[][] board; 
 	private int width;
 	private int height;
-	private String gameType;
+	private int gameType;
 	private Map<Integer, GameObject> gameObjectMap;
 	private Map<Integer, Player> playerMap;
 	
-	public Board(int height, int width, String gameType)
+	public Board(int height, int width, int gameType)
 	{
 		for(int i=0;i<height;i++)
 		{
@@ -35,7 +35,7 @@ public class Board {
 		return this.height;
 	}
 	
-	public String getGameType(){
+	public int getGameType(){
 		return this.gameType;
 	}
 	

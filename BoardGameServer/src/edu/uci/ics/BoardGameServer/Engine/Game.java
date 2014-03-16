@@ -5,14 +5,12 @@ import edu.uci.ics.BoardGameServer.Common.Message;
 
 public class Game {
 
-	private Action action = new Action();
+	private Action action;
 	private Games games;
 	private int gameId;
 
 	Game(int gameId, int gameType, int numberOfPlayers) {
-		action.setGame(this);
-		action.setGameType(gameType);
-		action.setNumberOfPlayers(numberOfPlayers);
+		action = new Action(this, gameType, numberOfPlayers);
 		this.gameId = gameId;
 	}
 
