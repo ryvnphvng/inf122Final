@@ -4,7 +4,6 @@ import java.net.ServerSocket;
 import java.util.Map;
 import java.util.TreeMap;
 
-
 public class Server implements Runnable {
 
 	private final static int PORT = 54321;
@@ -55,7 +54,7 @@ public class Server implements Runnable {
 					distribution.createGame(clientConnection.connectionId, message);
 					continue;
 				}
-				distribution.messageFromClient(message);
+				distribution.messageFromClient(clientConnection.connectionId, message);
 			}
 
 			checkConnectionsIfAlive();
@@ -104,6 +103,10 @@ public class Server implements Runnable {
 				clientConnections.remove(key);
 			}
 		}
+	}
+
+	public void messageToClient(int connectionId, String message) {
+		clientConnections.get(connectionId).printWriter.println(message);
 	}
 
 }
