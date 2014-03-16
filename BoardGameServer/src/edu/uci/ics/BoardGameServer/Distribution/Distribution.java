@@ -1,18 +1,19 @@
 package edu.uci.ics.BoardGameServer.Distribution;
 
-import edu.uci.ics.BoardGameServer.Common.Definitions;
 import edu.uci.ics.BoardGameServer.Common.Message;
 import edu.uci.ics.BoardGameServer.Engine.TalkDistribution;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 public class Distribution implements Runnable {
 
 	private TalkDistribution talkDistribution;
-	private List<Integer> gameIds = new ArrayList<Integer>();
 	private volatile boolean stopRunning = false;
+	private Server server;
+	private Thread threadServer;
+	private List<ClientWait> clientWaits = new ArrayList<ClientWait>();
+	private List<ClientGame> clientGames = new ArrayList<ClientGame>();
 
 	public void setTalkDistribution(TalkDistribution talkDistribution) {
 		this.talkDistribution = talkDistribution;
@@ -24,26 +25,63 @@ public class Distribution implements Runnable {
 
 	@Override
 	public void run() {
+
+		// Temporary
+		server = new Server();
+		server.setDistribution(this);
+
+		threadServer = new Thread(server);
+		threadServer.start();
+
 		while (!stopRunning) {
 			talkDistribution.waitForOutputQueue();
 			messageToClient(talkDistribution.getOutputQueue());
 		}
+
+		// Temporary
+		server.stop();
+		threadServer.interrupt();
+
 	}
 
-	private void createGame() {
-		int gameId = talkDistribution.createGame(Definitions.GAMETYPETICTACTOE,
-				2);
-		gameIds.add(gameId);
+	public void createGame(int connectionId, String message) {
+		message = message.replace("createGame ", "");
+		int gameType = Integer.parseInt(message);
+		
+		// TODO: fix number of player depending on game type and etc
+		ClientWait clientFound = null;
+		for (ClientWait clientWaiting : clientWaits) {
+			if (clientWaiting.gameType == gameType) {
+				clientFound = clientWaiting;
+			}
+		}
+		if (clientFound == null) {
+			clientFound = new ClientWait();
+			clientFound.connectionId = connectionId;
+			clientFound.gameType = gameType;
+			clientWaits.add(clientFound);
+			return;
+		}
+
+		ClientGame clientGame = new ClientGame();
+		clientGame.gameId = talkDistribution.createGame(gameType, 2);
+		clientGame.connectionIds.add(connectionId);
+		clientGame.connectionIds.add(clientFound.connectionId);
+		
+		clientGames.add(clientGame);
 	}
 
-	private void destroyGame() {
+	// TODO: need to call destroyGame
+	public void destroyGame() {
+		// TODO: fix to destroy game correctly
 		talkDistribution.destroyGame(2);
 	}
 
-	private void messageFromClient(Message message) {
+	public void messageFromClient(String data) {
+		Message message = new Message();
 		message.gameId = 2;
 		message.playerNumber = 0;
-		message.message = "blah";
+		message.message = data;
 		talkDistribution.messageFromClient(message);
 	}
 
@@ -51,7 +89,8 @@ public class Distribution implements Runnable {
 		if (message == null) {
 			return;
 		}
-		// implement sending the message to the correct client
+		// TODO: implement sending the message to the correct client
+		System.out.println(message.message);
 	}
 
 }

@@ -28,15 +28,9 @@ public class Games implements Runnable {
 	}
 
 	public int createGame(int gameType, int numberOfPlayers) {
-		if (nextGameId > 999999999) {
-			nextGameId = 0;
-		}
-		int gameNumber = nextGameId++;
+		int gameNumber = getNextGameId();
 		while (games.containsKey(gameNumber)) {
-			gameNumber = nextGameId++;
-			if (nextGameId > 999999999) {
-				nextGameId = 0;
-			}
+			gameNumber = getNextGameId();
 		}
 		games.put(gameNumber, new Game(gameNumber, gameType, numberOfPlayers));
 		return gameNumber;
@@ -61,4 +55,11 @@ public class Games implements Runnable {
 		talkDistribution.messageToClient(message);
 	}
 
+	private int getNextGameId() {
+		nextGameId++;
+		if (nextGameId > 1000000000) {
+			nextGameId = 1;
+		}
+		return nextGameId;
+	}
 }

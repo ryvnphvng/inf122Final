@@ -45,8 +45,7 @@ public class Engine {
 	}
 
 	private void pause() {
-		getInputString("Please type anything and enter to shutdown: ",
-				Pattern.compile(".*"));
+		getInputString("Please type anything and enter to shutdown: ", Pattern.compile(".*"));
 	}
 
 	private void getInputString(String message, Pattern pattern) {

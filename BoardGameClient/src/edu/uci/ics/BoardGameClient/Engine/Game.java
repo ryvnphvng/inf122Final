@@ -38,10 +38,6 @@ public class Game implements Runnable {
 		talkDistribution.createGame(gameType);
 	}
 
-	public void disconnect() {
-		talkDistribution.disconnect();
-	}
-	
 	public void shutdown() {
 		engine.shutdown();
 	}
