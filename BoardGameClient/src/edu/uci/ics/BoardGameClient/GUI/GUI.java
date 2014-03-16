@@ -45,7 +45,6 @@ public class GUI {
 	private void closeFrame() {
 		frame.setVisible(false);
 		frame.dispose();
-		action.disconnect();
 		action.shutdown();
 	}
 

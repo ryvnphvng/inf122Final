@@ -31,10 +31,6 @@ public class Action {
 		game.createGame(gameType);
 	}
 
-	public void disconnect() {
-		game.disconnect();
-	}
-
 	public void shutdown() {
 		game.shutdown();
 	}

@@ -1,5 +1,6 @@
 package edu.uci.ics.BoardGameClient.Distribution;
 
+import edu.uci.ics.BoardGameClient.Common.Definitions;
 import edu.uci.ics.BoardGameClient.Common.Message;
 import edu.uci.ics.BoardGameClient.Engine.TalkDistribution;
 
@@ -7,6 +8,8 @@ public class Distribution implements Runnable {
 
 	private TalkDistribution talkDistribution;
 	private volatile boolean stopRunning = false;
+	private Client client;
+	private Thread threadClient;
 
 	public void setTalkDistribution(TalkDistribution talkDistribution) {
 		this.talkDistribution = talkDistribution;
@@ -18,23 +21,30 @@ public class Distribution implements Runnable {
 
 	@Override
 	public void run() {
+
+		client = new Client();
+		client.setDistribution(this);
+
+		threadClient = new Thread(client);
+		threadClient.start();
+
 		while (!stopRunning) {
 			talkDistribution.waitForOutputQueue();
 			messageToServer(talkDistribution.getOutputQueue());
 		}
+
+		client.stop();
+		threadClient.interrupt();
+
 	}
 
 	public void createGame(int gameType) {
-		System.out.println("createGame");
-		// implement sending to server
+		client.messageToServer("createGame " + Definitions.GAMETYPETICTACTOE);
 	}
 
-	public void disconnect() {
-		System.out.println("disconnect");
-		// implement sending to server
-	}
-
-	private void messageFromServer(Message message) {
+	public void messageFromServer(String data) {
+		Message message = new Message();
+		message.message = data;
 		talkDistribution.messageFromServer(message);
 	}
 
@@ -42,7 +52,7 @@ public class Distribution implements Runnable {
 		if (message == null) {
 			return;
 		}
-		// implement sending the message to the server
+		client.messageToServer(message.message);
 	}
 
 }

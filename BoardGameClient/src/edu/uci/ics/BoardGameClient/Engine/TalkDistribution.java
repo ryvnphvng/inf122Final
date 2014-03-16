@@ -26,10 +26,6 @@ public class TalkDistribution {
 		distribution.createGame(gameType);
 	}
 
-	public void disconnect() {
-		distribution.disconnect();
-	}
-
 	public void addMessageToInputQueue(Message message) {
 		synchronized (synchronizeInputQueue) {
 			inputQueue.add(message);
