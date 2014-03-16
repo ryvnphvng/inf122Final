@@ -6,7 +6,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import edu.uci.ics.BoardGameClient.Board.Board;
+import edu.uci.ics.BoardGameClient.Board.*;
 import edu.uci.ics.BoardGameClient.Common.Definitions;
 import edu.uci.ics.BoardGameClient.Common.Message;
 import edu.uci.ics.BoardGameClient.Engine.Game;
@@ -51,9 +51,7 @@ public class Action {
 		board = createBoard(gameType, numberOfPlayers);
 		manipulator = new BoardManipulator(board, game, this);
 		
-		gui = new GUI();
-		
-		gui.setAction(this);
+		gui = new GUI(this, board, gameType);
 	}
 		
 	public void setGame(Game game) {
@@ -62,6 +60,10 @@ public class Action {
 
 	public int getGameType() {
 		return gameType;
+	}
+	
+	public Game getGame() {
+		return game;
 	}
 
 	public void setNumberOfPlayers(int numberOfPlayers) {
@@ -149,12 +151,8 @@ public class Action {
 	}
 
 	public Message encodeMessage(JSONObject gameMessage) {
-		int playerID = Integer.parseInt(gameMessage.get("PlayerID").toString());
-		int gameID = Integer.parseInt(gameMessage.get("GameID").toString());
 
 		Message messageToServer = new Message();
-		messageToServer.gameId = gameID;
-		messageToServer.playerNumber = playerID;
 		messageToServer.message = gameMessage.toJSONString();
 
 		return messageToServer;

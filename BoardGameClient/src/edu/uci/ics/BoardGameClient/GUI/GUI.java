@@ -1,8 +1,5 @@
 package edu.uci.ics.BoardGameClient.GUI;
 
-import edu.uci.ics.BoardGameClient.Action.Action;
-import edu.uci.ics.BoardGameClient.Common.Definitions;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -10,18 +7,33 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Random;
+
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import edu.uci.ics.BoardGameClient.Action.Action;
+import edu.uci.ics.BoardGameClient.Action.GameObjectDisplayer;
+import edu.uci.ics.BoardGameClient.Action.MoveSender;
+import edu.uci.ics.BoardGameClient.Board.Board;
+import edu.uci.ics.BoardGameClient.Board.Tile;
+import edu.uci.ics.BoardGameClient.Common.Definitions;
+import edu.uci.ics.BoardGameClient.Engine.Game;
+
 public class GUI {
 
 	private Action action;
+	private Board board;
+	private int gameType;
 	private JFrame frame = new JFrame("Board Game Client");
 
-	public void setAction(Action action) {
+	public GUI(Action action, Board board, int gameType)
+	{
 		this.action = action;
+		this.board = board;
+		this.gameType = gameType;
+		
+		
 		setupWindow();
 	}
 
@@ -44,8 +56,11 @@ public class GUI {
 		frame.setMaximumSize(new Dimension(660, 600));
 		frame.setLayout(new GridLayout(height, width));
 
-		for (int i = 0; i < width * height; i++) {
-			frame.add(new BoardPanel());
+		for (int i = 0; i < height; i++) {
+			for(int j=0; j<width; j++)
+			{
+				frame.add(new BoardPanel(action, board.getTile(i,j), i, j, gameType));
+			}
 		}
 
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -83,29 +98,51 @@ public class GUI {
 		return -1;
 	}
 
-	public static void main(String[] args) {
-		GUI gui = new GUI();
-		gui.setupWindow();
-	}
+	// Not sure if this will repaint the new game board correctly. Will need to test.
+	public void repaint()
+	{
+		int height = determineHeight();
+		int width = determineWidth();
 
+		for (int i = 0; i < height; i++) {
+			for(int j=0; j<width; j++)
+			{
+				frame.findComponentAt(i, j).repaint();
+			}
+		}
+	}
 }
 
 class BoardPanel extends JPanel {
-	Color bgColor;
+	private int row;
+	private int col;
+	private int gameType;
+	private Tile tile;
+	private Action action;
 
-	public BoardPanel() {
+	// Not sure if setting to final will break things.
+	public BoardPanel(final Action action, Tile tile, final int row, final int col, final int gameType) {
 
-		bgColor = new Color(255, 255, 255);
+		this.row = row;
+		this.col = col;
+		this.gameType = gameType;
+		this.tile = tile;
+		
+		Color bgColor = new Color(255, 255, 255);
 
 		setPreferredSize(new Dimension(100, 100));
 
 		this.setBackground(bgColor);
 		this.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-
+		
+		if(tile.getGameObjects().size() > 0) // If true, we want to display what's in this tile
+		{
+			GameObjectDisplayer.displayGameObject(gameType);
+		}
+		
 		this.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				Random r = new Random();
-				setBackground(new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
+				MoveSender.sendMessage(action, gameType, row, col);
 
 				repaint();
 			}

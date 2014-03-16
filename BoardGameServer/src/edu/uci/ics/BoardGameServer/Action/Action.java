@@ -7,6 +7,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import edu.uci.ics.BoardGameServer.Board.Board;
+import edu.uci.ics.BoardGameServer.Board.GameObject;
 import edu.uci.ics.BoardGameServer.Common.Definitions;
 import edu.uci.ics.BoardGameServer.Common.Message;
 import edu.uci.ics.BoardGameServer.Engine.Game;
@@ -60,15 +61,14 @@ public class Action {
 				if(gameMessage.get("MessageType").equals("Create")){ // Client wants to create a Game Object
 					
 					Integer gameType = (Integer) gameMessage.get("GameType");
-					Integer playerID = (Integer) gameMessage.get("PlayerID");
+					Integer playerID = message.playerNumber;
 					Integer row = (Integer) gameMessage.get("Row");
 					Integer col = (Integer) gameMessage.get("Col");
-					Integer gameID = (Integer) gameMessage.get("GameID");
-					Integer objectID = (Integer) gameMessage.get("ObjectID");
-					Integer objectType = (Integer) gameMessage.get("ObjectType");
+					Integer gameID = message.gameId;
 					
-					manipulator.createGameObject(gof.createGameObject(gameType, playerID, row, col), 
-					gameID, gameType, objectID, objectType, playerID, row, col);
+					GameObject g = gof.createGameObject(gameType, playerID, row, col);
+					
+					manipulator.createGameObject(g, gameID, gameType, g.getObjID(), g.getObjectType(), playerID, row, col);
 					
 					reactor.updateBoard();
 					
