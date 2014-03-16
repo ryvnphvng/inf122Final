@@ -1,5 +1,7 @@
 package edu.uci.ics.BoardGameClient.Action;
 
+import javax.swing.JOptionPane;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -21,10 +23,30 @@ public class Action {
 	private MoveValidator validator; // abstract
 	private GUI gui = new GUI();
 
-	public Action(Game game, int gameType, int numberOfPlayers) {
+	public Action(Game game) {
 		this.game = game;
+		int gameType = -1; 
+		int numberOfPlayers = -1;
+		
+		Object[] options = { "TicTacToe" };
+		int n = JOptionPane.showOptionDialog(null, "Please select a game",
+				"Status", JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+		if (n == 0) {  //TicTacToe was selected
+			gameType = Definitions.GAMETYPETICTACTOE;
+			numberOfPlayers = 2;
+		} 
+		
+		
+		setUp(gameType, numberOfPlayers);
+		
+	}
+
+	
+	private void setUp(int gameType, int numberOfPlayers){
 		this.gameType = gameType;
 		gof = new GameObjectFactory();
+		
 		board = createBoard(gameType, numberOfPlayers);
 		manipulator = new BoardManipulator(board, game, this);
 		

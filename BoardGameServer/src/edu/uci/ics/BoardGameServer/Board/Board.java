@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 
+
 public class Board {
 
 	private Tile[][] board; 
@@ -15,6 +16,8 @@ public class Board {
 	
 	public Board(int height, int width, int gameType)
 	{
+		board = new Tile[height][width];
+		
 		for(int i=0;i<height;i++)
 		{
 			for(int j=0; j<width; j++)
