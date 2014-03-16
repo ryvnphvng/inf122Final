@@ -22,7 +22,7 @@ public class Action {
 	private GameObjectFactory gof;
 	private MoveValidator validator; // abstract
 	private int numberOfPlayers;
-	private GUI gui = new GUI();
+	private GUI gui;
 
 	public Action(Game game) {
 		this.game = game;
@@ -51,6 +51,9 @@ public class Action {
 		board = createBoard(gameType, numberOfPlayers);
 		manipulator = new BoardManipulator(board, game, this);
 		
+		gui = new GUI();
+		
+		gui.setAction(this);
 	}
 		
 	public void setGame(Game game) {
