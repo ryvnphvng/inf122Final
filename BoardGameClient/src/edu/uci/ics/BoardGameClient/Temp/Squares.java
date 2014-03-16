@@ -1,3 +1,5 @@
+package edu.uci.ics.BoardGameClient.Temp;
+
 // This is a program that was created to practice using the java swing
 // library. It is a series of squares that change color when clicked.
 // 
