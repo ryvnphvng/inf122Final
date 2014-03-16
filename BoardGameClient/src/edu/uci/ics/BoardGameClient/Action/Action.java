@@ -132,7 +132,7 @@ public class Action {
 		
 	}
 
-	private Message encodeMessage(JSONObject gameMessage) {
+	public Message encodeMessage(JSONObject gameMessage) {
 		int playerID = Integer.parseInt(gameMessage.get("PlayerID").toString());
 		int gameID = Integer.parseInt(gameMessage.get("GameID").toString());
 		
