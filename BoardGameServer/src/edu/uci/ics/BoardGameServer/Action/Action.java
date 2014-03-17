@@ -75,7 +75,7 @@ public class Action {
 		try {
 			gameMessage = (JSONObject) new JSONParser().parse(message.message);
 			
-			if  (validator.isValidMove(gameMessage)) {
+			if  (validator.isValidMove(gameMessage, message)) {
 				
 				if(gameMessage.get("MessageType").equals("Create")){ // Client wants to create a Game Object
 					
@@ -95,44 +95,11 @@ public class Action {
 					ArrayList<Integer> losers = gameOver.isLoseConditionMet(gameMessage);
 					ArrayList<Integer> ties = gameOver.isTieConditionMet(gameMessage);
 					
-					if(winners.size() > 0) // There are one or more winners
-					{
-						for(int i=0; i<winners.size(); i++) // Send a game over message to each person that won.
-						{
-							JSONObject winMessage = new JSONObject();
-							winMessage.put("MessageType", "Win");
-							winMessage.put("GameID", message.gameId);
-							winMessage.put("PlayerID", winners.get(i));
-							game.messageToClient(encodeMessage(winMessage));
-						}
-					}
+					sendGameOverMessages(message, winners, losers, ties);
 					
-					if(losers.size() > 0) // There are one or more losers
-					{
-						for(int i=0; i<losers.size(); i++) // Send a game over message to each person that lost.
-						{
-							JSONObject loseMessage = new JSONObject();
-							loseMessage.put("MessageType", "Lose");
-							loseMessage.put("GameID", message.gameId);
-							loseMessage.put("PlayerID", losers.get(i));
-							game.messageToClient(encodeMessage(loseMessage));
-						}
-					}
-					
-					if(ties.size() > 0) // There is a tie
-					{
-						for(int i=0; i<ties.size(); i++) // Send a game over message to each person that tied.
-						{
-							JSONObject tieMessage = new JSONObject();
-							tieMessage.put("MessageType", "Tie");
-							tieMessage.put("GameID", message.gameId);
-							tieMessage.put("PlayerID", ties.get(i));
-							game.messageToClient(encodeMessage(tieMessage));
-						}
-					}
+					validator.nextPlayerTurn();
 					
 				}
-				
 				else if(gameMessage.get("MessageType").equals("Delete")){ // Client wants to delete a Game Object
 					
 					Integer playerID = new Integer(((Long) gameMessage.get("PlayerID")).intValue());
@@ -147,41 +114,9 @@ public class Action {
 					ArrayList<Integer> losers = gameOver.isLoseConditionMet(gameMessage);
 					ArrayList<Integer> ties = gameOver.isTieConditionMet(gameMessage);
 					
-					if(winners.size() > 0) // There are one or more winners
-					{
-						for(int i=0; i<winners.size(); i++) // Send a game over message to each person that won.
-						{
-							JSONObject winMessage = new JSONObject();
-							winMessage.put("MessageType", "Win");
-							winMessage.put("GameID", message.gameId);
-							winMessage.put("PlayerID", winners.get(i));
-							game.messageToClient(encodeMessage(winMessage));
-						}
-					}
+					sendGameOverMessages(message, winners, losers, ties);
 					
-					if(losers.size() > 0) // There are one or more losers
-					{
-						for(int i=0; i<losers.size(); i++) // Send a game over message to each person that lost.
-						{
-							JSONObject loseMessage = new JSONObject();
-							loseMessage.put("MessageType", "Lose");
-							loseMessage.put("GameID", message.gameId);
-							loseMessage.put("PlayerID", losers.get(i));
-							game.messageToClient(encodeMessage(loseMessage));
-						}
-					}
-					
-					if(ties.size() > 0) // There is a tie
-					{
-						for(int i=0; i<ties.size(); i++) // Send a game over message to each person that tied.
-						{
-							JSONObject tieMessage = new JSONObject();
-							tieMessage.put("MessageType", "Tie");
-							tieMessage.put("GameID", message.gameId);
-							tieMessage.put("PlayerID", ties.get(i));
-							game.messageToClient(encodeMessage(tieMessage));
-						}
-					}
+					validator.nextPlayerTurn();
 				}
 				else if(gameMessage.get("MessageType").equals("Move")){ // Client wants to move a Game Object
 					
@@ -199,41 +134,9 @@ public class Action {
 					ArrayList<Integer> losers = gameOver.isLoseConditionMet(gameMessage);
 					ArrayList<Integer> ties = gameOver.isTieConditionMet(gameMessage);
 					
-					if(winners.size() > 0) // There are one or more winners
-					{
-						for(int i=0; i<winners.size(); i++) // Send a game over message to each person that won.
-						{
-							JSONObject winMessage = new JSONObject();
-							winMessage.put("MessageType", "Win");
-							winMessage.put("GameID", message.gameId);
-							winMessage.put("PlayerID", winners.get(i));
-							game.messageToClient(encodeMessage(winMessage));
-						}
-					}
+					sendGameOverMessages(message, winners, losers, ties);
 					
-					if(losers.size() > 0) // There are one or more losers
-					{
-						for(int i=0; i<losers.size(); i++) // Send a game over message to each person that lost.
-						{
-							JSONObject loseMessage = new JSONObject();
-							loseMessage.put("MessageType", "Lose");
-							loseMessage.put("GameID", message.gameId);
-							loseMessage.put("PlayerID", losers.get(i));
-							game.messageToClient(encodeMessage(loseMessage));
-						}
-					}
-					
-					if(ties.size() > 0) // There is a tie
-					{
-						for(int i=0; i<ties.size(); i++) // Send a game over message to each person that tied.
-						{
-							JSONObject tieMessage = new JSONObject();
-							tieMessage.put("MessageType", "Tie");
-							tieMessage.put("GameID", message.gameId);
-							tieMessage.put("PlayerID", ties.get(i));
-							game.messageToClient(encodeMessage(tieMessage));
-						}
-					}
+					validator.nextPlayerTurn();
 				}
 				else if(gameMessage.get("MessageType").equals("Swap")){ // Client wants to swap two Game Objects
 					
@@ -250,41 +153,9 @@ public class Action {
 					ArrayList<Integer> losers = gameOver.isLoseConditionMet(gameMessage);
 					ArrayList<Integer> ties = gameOver.isTieConditionMet(gameMessage);
 					
-					if(winners.size() > 0) // There are one or more winners
-					{
-						for(int i=0; i<winners.size(); i++) // Send a game over message to each person that won.
-						{
-							JSONObject winMessage = new JSONObject();
-							winMessage.put("MessageType", "Win");
-							winMessage.put("GameID", message.gameId);
-							winMessage.put("PlayerID", winners.get(i));
-							game.messageToClient(encodeMessage(winMessage));
-						}
-					}
+					sendGameOverMessages(message, winners, losers, ties);
 					
-					if(losers.size() > 0) // There are one or more losers
-					{
-						for(int i=0; i<losers.size(); i++) // Send a game over message to each person that lost.
-						{
-							JSONObject loseMessage = new JSONObject();
-							loseMessage.put("MessageType", "Lose");
-							loseMessage.put("GameID", message.gameId);
-							loseMessage.put("PlayerID", losers.get(i));
-							game.messageToClient(encodeMessage(loseMessage));
-						}
-					}
-					
-					if(ties.size() > 0) // There is a tie
-					{
-						for(int i=0; i<ties.size(); i++) // Send a game over message to each person that tied.
-						{
-							JSONObject tieMessage = new JSONObject();
-							tieMessage.put("MessageType", "Tie");
-							tieMessage.put("GameID", message.gameId);
-							tieMessage.put("PlayerID", ties.get(i));
-							game.messageToClient(encodeMessage(tieMessage));
-						}
-					}
+					validator.nextPlayerTurn();
 				}
 					
 			}
@@ -295,14 +166,6 @@ public class Action {
 				notValidMove.put("GameID", message.gameId);
 				notValidMove.put("PlayerID", message.playerNumber);
 				game.messageToClient(encodeMessage(notValidMove));
-				
-				//Remove
-				System.out.println("$+$+$+$+$+$+$+$+$+$+$+$+");
-				System.out.println(gameMessage.toJSONString());
-				System.out.println("$+$+$+$+$+$+$+$+$+$+$+$+");
-				System.out.println(validator.isValidMove(gameMessage));
-				System.out.println("$+$+$+$+$+$+$+$+$+$+$+$+");
-				
 			}	
 			
 				
@@ -326,6 +189,45 @@ public class Action {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
+	public void sendGameOverMessages(Message message, ArrayList<Integer> winners, ArrayList<Integer> losers, ArrayList<Integer> ties)
+	{
+		if(winners.size() > 0) // There are one or more winners
+		{
+			for(int i=0; i<winners.size(); i++) // Send a game over message to each person that won.
+			{
+				JSONObject winMessage = new JSONObject();
+				winMessage.put("MessageType", "Win");
+				winMessage.put("GameID", message.gameId);
+				winMessage.put("PlayerID", winners.get(i));
+				game.messageToClient(encodeMessage(winMessage));
+			}
+		}
+		
+		if(losers.size() > 0) // There are one or more losers
+		{
+			for(int i=0; i<losers.size(); i++) // Send a game over message to each person that lost.
+			{
+				JSONObject loseMessage = new JSONObject();
+				loseMessage.put("MessageType", "Lose");
+				loseMessage.put("GameID", message.gameId);
+				loseMessage.put("PlayerID", losers.get(i));
+				game.messageToClient(encodeMessage(loseMessage));
+			}
+		}
+		
+		if(ties.size() > 0) // There is a tie
+		{
+			for(int i=0; i<ties.size(); i++) // Send a game over message to each person that tied.
+			{
+				JSONObject tieMessage = new JSONObject();
+				tieMessage.put("MessageType", "Tie");
+				tieMessage.put("GameID", message.gameId);
+				tieMessage.put("PlayerID", ties.get(i));
+				game.messageToClient(encodeMessage(tieMessage));
+			}
+		}
+	}
 	
 	private Board createBoard(int gameType, int playerNum) // Perhaps encapsulate this in its own object?
 	{
@@ -344,7 +246,7 @@ public class Action {
 	{
 		if(gameType == Definitions.GAMETYPETICTACTOE)
 		{
-			return new TicTacToeValidator(board);
+			return new TicTacToeValidator(board, numberOfPlayers);
 		}
 		return null;
 	}

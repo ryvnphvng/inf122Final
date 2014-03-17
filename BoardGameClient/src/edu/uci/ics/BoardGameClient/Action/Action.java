@@ -83,11 +83,6 @@ public class Action {
 		try {
 			gameMessage = (JSONObject) new JSONParser().parse(message.message);
 			
-			// Remove
-			System.out.println("&*&*&*&*&*&*&*&*&*&*&*&*");
-			System.out.println(gameMessage.toJSONString());
-			System.out.println("&*&*&*&*&*&*&*&*&*&*&*&*");
-			
 			if (gameMessage.get("MessageType").equals("BoardCreated")) { // Game has been created
 				setUp(gameType, numberOfPlayers);
 			}
@@ -145,12 +140,11 @@ public class Action {
 				gui.update();
 				
 			} else if (gameMessage.get("MessageType").equals("Win")) { // Client Side recognize winners
-				// GUI should display game won message to each player that won
-
+				gui.winMessage();
 			} else if (gameMessage.get("MessageType").equals("Lose")) { // Client Side recognize losers
-				// GUI should display game lost message to each player that lost
+				gui.loseMessage();
 			} else if (gameMessage.get("MessageType").equals("Tie")) { // Client Side recognizes a tie
-				// GUI should display game tie message to each player that tie
+				gui.tieMessage();
 			} else if (gameMessage.get("MessageType").equals("InvalidMove")) { // Client Side invalid move handling
 				// GUI should display that chosen move is invalid
 			}

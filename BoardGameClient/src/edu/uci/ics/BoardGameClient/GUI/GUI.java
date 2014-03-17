@@ -1,7 +1,6 @@
 package edu.uci.ics.BoardGameClient.GUI;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
@@ -11,6 +10,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import edu.uci.ics.BoardGameClient.Action.Action;
@@ -122,6 +122,34 @@ public class GUI {
 		});
 		
 		frame.pack();
+	}
+	
+	public void winMessage()
+	{
+		JOptionPane.showMessageDialog(frame,
+			    "You have won the game.",
+			    "Win",
+			    JOptionPane.PLAIN_MESSAGE);
+		this.closeFrame();
+	}
+	
+	public void loseMessage()
+	{
+		JOptionPane.showMessageDialog(frame,
+			    "You have lost the game.",
+			    "Lose",
+			    JOptionPane.PLAIN_MESSAGE);
+		this.closeFrame();
+	}
+	
+	public void tieMessage()
+	{
+		JOptionPane optionPane = new JOptionPane();
+		JOptionPane.showMessageDialog(frame,
+			    "Tie game.",
+			    "Tie",
+			    JOptionPane.PLAIN_MESSAGE);
+		this.closeFrame();
 	}
 }
 
