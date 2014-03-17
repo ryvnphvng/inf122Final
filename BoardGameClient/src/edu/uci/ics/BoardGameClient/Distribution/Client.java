@@ -87,6 +87,7 @@ public class Client implements Runnable {
 	}
 
 	private void disconnectFromServer() {
+		messageToServer("disconnect");
 		try {
 			socket.close();
 		} catch (Exception e) {

@@ -68,8 +68,7 @@ public class Server implements Runnable {
 				}
 			}
 		}
-
-		stop();
+		
 		serverAccept.stop();
 		threadServerAccept.interrupt();
 
@@ -113,30 +112,32 @@ public class Server implements Runnable {
 		List<Integer> clientConnectionsToRemove = new ArrayList<Integer>();
 		List<Integer> gamesToDestroy = new ArrayList<Integer>();
 		
-		for (int key : clientConnections.keySet()) {
+		for (int key : clientConnections.keySet()) { 
 			if (clientConnections.get(key).lastMessagetime + 15000 < System.currentTimeMillis()){
 				clientConnections.get(key).alive = false;	
 			}
 			if (!clientConnections.get(key).alive) {
 				try {
 					clientConnections.get(key).socket.close();
-					clientConnections.get(key).socket = null;
-					clientConnections.get(key).printWriter = null;
-					clientConnections.get(key).bufferedReader = null;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				clientConnections.get(key).socket = null;
+				clientConnections.get(key).printWriter = null;
+				clientConnections.get(key).bufferedReader = null;
 				gamesToDestroy.add(clientConnections.get(key).connectionId);
 				clientConnectionsToRemove.add(key);
 			}
 		}
 		
-		for(int key : clientConnectionsToRemove ) {
-			clientConnections.remove(key);
-		}
 		
 		for(int connectionId : gamesToDestroy ) {
 			distribution.destroyGame(connectionId);
+		}
+		
+		for(int key : clientConnectionsToRemove ) {
+			distribution.removeConnectionId(clientConnections.get(key).connectionId);
+			clientConnections.remove(key);
 		}
 	}
 

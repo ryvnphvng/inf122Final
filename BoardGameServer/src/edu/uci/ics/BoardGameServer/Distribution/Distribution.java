@@ -63,6 +63,8 @@ public class Distribution implements Runnable {
 			clientWaits.add(clientFound);
 			return;
 		}
+		
+		clientWaits.remove(clientFound);
 
 		ClientGame clientGame = new ClientGame();
 		clientGame.connectionIds.add(connectionId);
@@ -85,6 +87,12 @@ public class Distribution implements Runnable {
 		}
 
 		talkDistribution.destroyGame(clientGame.gameId);
+		
+		// TODO: delay remove from clientGames and gameIdToClientGame
+	}
+	
+	public void removeConnectionId(int connectionId) {
+		connectionIdToClientGame.remove(connectionId);
 	}
 
 	public void messageFromClient(int connectionId, String data) {
