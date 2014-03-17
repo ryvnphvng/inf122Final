@@ -20,7 +20,7 @@ public class Action {
 	private BoardManipulator manipulator;
 	private ActionReactor reactor; // abstract
 	private GameObjectFactory gof;
-	private MoveValidator validator; // abstract
+	private MoveValidator validator; // abstract How are we to use this?
 	private int numberOfPlayers;
 	private GUI gui;
 
@@ -38,7 +38,6 @@ public class Action {
 			numberOfPlayers = 2;
 		} 
 		
-		setUp(gameType, numberOfPlayers);
 		createGame(gameType);
 	}
 
@@ -83,8 +82,10 @@ public class Action {
 		// The client receives messages from the server and implements them
 		try {
 			gameMessage = (JSONObject) new JSONParser().parse(message.message);
-
-			if (gameMessage.get("MessageType").equals("Create")) { // Client Side create game object
+			if (gameMessage.get("MessageType").equals("BoardCreated")) { // Game has been created
+				setUp(gameType, numberOfPlayers);
+			}
+			else if (gameMessage.get("MessageType").equals("Create")) { // Client Side create game object
 
 				Integer gameType = new Integer(((Long) gameMessage.get("GameType")).intValue());
 				Integer playerID = new Integer(((Long) gameMessage.get("PlayerID")).intValue());
