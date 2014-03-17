@@ -57,7 +57,6 @@ public class Action {
 		{
 			JSONObject gameMessage=new JSONObject();
 			gameMessage.put("MessageType", "BoardCreated");
-			gameMessage.put("GameID", -1);
 			gameMessage.put("PlayerID", i);
 			
 			game.messageToClient(encodeMessage(gameMessage));
@@ -88,7 +87,7 @@ public class Action {
 					
 					GameObject g = gof.createGameObject(gameType, playerID, row, col);
 					
-					manipulator.createGameObject(g, gameID, gameType, g.getObjID(), g.getObjectType(), playerID, row, col);
+					manipulator.createGameObject(g, gameID, gameType, g.getObjID(), g.getObjectType(), playerID, row, col, numberOfPlayers);
 					
 					reactor.updateBoard();
 					
@@ -140,7 +139,7 @@ public class Action {
 					Integer gameID = new Integer(((Long) gameMessage.get("GameID")).intValue());
 					Integer objectID = new Integer(((Long) gameMessage.get("ObjectID")).intValue());
 					
-					manipulator.deleteGameObject(objectID, gameID, playerID);
+					manipulator.deleteGameObject(objectID, gameID, playerID, numberOfPlayers);
 					
 					reactor.updateBoard();
 					
@@ -192,7 +191,7 @@ public class Action {
 					Integer row = new Integer(((Long) gameMessage.get("Row")).intValue());
 					Integer col = new Integer(((Long) gameMessage.get("Col")).intValue());
 					
-					manipulator.moveGameObject(objectID, playerID, row, col, gameID);
+					manipulator.moveGameObject(objectID, playerID, row, col, gameID, numberOfPlayers);
 					
 					reactor.updateBoard();
 					
@@ -243,7 +242,7 @@ public class Action {
 					Integer gameID = new Integer(((Long) gameMessage.get("GameID")).intValue());
 					Integer playerID = new Integer(((Long) gameMessage.get("PlayerID")).intValue());
 					
-					manipulator.swapGameObjects(objectID1, objectID2, playerID, gameID);
+					manipulator.swapGameObjects(objectID1, objectID2, playerID, gameID, numberOfPlayers);
 					
 					reactor.updateBoard();
 					
@@ -311,10 +310,8 @@ public class Action {
 
 		
 		int playerID = Integer.parseInt(gameMessage.get("PlayerID").toString());
-		int gameID = Integer.parseInt(gameMessage.get("GameID").toString());
 		
 		Message messageToClient = new Message();
-		messageToClient.gameId = gameID;
 		messageToClient.playerNumber = playerID;
 		messageToClient.message = gameMessage.toJSONString();
 		

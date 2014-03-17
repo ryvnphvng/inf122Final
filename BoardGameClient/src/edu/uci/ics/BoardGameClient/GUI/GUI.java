@@ -1,6 +1,7 @@
 package edu.uci.ics.BoardGameClient.GUI;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
@@ -18,7 +19,6 @@ import edu.uci.ics.BoardGameClient.Action.MoveSender;
 import edu.uci.ics.BoardGameClient.Board.Board;
 import edu.uci.ics.BoardGameClient.Board.Tile;
 import edu.uci.ics.BoardGameClient.Common.Definitions;
-import edu.uci.ics.BoardGameClient.Engine.Game;
 
 public class GUI {
 
@@ -99,17 +99,29 @@ public class GUI {
 	}
 
 	// Not sure if this will repaint the new game board correctly. Will need to test.
-	public void repaint()
+	public void update()
 	{
 		int height = determineHeight();
 		int width = determineWidth();
+		
+		frame.getContentPane().removeAll();
+		
+		frame.setLayout(new GridLayout(height, width));
 
 		for (int i = 0; i < height; i++) {
 			for(int j=0; j<width; j++)
 			{
-				frame.findComponentAt(i, j).repaint();
+				frame.add(new BoardPanel(action, board.getTile(i,j), i, j, gameType));
 			}
 		}
+
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent event) {
+				closeFrame();
+			}
+		});
+		
+		frame.pack();
 	}
 }
 
@@ -145,13 +157,9 @@ class BoardPanel extends JPanel {
 			
 		}
 		
-		
-		
 		this.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				MoveSender.sendMessage(action, gameType, row, col);
-
-				repaint();
 			}
 		});
 	}

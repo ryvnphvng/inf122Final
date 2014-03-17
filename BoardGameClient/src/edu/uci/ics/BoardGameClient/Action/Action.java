@@ -82,6 +82,12 @@ public class Action {
 		// The client receives messages from the server and implements them
 		try {
 			gameMessage = (JSONObject) new JSONParser().parse(message.message);
+			
+			// Remove
+			System.out.println("&*&*&*&*&*&*&*&*&*&*&*&*");
+			System.out.println(gameMessage.toJSONString());
+			System.out.println("&*&*&*&*&*&*&*&*&*&*&*&*");
+			
 			if (gameMessage.get("MessageType").equals("BoardCreated")) { // Game has been created
 				setUp(gameType, numberOfPlayers);
 			}
@@ -99,6 +105,8 @@ public class Action {
 						gameType, objectID, objectType, playerID, row, col);
 
 				reactor.updateBoard();
+				
+				gui.update();
 
 			} else if (gameMessage.get("MessageType").equals("Delete")) { // Client Side delete game object
 				Integer playerID = new Integer(((Long) gameMessage.get("PlayerID")).intValue());
