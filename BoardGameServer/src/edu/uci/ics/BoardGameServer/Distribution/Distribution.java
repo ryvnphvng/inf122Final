@@ -16,7 +16,7 @@ public class Distribution implements Runnable {
 	private Thread threadServer;
 	private List<ClientWait> clientWaits = new ArrayList<ClientWait>();
 	private List<ClientGame> clientGames = new ArrayList<ClientGame>();
-	private Map<Integer, ClientGame> connectionToClientGame = new TreeMap<Integer, ClientGame>();
+	private Map<Integer, ClientGame> connectionIdToClientGame = new TreeMap<Integer, ClientGame>();
 	private Map<Integer, ClientGame> gameIdToClientGame = new TreeMap<Integer, ClientGame>();
 
 	public void setTalkDistribution(TalkDistribution talkDistribution) {
@@ -69,8 +69,8 @@ public class Distribution implements Runnable {
 		clientGame.gameId = talkDistribution.createGame(gameType, 2);
 		clientGame.connectionIds.add(connectionId);
 		clientGame.connectionIds.add(clientFound.connectionId);
-		connectionToClientGame.put(connectionId, clientGame);
-		connectionToClientGame.put(clientFound.connectionId, clientGame);
+		connectionIdToClientGame.put(connectionId, clientGame);
+		connectionIdToClientGame.put(clientFound.connectionId, clientGame);
 		gameIdToClientGame.put(clientGame.gameId, clientGame);
 
 		clientGames.add(clientGame);
@@ -83,7 +83,12 @@ public class Distribution implements Runnable {
 	}
 
 	public void messageFromClient(int connectionId, String data) {
-		ClientGame clientGame = connectionToClientGame.get(connectionId);
+		ClientGame clientGame = connectionIdToClientGame.get(connectionId);
+		
+		if (clientGame == null) {
+			System.err.println("message sent without matching game " + data);
+			return;
+		}
 		
 		Message message = new Message();
 		message.gameId = clientGame.gameId;

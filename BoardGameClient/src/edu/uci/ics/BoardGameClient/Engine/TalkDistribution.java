@@ -29,8 +29,8 @@ public class TalkDistribution {
 	public void addMessageToInputQueue(Message message) {
 		synchronized (synchronizeInputQueue) {
 			inputQueue.add(message);
+			synchronizeInputQueue.notifyAll();
 		}
-		synchronizeInputQueue.notifyAll();
 	}
 
 	public Message getMessageFromInputQueue() {
@@ -52,8 +52,8 @@ public class TalkDistribution {
 	public void messageFromServer(Message message) {
 		synchronized (synchronizeInputQueue) {
 			inputQueue.add(message);
+			synchronizeInputQueue.notifyAll();
 		}
-		synchronizeInputQueue.notifyAll();
 	}
 
 	public Message getInputQueue() {
@@ -63,8 +63,8 @@ public class TalkDistribution {
 	public void messageToServer(Message message) {
 		synchronized (synchronizeOutputQueue) {
 			outputQueue.add(message);
+			synchronizeOutputQueue.notifyAll();
 		}
-		synchronizeOutputQueue.notifyAll();
 	}
 
 	public void waitForOutputQueue() {
