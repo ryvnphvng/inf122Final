@@ -9,13 +9,13 @@ import edu.uci.ics.BoardGameServer.Board.GameObjectDefinitions;
 public class GameObjectDisplayer {
 	
 	
-	public static Component displayGameObject(int gameType)
+	public static Component displayGameObject(int objectType)
 	{
-		if(gameType == GameObjectDefinitions.TICTACTOE_X)
+		if(objectType == GameObjectDefinitions.TICTACTOE_X)
 		{
 			return new JLabel("X");
 		}
-		else if(gameType == GameObjectDefinitions.TICTACTOE_O)
+		else if(objectType == GameObjectDefinitions.TICTACTOE_O)
 		{
 			return new JLabel("O");
 		}
