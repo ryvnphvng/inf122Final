@@ -137,7 +137,12 @@ class BoardPanel extends JPanel {
 		
 		if(tile.getGameObjects().size() > 0) // If true, we want to display what's in this tile
 		{
-			GameObjectDisplayer.displayGameObject(gameType);
+			for(int i=0; i<tile.getGameObjects().size(); i++)
+			{
+				int objectType = tile.getGameObjects().get(i).getObjectType();
+				GameObjectDisplayer.displayGameObject(objectType);
+			}
+			
 		}
 		
 		this.addMouseListener(new MouseAdapter() {
