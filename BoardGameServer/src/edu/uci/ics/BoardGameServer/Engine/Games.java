@@ -49,6 +49,11 @@ public class Games implements Runnable {
 	}
 
 	public void destroyGame(int gameNumber) {
+		Game game = games.get(gameNumber);
+		if (game == null) {
+			return;
+		}
+		game.destroyGame();
 		games.remove(gameNumber);
 	}
 

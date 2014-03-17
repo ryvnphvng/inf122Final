@@ -68,20 +68,23 @@ public class Distribution implements Runnable {
 		clientGame.connectionIds.add(connectionId);
 		clientGame.connectionIds.add(clientFound.connectionId);
 		clientGames.add(clientGame);
-		
+
 		clientGame.gameId = talkDistribution.createGame(gameType, 2);
-		
+
 		gameIdToClientGame.put(clientGame.gameId, clientGame);
 		connectionIdToClientGame.put(connectionId, clientGame);
 		connectionIdToClientGame.put(clientFound.connectionId, clientGame);
-		
+
 		talkDistribution.gameCreated(clientGame.gameId);
 	}
 
-	// TODO: need to call destroyGame
-	public void destroyGame() {
-		// TODO: fix to destroy game correctly
-		talkDistribution.destroyGame(2);
+	public void destroyGame(int connectionId) {
+		ClientGame clientGame = connectionIdToClientGame.get(connectionId);
+		if (clientGame == null) {
+			return;
+		}
+
+		talkDistribution.destroyGame(clientGame.gameId);
 	}
 
 	public void messageFromClient(int connectionId, String data) {
@@ -108,8 +111,12 @@ public class Distribution implements Runnable {
 		if (message == null) {
 			return;
 		}
-		
+
 		ClientGame clientGame = gameIdToClientGame.get(message.gameId);
+		if (clientGame == null) {
+			return;
+		}
+		
 		int connectionId = clientGame.connectionIds.get(message.playerNumber);
 		server.messageToClient(connectionId, message.message);
 	}

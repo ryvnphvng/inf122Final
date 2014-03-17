@@ -53,6 +53,11 @@ public class Action {
 		// TODO: do stuff with this
 		System.out.println("gameCreated");
 	}
+	
+	public void destroyGame() {
+		// TODO: do stuff with this
+		System.out.println("destroyGame");
+	}
 
 	@SuppressWarnings("unchecked")
 	public void messageFromClient(Message message) {

@@ -21,6 +21,10 @@ public class Game {
 	public void gameCreated() {
 		action.gameCreated();
 	}
+	
+	public void destroyGame() {
+		action.destroyGame();
+	}
 
 	public void messageFromClient(Message message) {
 		action.messageFromClient(message);

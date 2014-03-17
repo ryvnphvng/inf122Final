@@ -1,6 +1,8 @@
 package edu.uci.ics.BoardGameServer.Distribution;
 
 import java.net.ServerSocket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -21,7 +23,7 @@ public class Server implements Runnable {
 	public void stop() {
 		stopRunning = true;
 	}
-	
+
 	@Override
 	public void run() {
 
@@ -57,8 +59,8 @@ public class Server implements Runnable {
 
 			checkConnectionsIfAlive();
 
-			if (! recivedMessage) {
-				// note: should do something better than sleep, but code is much more complicated 
+			if (!recivedMessage) {
+				// note: should do something better than sleep, but code is much more complicated
 				try {
 					Thread.sleep(300);
 				} catch (Exception e) {
@@ -90,7 +92,7 @@ public class Server implements Runnable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void processMessage(ClientConnection clientConnection, String message) {
 		clientConnection.lastMessagetime = System.currentTimeMillis();
 		if (message.equals("ping")) {
@@ -108,6 +110,8 @@ public class Server implements Runnable {
 	}
 
 	private void checkConnectionsIfAlive() {
+		List<Integer> gamesToDestroy = new ArrayList<Integer>();
+		
 		for (int key : clientConnections.keySet()) {
 			if (clientConnections.get(key).lastMessagetime + 15000 < System.currentTimeMillis()){
 				clientConnections.get(key).alive = false;	
@@ -115,16 +119,31 @@ public class Server implements Runnable {
 			if (!clientConnections.get(key).alive) {
 				try {
 					clientConnections.get(key).socket.close();
+					clientConnections.get(key).socket = null;
+					clientConnections.get(key).printWriter = null;
+					clientConnections.get(key).bufferedReader = null;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				gamesToDestroy.add(clientConnections.get(key).connectionId);
 				clientConnections.remove(key);
 			}
+		}
+		
+		for(int connectionId : gamesToDestroy ) {
+			distribution.destroyGame(connectionId);
 		}
 	}
 
 	public void messageToClient(int connectionId, String message) {
-		clientConnections.get(connectionId).printWriter.println(message);
+		ClientConnection clientConnection = clientConnections.get(connectionId);
+		if (clientConnection == null) {
+			return;
+		}
+		if (clientConnection.printWriter == null) {
+			return;
+		}
+		clientConnection.printWriter.println(message);
 	}
 
 }
