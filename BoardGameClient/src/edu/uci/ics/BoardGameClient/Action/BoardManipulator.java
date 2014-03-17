@@ -35,8 +35,6 @@ public class BoardManipulator {
 		  gameMessage.put("Row", row);
 		  gameMessage.put("Col", col);
 		  gameMessage.put("ObjectType", objectType);
-
-		game.messageToServer(action.encodeMessage(gameMessage)); // Send creation message to client
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -49,8 +47,6 @@ public class BoardManipulator {
 		  gameMessage.put("GameID", gameID);
 		  gameMessage.put("PlayerID", playerNum);
 		  gameMessage.put("ObjectID", objectID);
-
-		  game.messageToServer(action.encodeMessage(gameMessage)); // Send removal message to client
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -65,8 +61,6 @@ public class BoardManipulator {
 		  gameMessage.put("ObjectID", objectID);
 		  gameMessage.put("Row", row);
 		  gameMessage.put("Col", col);
-	
-		  game.messageToServer(action.encodeMessage(gameMessage)); // Send move message to client
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -80,8 +74,6 @@ public class BoardManipulator {
 		  gameMessage.put("PlayerID", playerNum);
 		  gameMessage.put("ObjectID1", objectID1);
 		  gameMessage.put("ObjectID2", objectID2);
-		
-		  game.messageToServer(action.encodeMessage(gameMessage)); // Send swap message to client
 	}
 	
 	

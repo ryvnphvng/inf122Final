@@ -116,6 +116,8 @@ public class Action {
 				manipulator.deleteGameObject(objectID, gameID, playerID);
 
 				reactor.updateBoard();
+				
+				gui.update();
 
 			} else if (gameMessage.get("MessageType").equals("Move")) { // Client Side move game object
 				Integer playerID = new Integer(((Long) gameMessage.get("PlayerID")).intValue());
@@ -127,6 +129,8 @@ public class Action {
 				manipulator.moveGameObject(objectID, playerID, row, col, gameID);
 
 				reactor.updateBoard();
+				
+				gui.update();
 
 			} else if (gameMessage.get("MessageType").equals("Swap")) { // Client Side swap game object
 				Integer objectID1 = new Integer(((Long) gameMessage.get("ObjectID1")).intValue());
@@ -138,6 +142,8 @@ public class Action {
 
 				reactor.updateBoard();
 
+				gui.update();
+				
 			} else if (gameMessage.get("MessageType").equals("Win")) { // Client Side recognize winners
 				// GUI should display game won message to each player that won
 

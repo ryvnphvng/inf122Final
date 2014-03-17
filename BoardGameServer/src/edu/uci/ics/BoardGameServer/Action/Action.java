@@ -296,6 +296,13 @@ public class Action {
 				notValidMove.put("PlayerID", message.playerNumber);
 				game.messageToClient(encodeMessage(notValidMove));
 				
+				//Remove
+				System.out.println("$+$+$+$+$+$+$+$+$+$+$+$+");
+				System.out.println(gameMessage.toJSONString());
+				System.out.println("$+$+$+$+$+$+$+$+$+$+$+$+");
+				System.out.println(validator.isValidMove(gameMessage));
+				System.out.println("$+$+$+$+$+$+$+$+$+$+$+$+");
+				
 			}	
 			
 				
