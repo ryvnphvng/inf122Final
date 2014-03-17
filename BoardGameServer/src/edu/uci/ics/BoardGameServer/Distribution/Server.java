@@ -35,9 +35,11 @@ public class Server implements Runnable {
 		threadServerAccept.start();
 
 		while (!stopRunning) {
-			String message = null;
+			Boolean recivedMessage = false;
+			String message;
 
 			for (ClientConnection clientConnection : clientConnections.values()) {
+				message = null;
 				try {
 					if (!clientConnection.bufferedReader.ready()) {
 						continue;
@@ -46,20 +48,16 @@ public class Server implements Runnable {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				if (message.equals("disconnect")) {
-					clientConnection.alive = false;
+				if (message == null) {
 					continue;
 				}
-				if (message.startsWith("createGame ")) {
-					distribution.createGame(clientConnection.connectionId, message);
-					continue;
-				}
-				distribution.messageFromClient(clientConnection.connectionId, message);
+				recivedMessage = true;
+				processMessage(clientConnection, message);
 			}
 
 			checkConnectionsIfAlive();
 
-			if (message == null) {
+			if (! recivedMessage) {
 				// note: should do something better than sleep, but code is much more complicated 
 				try {
 					Thread.sleep(300);
@@ -92,9 +90,28 @@ public class Server implements Runnable {
 			e.printStackTrace();
 		}
 	}
+	
+	private void processMessage(ClientConnection clientConnection, String message) {
+		clientConnection.lastMessagetime = System.currentTimeMillis();
+		if (message.equals("ping")) {
+			return;
+		}
+		if (message.equals("disconnect")) {
+			clientConnection.alive = false;
+			return;
+		}
+		if (message.startsWith("createGame ")) {
+			distribution.createGame(clientConnection.connectionId, message);
+			return;
+		}
+		distribution.messageFromClient(clientConnection.connectionId, message);
+	}
 
 	private void checkConnectionsIfAlive() {
 		for (int key : clientConnections.keySet()) {
+			if (clientConnections.get(key).lastMessagetime + 15000 < System.currentTimeMillis()){
+				clientConnections.get(key).alive = false;	
+			}
 			if (!clientConnections.get(key).alive) {
 				try {
 					clientConnections.get(key).socket.close();

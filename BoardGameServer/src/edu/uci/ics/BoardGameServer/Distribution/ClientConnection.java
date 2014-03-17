@@ -8,6 +8,7 @@ import java.net.Socket;
 
 public class ClientConnection {
 	public boolean alive = true;
+	public long lastMessagetime = System.currentTimeMillis();
 	public int connectionId;
 	public Socket socket;
 	public PrintWriter printWriter;

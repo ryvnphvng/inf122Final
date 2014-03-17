@@ -13,6 +13,7 @@ public class Client implements Runnable {
 	private Socket socket = null;
 	private PrintWriter printWriter;
 	private BufferedReader bufferedReader;
+	private long lastMessageTime = System.currentTimeMillis();
 
 	public void setDistribution(Distribution distribution) {
 		this.distribution = distribution;
@@ -59,20 +60,15 @@ public class Client implements Runnable {
 			try {
 				if (bufferedReader.ready()) {
 					message = bufferedReader.readLine();
-				} else {
-					// note: should do something better than sleep, but code is much more complicated
-					try {
-						Thread.sleep(300);
-					} catch (Exception e) {
-						// pass
+					if (message != null) {
+						distribution.messageFromServer(message);
 					}
+				} else {
+					sleepAndPing();
 					continue;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-			}
-			if (message != null) {
-				distribution.messageFromServer(message);
 			}
 		}
 
@@ -98,6 +94,18 @@ public class Client implements Runnable {
 		}
 	}
 
+	private void sleepAndPing() {
+		// note: should do something better than sleep, but code is much more complicated
+		try {
+			Thread.sleep(300);
+		} catch (Exception e) {
+			// pass
+		}
+		if (lastMessageTime + 10000 < System.currentTimeMillis()) {
+			messageToServer("ping");
+		}
+	}
+
 	public void messageToServer(String message) {
 		while (printWriter == null) {
 			if (stopRunning) {
@@ -109,6 +117,7 @@ public class Client implements Runnable {
 				// pass
 			}
 		}
+		lastMessageTime = System.currentTimeMillis();
 		printWriter.println(message);
 		printWriter.flush();
 	}
