@@ -32,7 +32,9 @@ public class Games implements Runnable {
 		while (games.containsKey(gameNumber)) {
 			gameNumber = getNextGameId();
 		}
-		games.put(gameNumber, new Game(gameNumber, gameType, numberOfPlayers));
+		Game game = new Game(gameNumber, gameType, numberOfPlayers);
+		game.setGames(this);
+		games.put(gameNumber, game);
 		return gameNumber;
 	}
 

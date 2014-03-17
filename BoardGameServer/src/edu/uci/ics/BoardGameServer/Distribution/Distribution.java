@@ -43,7 +43,6 @@ public class Distribution implements Runnable {
 
 		server.stop();
 		threadServer.interrupt();
-
 	}
 
 	public void createGame(int connectionId, String message) {
@@ -84,12 +83,12 @@ public class Distribution implements Runnable {
 
 	public void messageFromClient(int connectionId, String data) {
 		ClientGame clientGame = connectionIdToClientGame.get(connectionId);
-		
+
 		if (clientGame == null) {
 			System.err.println("message sent without matching game " + data);
 			return;
 		}
-		
+
 		Message message = new Message();
 		message.gameId = clientGame.gameId;
 		for (int i = 0; i < clientGame.connectionIds.size(); i++) {
@@ -98,7 +97,7 @@ public class Distribution implements Runnable {
 			}
 		}
 		message.message = data;
-		
+
 		talkDistribution.messageFromClient(message);
 	}
 

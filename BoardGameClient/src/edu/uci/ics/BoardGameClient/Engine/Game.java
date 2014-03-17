@@ -41,6 +41,9 @@ public class Game implements Runnable {
 	}
 
 	public void messageFromServer(Message message) {
+		if (message == null) {
+			return;
+		}
 		action.messageFromServer(message);
 	}
 

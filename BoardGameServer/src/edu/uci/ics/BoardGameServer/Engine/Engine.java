@@ -25,7 +25,7 @@ public class Engine {
 		distribution = new Distribution();
 		talkDistribution = new TalkDistribution();
 		games = new Games();
-
+		
 		talkDistribution.setGames(games);
 		distribution.setTalkDistribution(talkDistribution);
 		games.setTalkDistribution(talkDistribution);
@@ -37,7 +37,7 @@ public class Engine {
 		threadDistribution.start();
 	}
 
-	private void shutdown() {
+	public void shutdown() {
 		games.stop();
 		distribution.stop();
 		threadGames.interrupt();

@@ -38,11 +38,13 @@ public class ServerAccept implements Runnable {
 			socket = null;
 			socket = serverSocket.accept();
 		} catch (Exception e) {
-			if (!stopRunning) {
-				if (!e.getMessage().equals("Accept timed out")) {
-					e.printStackTrace();
-				}
+			if (stopRunning) {
+				return;
 			}
+			if (e.getMessage().equals("Accept timed out")) {
+				return;
+			}
+			e.printStackTrace();
 		}
 
 		if (socket != null) {

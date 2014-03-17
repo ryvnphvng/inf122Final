@@ -21,7 +21,7 @@ public class Server implements Runnable {
 	public void stop() {
 		stopRunning = true;
 	}
-
+	
 	@Override
 	public void run() {
 
@@ -60,15 +60,16 @@ public class Server implements Runnable {
 			checkConnectionsIfAlive();
 
 			if (message == null) {
-				// TODO: something better then sleep
+				// note: should do something better than sleep, but code is much more complicated 
 				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
+					Thread.sleep(300);
+				} catch (Exception e) {
 					// pass
 				}
 			}
 		}
 
+		stop();
 		serverAccept.stop();
 		threadServerAccept.interrupt();
 

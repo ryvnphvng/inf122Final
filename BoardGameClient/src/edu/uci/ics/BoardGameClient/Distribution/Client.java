@@ -13,7 +13,6 @@ public class Client implements Runnable {
 	private Socket socket = null;
 	private PrintWriter printWriter;
 	private BufferedReader bufferedReader;
-	
 
 	public void setDistribution(Distribution distribution) {
 		this.distribution = distribution;
@@ -25,7 +24,17 @@ public class Client implements Runnable {
 
 	@Override
 	public void run() {
+
 		connectToServer();
+		while (socket == null && !stopRunning) {
+			try {
+				Thread.sleep(1000);
+			} catch (Exception e) {
+				// pass
+			}
+			connectToServer();
+		}
+
 		if (socket == null) {
 			return;
 		}
@@ -48,7 +57,17 @@ public class Client implements Runnable {
 			String message = null;
 
 			try {
-				message = bufferedReader.readLine();
+				if (bufferedReader.ready()) {
+					message = bufferedReader.readLine();
+				} else {
+					// note: should do something better than sleep, but code is much more complicated
+					try {
+						Thread.sleep(300);
+					} catch (Exception e) {
+						// pass
+					}
+					continue;
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -64,6 +83,9 @@ public class Client implements Runnable {
 		try {
 			socket = new Socket("localhost", PORT);
 		} catch (Exception e) {
+			if (e.getMessage().equals("Connection refused: connect")) {
+				return;
+			}
 			e.printStackTrace();
 		}
 	}
@@ -77,6 +99,16 @@ public class Client implements Runnable {
 	}
 
 	public void messageToServer(String message) {
+		while (printWriter == null) {
+			if (stopRunning) {
+				return;
+			}
+			try {
+				Thread.sleep(1000);
+			} catch (Exception e) {
+				// pass
+			}
+		}
 		printWriter.println(message);
 		printWriter.flush();
 	}

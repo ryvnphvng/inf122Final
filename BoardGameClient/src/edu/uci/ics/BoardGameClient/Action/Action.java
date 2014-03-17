@@ -49,6 +49,7 @@ public class Action {
 		
 		board = createBoard(gameType, numberOfPlayers);
 		manipulator = new BoardManipulator(board, game, this);
+		reactor = setActionReactor();
 		
 		gui = new GUI(this, board, gameType);
 	}

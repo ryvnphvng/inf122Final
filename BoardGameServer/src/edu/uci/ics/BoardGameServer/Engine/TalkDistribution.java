@@ -6,13 +6,13 @@ import java.util.concurrent.ArrayBlockingQueue;
 import edu.uci.ics.BoardGameServer.Common.Message;
 
 public class TalkDistribution {
-
+	
 	private Games games;
 	private Object synchronizeInputQueue = new Object();
 	private Queue<Message> inputQueue = new ArrayBlockingQueue<Message>(32);
 	private Object synchronizeOutputQueue = new Object();
 	private Queue<Message> outputQueue = new ArrayBlockingQueue<Message>(32);
-
+	
 	public void setGames(Games games) {
 		this.games = games;
 	}
