@@ -140,10 +140,12 @@ class BoardPanel extends JPanel {
 			for(int i=0; i<tile.getGameObjects().size(); i++)
 			{
 				int objectType = tile.getGameObjects().get(i).getObjectType();
-				GameObjectDisplayer.displayGameObject(objectType);
+				this.add(GameObjectDisplayer.displayGameObject(objectType));
 			}
 			
 		}
+		
+		
 		
 		this.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -153,4 +155,6 @@ class BoardPanel extends JPanel {
 			}
 		});
 	}
+	
+	
 }

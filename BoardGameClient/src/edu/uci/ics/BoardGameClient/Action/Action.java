@@ -38,9 +38,8 @@ public class Action {
 			numberOfPlayers = 2;
 		} 
 		
-		
 		setUp(gameType, numberOfPlayers);
-		
+		createGame(gameType);
 	}
 
 	
@@ -52,6 +51,10 @@ public class Action {
 		manipulator = new BoardManipulator(board, game, this);
 		
 		gui = new GUI(this, board, gameType);
+	}
+	
+	public void createGame(int gameType) {
+		game.createGame(gameType);
 	}
 		
 	public void setGame(Game game) {
@@ -68,13 +71,6 @@ public class Action {
 
 	public void setNumberOfPlayers(int numberOfPlayers) {
 		this.numberOfPlayers = numberOfPlayers;
-	}
-
-	public void createGame(int gameType) {
-		this.gameType = gameType;
-		game.createGame(gameType);
-		board = createBoard(gameType, numberOfPlayers);
-		manipulator = new BoardManipulator(board, game, this);
 	}
 
 	public void shutdown() {

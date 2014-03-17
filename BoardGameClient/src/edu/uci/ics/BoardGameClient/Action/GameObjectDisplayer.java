@@ -4,7 +4,7 @@ import java.awt.Component;
 
 import javax.swing.JLabel;
 
-import edu.uci.ics.BoardGameServer.Board.GameObjectDefinitions;
+import edu.uci.ics.BoardGameClient.Board.GameObjectDefinitions;
 
 public class GameObjectDisplayer {
 	
