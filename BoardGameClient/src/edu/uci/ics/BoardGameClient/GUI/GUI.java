@@ -59,6 +59,7 @@ public class GUI {
 		for (int i = 0; i < height; i++) {
 			for(int j=0; j<width; j++)
 			{
+				//System.out.println(i + " " + j + " GameType: " + gameType);
 				frame.add(new BoardPanel(action, board.getTile(i,j), i, j, gameType));
 			}
 		}
@@ -86,6 +87,12 @@ public class GUI {
 			return 3;
 		}
 
+		else if(action.getGameType() == Definitions.GAMETYPECONNECTFOUR){
+			return 7;
+		}
+		else if(action.getGameType() == Definitions.GAMETYPEMATCHING){
+			return 6;
+		}
 		return -1;
 	}
 
@@ -94,10 +101,16 @@ public class GUI {
 		if (action.getGameType() == Definitions.GAMETYPETICTACTOE) {
 			return 3;
 		}
-
+		else if(action.getGameType() == Definitions.GAMETYPECONNECTFOUR){
+			return 6;
+		}
+		else if(action.getGameType() == Definitions.GAMETYPEMATCHING){
+			return 6;
+		}
 		return -1;
 	}
 
+	
 	// Not sure if this will repaint the new game board correctly. Will need to test.
 	public void update()
 	{

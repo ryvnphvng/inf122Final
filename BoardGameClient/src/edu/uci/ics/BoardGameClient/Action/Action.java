@@ -1,5 +1,7 @@
 package edu.uci.ics.BoardGameClient.Action;
 
+import java.awt.Component;
+
 import javax.swing.JOptionPane;
 
 import org.json.simple.JSONObject;
@@ -26,15 +28,44 @@ public class Action {
 
 	public Action(Game game) {
 		this.game = game;
-		int gameType = -1; 
+		gameType = -1; 
 		int numberOfPlayers = -1;
+		boolean validUser = false;
 		
-		Object[] options = { "TicTacToe" };
+		while(!validUser)
+		{
+			String username = JOptionPane.showInputDialog("Username");
+			//if user cancels, it will quit the program for the client
+			if(username == null){
+				System.exit(1);
+			}
+			
+			String password = JOptionPane.showInputDialog("Password");
+			if(password == null){
+				System.exit(1);
+			}
+			
+			//validate user from file
+			if(true){//username.equals("a")){
+				validUser = true;
+			}
+			else{
+				JOptionPane.showMessageDialog(null, "incorrect info");
+			}
+		}
+		
+		//validate username and password
+		
+		Object[] options = { "TicTacToe", "Connect Four" };
 		int n = JOptionPane.showOptionDialog(null, "Please select a game",
 				"Status", JOptionPane.YES_NO_OPTION,
 				JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 		if (n == 0) {  //TicTacToe was selected
 			gameType = Definitions.GAMETYPETICTACTOE;
+			numberOfPlayers = 2;
+		} 
+		else if (n == 1) {  //ConnectFour was selected
+			gameType = Definitions.GAMETYPECONNECTFOUR;
 			numberOfPlayers = 2;
 		} 
 		
@@ -49,7 +80,7 @@ public class Action {
 		board = createBoard(gameType, numberOfPlayers);
 		manipulator = new BoardManipulator(board, game, this);
 		reactor = setActionReactor();
-		
+		System.out.println("Game Type: " + gameType);
 		gui = new GUI(this, board, gameType);
 	}
 	
@@ -82,6 +113,11 @@ public class Action {
 		// The client receives messages from the server and implements them
 		try {
 			gameMessage = (JSONObject) new JSONParser().parse(message.message);
+			
+			// Remove
+			System.out.println("&*&*&*&*&*&*&*&*&*&*&*&*");
+			System.out.println(gameMessage.toJSONString());
+			System.out.println("&*&*&*&*&*&*&*&*&*&*&*&*");
 			
 			if (gameMessage.get("MessageType").equals("BoardCreated")) { // Game has been created
 				setUp(gameType, numberOfPlayers);
@@ -140,11 +176,12 @@ public class Action {
 				gui.update();
 				
 			} else if (gameMessage.get("MessageType").equals("Win")) { // Client Side recognize winners
-				gui.winMessage();
+				// GUI should display game won message to each player that won
+
 			} else if (gameMessage.get("MessageType").equals("Lose")) { // Client Side recognize losers
-				gui.loseMessage();
+				// GUI should display game lost message to each player that lost
 			} else if (gameMessage.get("MessageType").equals("Tie")) { // Client Side recognizes a tie
-				gui.tieMessage();
+				// GUI should display game tie message to each player that tie
 			} else if (gameMessage.get("MessageType").equals("InvalidMove")) { // Client Side invalid move handling
 				// GUI should display that chosen move is invalid
 			}
@@ -173,7 +210,12 @@ public class Action {
 
 			return new Board(TicTacToe_BoardHeight, TicTacToe_BoardWidth, Definitions.GAMETYPETICTACTOE);
 		}
+		else if (gameType == Definitions.GAMETYPECONNECTFOUR) {
+			int ConnectFour_BoardHeight = 7;
+			int ConnectFour_BoardWidth = 6;
 
+			return new Board(ConnectFour_BoardHeight, ConnectFour_BoardWidth, Definitions.GAMETYPECONNECTFOUR);
+		}
 		return null;
 	}
 
