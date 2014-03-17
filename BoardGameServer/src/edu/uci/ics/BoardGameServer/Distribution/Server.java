@@ -110,6 +110,7 @@ public class Server implements Runnable {
 	}
 
 	private void checkConnectionsIfAlive() {
+		List<Integer> clientConnectionsToRemove = new ArrayList<Integer>();
 		List<Integer> gamesToDestroy = new ArrayList<Integer>();
 		
 		for (int key : clientConnections.keySet()) {
@@ -126,8 +127,12 @@ public class Server implements Runnable {
 					e.printStackTrace();
 				}
 				gamesToDestroy.add(clientConnections.get(key).connectionId);
-				clientConnections.remove(key);
+				clientConnectionsToRemove.add(key);
 			}
+		}
+		
+		for(int key : clientConnectionsToRemove ) {
+			clientConnections.remove(key);
 		}
 		
 		for(int connectionId : gamesToDestroy ) {
