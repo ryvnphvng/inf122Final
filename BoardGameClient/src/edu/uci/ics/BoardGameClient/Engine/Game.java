@@ -10,10 +10,6 @@ public class Game implements Runnable {
 	private TalkDistribution talkDistribution;
 	private volatile boolean stopRunning = false;
 	
-	public Game () {
-		action = new Action(this);
-	}
-	
 	public void setEngine(Engine engine) {
 		this.engine = engine;
 	}
@@ -28,6 +24,8 @@ public class Game implements Runnable {
 
 	@Override
 	public void run() {
+		action = new Action(this);
+		
 		while (!stopRunning) {
 			talkDistribution.waitForInputQueue();
 			messageFromServer(talkDistribution.getInputQueue());

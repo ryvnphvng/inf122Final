@@ -17,15 +17,16 @@ public class Engine {
 	private void startup() {
 		distribution = new Distribution();
 		talkDistribution = new TalkDistribution();
-		game = new Game();
 
 		distribution.setTalkDistribution(talkDistribution);
 		talkDistribution.setDistribution(distribution);
-		game.setEngine(this);
-		game.setTalkDistribution(talkDistribution);
 
 		threadDistribution = new Thread(distribution);
 		threadDistribution.start();
+		
+		game = new Game();
+		game.setEngine(this);
+		game.setTalkDistribution(talkDistribution);
 		
 		threadGame = new Thread(game);
 		threadGame.start();
