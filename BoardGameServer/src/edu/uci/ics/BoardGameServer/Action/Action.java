@@ -84,7 +84,7 @@ public class Action {
 							winMessage.put("MessageType", "Win");
 							winMessage.put("GameID", message.gameId);
 							winMessage.put("PlayerID", winners.get(i));
-							game.messageToClient(decodeMessage(winMessage));
+							game.messageToClient(encodeMessage(winMessage));
 						}
 					}
 					
@@ -96,7 +96,7 @@ public class Action {
 							loseMessage.put("MessageType", "Lose");
 							loseMessage.put("GameID", message.gameId);
 							loseMessage.put("PlayerID", losers.get(i));
-							game.messageToClient(decodeMessage(loseMessage));
+							game.messageToClient(encodeMessage(loseMessage));
 						}
 					}
 					
@@ -108,7 +108,7 @@ public class Action {
 							tieMessage.put("MessageType", "Tie");
 							tieMessage.put("GameID", message.gameId);
 							tieMessage.put("PlayerID", ties.get(i));
-							game.messageToClient(decodeMessage(tieMessage));
+							game.messageToClient(encodeMessage(tieMessage));
 						}
 					}
 					
@@ -136,7 +136,7 @@ public class Action {
 							winMessage.put("MessageType", "Win");
 							winMessage.put("GameID", message.gameId);
 							winMessage.put("PlayerID", winners.get(i));
-							game.messageToClient(decodeMessage(winMessage));
+							game.messageToClient(encodeMessage(winMessage));
 						}
 					}
 					
@@ -148,7 +148,7 @@ public class Action {
 							loseMessage.put("MessageType", "Lose");
 							loseMessage.put("GameID", message.gameId);
 							loseMessage.put("PlayerID", losers.get(i));
-							game.messageToClient(decodeMessage(loseMessage));
+							game.messageToClient(encodeMessage(loseMessage));
 						}
 					}
 					
@@ -160,7 +160,7 @@ public class Action {
 							tieMessage.put("MessageType", "Tie");
 							tieMessage.put("GameID", message.gameId);
 							tieMessage.put("PlayerID", ties.get(i));
-							game.messageToClient(decodeMessage(tieMessage));
+							game.messageToClient(encodeMessage(tieMessage));
 						}
 					}
 				}
@@ -188,7 +188,7 @@ public class Action {
 							winMessage.put("MessageType", "Win");
 							winMessage.put("GameID", message.gameId);
 							winMessage.put("PlayerID", winners.get(i));
-							game.messageToClient(decodeMessage(winMessage));
+							game.messageToClient(encodeMessage(winMessage));
 						}
 					}
 					
@@ -200,7 +200,7 @@ public class Action {
 							loseMessage.put("MessageType", "Lose");
 							loseMessage.put("GameID", message.gameId);
 							loseMessage.put("PlayerID", losers.get(i));
-							game.messageToClient(decodeMessage(loseMessage));
+							game.messageToClient(encodeMessage(loseMessage));
 						}
 					}
 					
@@ -212,7 +212,7 @@ public class Action {
 							tieMessage.put("MessageType", "Tie");
 							tieMessage.put("GameID", message.gameId);
 							tieMessage.put("PlayerID", ties.get(i));
-							game.messageToClient(decodeMessage(tieMessage));
+							game.messageToClient(encodeMessage(tieMessage));
 						}
 					}
 				}
@@ -239,7 +239,7 @@ public class Action {
 							winMessage.put("MessageType", "Win");
 							winMessage.put("GameID", message.gameId);
 							winMessage.put("PlayerID", winners.get(i));
-							game.messageToClient(decodeMessage(winMessage));
+							game.messageToClient(encodeMessage(winMessage));
 						}
 					}
 					
@@ -251,7 +251,7 @@ public class Action {
 							loseMessage.put("MessageType", "Lose");
 							loseMessage.put("GameID", message.gameId);
 							loseMessage.put("PlayerID", losers.get(i));
-							game.messageToClient(decodeMessage(loseMessage));
+							game.messageToClient(encodeMessage(loseMessage));
 						}
 					}
 					
@@ -263,7 +263,7 @@ public class Action {
 							tieMessage.put("MessageType", "Tie");
 							tieMessage.put("GameID", message.gameId);
 							tieMessage.put("PlayerID", ties.get(i));
-							game.messageToClient(decodeMessage(tieMessage));
+							game.messageToClient(encodeMessage(tieMessage));
 						}
 					}
 				}
@@ -275,7 +275,7 @@ public class Action {
 				notValidMove.put("MessageType", "InvalidMove");
 				notValidMove.put("GameID", message.gameId);
 				notValidMove.put("PlayerID", message.playerNumber);
-				game.messageToClient(decodeMessage(notValidMove));
+				game.messageToClient(encodeMessage(notValidMove));
 				
 			}	
 			
@@ -287,7 +287,7 @@ public class Action {
 		
 	}
 	
-	public Message decodeMessage(JSONObject gameMessage) {
+	public Message encodeMessage(JSONObject gameMessage) {
 
 		
 		int playerID = Integer.parseInt(gameMessage.get("PlayerID").toString());

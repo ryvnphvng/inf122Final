@@ -35,14 +35,8 @@ public class BoardManipulator {
 		  gameMessage.put("Row", row);
 		  gameMessage.put("Col", col);
 		  gameMessage.put("ObjectType", objectType);
-
-		  System.out.println("==============================");
-		  System.out.println(gameMessage.toJSONString());
-		  System.out.println("******************************");
-		  System.out.println(action.decodeMessage(gameMessage).toString());
-		  System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
 		  
-		  game.messageToClient(action.decodeMessage(gameMessage)); // Send creation message to client
+		  game.messageToClient(action.encodeMessage(gameMessage)); // Send creation message to client
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -56,7 +50,7 @@ public class BoardManipulator {
 		  gameMessage.put("PlayerID", playerNum);
 		  gameMessage.put("ObjectID", objectID);
 
-		  game.messageToClient(action.decodeMessage(gameMessage)); // Send removal message to client
+		  game.messageToClient(action.encodeMessage(gameMessage)); // Send removal message to client
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -72,7 +66,7 @@ public class BoardManipulator {
 		  gameMessage.put("Row", row);
 		  gameMessage.put("Col", col);
 	
-		  game.messageToClient(action.decodeMessage(gameMessage)); // Send move message to client
+		  game.messageToClient(action.encodeMessage(gameMessage)); // Send move message to client
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -87,7 +81,7 @@ public class BoardManipulator {
 		  gameMessage.put("ObjectID1", objectID1);
 		  gameMessage.put("ObjectID2", objectID2);
 		
-		  game.messageToClient(action.decodeMessage(gameMessage)); // Send swap message to client
+		  game.messageToClient(action.encodeMessage(gameMessage)); // Send swap message to client
 	}
 	
 	
