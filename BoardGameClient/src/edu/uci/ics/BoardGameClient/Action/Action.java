@@ -85,13 +85,13 @@ public class Action {
 
 			if (gameMessage.get("MessageType").equals("Create")) { // Client Side create game object
 
-				Integer gameType = (Integer) gameMessage.get("GameType");
-				Integer playerID = (Integer) gameMessage.get("PlayerID");
-				Integer row = (Integer) gameMessage.get("Row");
-				Integer col = (Integer) gameMessage.get("Col");
-				Integer gameID = (Integer) gameMessage.get("GameID");
-				Integer objectID = (Integer) gameMessage.get("ObjectID");
-				Integer objectType = (Integer) gameMessage.get("ObjectType");
+				Integer gameType = new Integer(((Long) gameMessage.get("GameType")).intValue());
+				Integer playerID = new Integer(((Long) gameMessage.get("PlayerID")).intValue());
+				Integer row = new Integer(((Long) gameMessage.get("Row")).intValue());
+				Integer col = new Integer(((Long) gameMessage.get("Col")).intValue());
+				Integer gameID = new Integer(((Long) gameMessage.get("GameID")).intValue());
+				Integer objectID = new Integer(((Long) gameMessage.get("ObjectID")).intValue());
+				Integer objectType = new Integer(((Long) gameMessage.get("ObjectType")).intValue());
 
 				manipulator.createGameObject(gof.createGameObject(playerID, objectType, objectID, row, col), gameID,
 						gameType, objectID, objectType, playerID, row, col);
@@ -99,30 +99,30 @@ public class Action {
 				reactor.updateBoard();
 
 			} else if (gameMessage.get("MessageType").equals("Delete")) { // Client Side delete game object
-				Integer playerID = (Integer) gameMessage.get("PlayerID");
-				Integer gameID = (Integer) gameMessage.get("GameID");
-				Integer objectID = (Integer) gameMessage.get("ObjectID");
+				Integer playerID = new Integer(((Long) gameMessage.get("PlayerID")).intValue());
+				Integer gameID = new Integer(((Long) gameMessage.get("GameID")).intValue());
+				Integer objectID = new Integer(((Long) gameMessage.get("ObjectID")).intValue());
 
 				manipulator.deleteGameObject(objectID, gameID, playerID);
 
 				reactor.updateBoard();
 
 			} else if (gameMessage.get("MessageType").equals("Move")) { // Client Side move game object
-				Integer playerID = (Integer) gameMessage.get("PlayerID");
-				Integer objectID = (Integer) gameMessage.get("ObjectID");
-				Integer gameID = (Integer) gameMessage.get("GameID");
-				Integer row = (Integer) gameMessage.get("Row");
-				Integer col = (Integer) gameMessage.get("Col");
+				Integer playerID = new Integer(((Long) gameMessage.get("PlayerID")).intValue());
+				Integer objectID = new Integer(((Long) gameMessage.get("ObjectID")).intValue());
+				Integer gameID = new Integer(((Long) gameMessage.get("GameID")).intValue());
+				Integer row = new Integer(((Long) gameMessage.get("Row")).intValue());
+				Integer col = new Integer(((Long) gameMessage.get("Col")).intValue());
 
 				manipulator.moveGameObject(objectID, playerID, row, col, gameID);
 
 				reactor.updateBoard();
 
 			} else if (gameMessage.get("MessageType").equals("Swap")) { // Client Side swap game object
-				Integer objectID1 = (Integer) gameMessage.get("ObjectID1");
-				Integer objectID2 = (Integer) gameMessage.get("ObjectID2");
-				Integer gameID = (Integer) gameMessage.get("GameID");
-				Integer playerID = (Integer) gameMessage.get("PlayerID");
+				Integer objectID1 = new Integer(((Long) gameMessage.get("ObjectID1")).intValue());
+				Integer objectID2 = new Integer(((Long) gameMessage.get("ObjectID2")).intValue());
+				Integer gameID = new Integer(((Long) gameMessage.get("GameID")).intValue());
+				Integer playerID = new Integer(((Long) gameMessage.get("PlayerID")).intValue());
 
 				manipulator.swapGameObjects(objectID1, objectID2, playerID, gameID);
 

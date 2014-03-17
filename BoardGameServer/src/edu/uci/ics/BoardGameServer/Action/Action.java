@@ -60,11 +60,11 @@ public class Action {
 				
 				if(gameMessage.get("MessageType").equals("Create")){ // Client wants to create a Game Object
 					
-					Integer gameType = (Integer) gameMessage.get("GameType");
-					Integer playerID = message.playerNumber;
-					Integer row = (Integer) gameMessage.get("Row");
-					Integer col = (Integer) gameMessage.get("Col");
-					Integer gameID = message.gameId;
+					Integer gameType = new Integer(((Long) gameMessage.get("GameType")).intValue());
+					Integer playerID = new Integer(message.playerNumber);
+					Integer row = new Integer(((Long) gameMessage.get("Row")).intValue());
+					Integer col = new Integer (((Long) gameMessage.get("Col")).intValue());
+					Integer gameID = new Integer(message.gameId);
 					
 					GameObject g = gof.createGameObject(gameType, playerID, row, col);
 					
@@ -116,9 +116,9 @@ public class Action {
 				
 				else if(gameMessage.get("MessageType").equals("Delete")){ // Client wants to delete a Game Object
 					
-					Integer playerID = (Integer) gameMessage.get("PlayerID");
-					Integer gameID = (Integer) gameMessage.get("GameID");
-					Integer objectID = (Integer) gameMessage.get("ObjectID");
+					Integer playerID = new Integer(((Long) gameMessage.get("PlayerID")).intValue());
+					Integer gameID = new Integer(((Long) gameMessage.get("GameID")).intValue());
+					Integer objectID = new Integer(((Long) gameMessage.get("ObjectID")).intValue());
 					
 					manipulator.deleteGameObject(objectID, gameID, playerID);
 					
@@ -166,11 +166,11 @@ public class Action {
 				}
 				else if(gameMessage.get("MessageType").equals("Move")){ // Client wants to move a Game Object
 					
-					Integer playerID = (Integer) gameMessage.get("PlayerID");
-					Integer objectID = (Integer) gameMessage.get("ObjectID");
-					Integer gameID = (Integer) gameMessage.get("GameID");
-					Integer row = (Integer) gameMessage.get("Row");
-					Integer col = (Integer) gameMessage.get("Col");
+					Integer playerID = new Integer(((Long) gameMessage.get("PlayerID")).intValue());
+					Integer objectID = new Integer(((Long) gameMessage.get("ObjectID")).intValue());
+					Integer gameID = new Integer(((Long) gameMessage.get("GameID")).intValue());
+					Integer row = new Integer(((Long) gameMessage.get("Row")).intValue());
+					Integer col = new Integer(((Long) gameMessage.get("Col")).intValue());
 					
 					manipulator.moveGameObject(objectID, playerID, row, col, gameID);
 					
@@ -218,10 +218,10 @@ public class Action {
 				}
 				else if(gameMessage.get("MessageType").equals("Swap")){ // Client wants to swap two Game Objects
 					
-					Integer objectID1 = (Integer) gameMessage.get("ObjectID1");
-					Integer objectID2 = (Integer) gameMessage.get("ObjectID2");
-					Integer gameID = (Integer) gameMessage.get("GameID");
-					Integer playerID = (Integer) gameMessage.get("PlayerID");
+					Integer objectID1 = new Integer(((Long) gameMessage.get("ObjectID1")).intValue());
+					Integer objectID2 = new Integer(((Long) gameMessage.get("ObjectID2")).intValue());
+					Integer gameID = new Integer(((Long) gameMessage.get("GameID")).intValue());
+					Integer playerID = new Integer(((Long) gameMessage.get("PlayerID")).intValue());
 					
 					manipulator.swapGameObjects(objectID1, objectID2, playerID, gameID);
 					

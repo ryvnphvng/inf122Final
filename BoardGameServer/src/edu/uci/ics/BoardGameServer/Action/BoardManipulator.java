@@ -22,7 +22,7 @@ public class BoardManipulator {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void createGameObject(GameObject g,int gameID, int gameType, int objectID, int objectType, int playerNum, int row, int col)
+	public void createGameObject(GameObject g, Integer gameID, Integer gameType, Integer objectID, Integer objectType, Integer playerNum, Integer row, Integer col)
 	{	
 		board.addToBoard(g, row, col);
 		
@@ -36,11 +36,17 @@ public class BoardManipulator {
 		  gameMessage.put("Col", col);
 		  gameMessage.put("ObjectType", objectType);
 
+		  System.out.println("==============================");
+		  System.out.println(gameMessage.toJSONString());
+		  System.out.println("******************************");
+		  System.out.println(action.decodeMessage(gameMessage).toString());
+		  System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+		  
 		  game.messageToClient(action.decodeMessage(gameMessage)); // Send creation message to client
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void deleteGameObject(int objectID, int gameID, int playerNum)
+	public void deleteGameObject(Integer objectID, Integer gameID, Integer playerNum)
 	{
 		board.removeFromBoard(objectID);
 		
@@ -54,7 +60,7 @@ public class BoardManipulator {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void moveGameObject(int objectID, int playerNum, int row, int col, int gameID)
+	public void moveGameObject(Integer objectID, Integer playerNum, Integer row, Integer col, Integer gameID)
 	{
 		board.move(objectID, row, col);
 		
@@ -70,7 +76,7 @@ public class BoardManipulator {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void swapGameObjects(int objectID1, int objectID2, int playerNum, int gameID)
+	public void swapGameObjects(Integer objectID1, Integer objectID2, Integer playerNum, Integer gameID)
 	{
 		board.swap(objectID1, objectID2);
 		

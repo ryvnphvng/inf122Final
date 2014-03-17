@@ -11,7 +11,7 @@ public class MoveSender {
 	Action action;
 	int gameType;
 	
-	public static void sendMessage(Action action, int gameType, int row, int col)
+	public static void sendMessage(Action action, Integer gameType, Integer row, Integer col)
 	{
 		if(gameType == Definitions.GAMETYPETICTACTOE)
 		{
