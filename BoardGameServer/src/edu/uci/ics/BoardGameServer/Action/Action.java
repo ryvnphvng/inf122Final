@@ -48,6 +48,11 @@ public class Action {
 	public void setGameType(int gameType) {
 		this.gameType = gameType;
 	}
+	
+	public void gameCreated() {
+		// TODO: do stuff with this
+		System.out.println("gameCreated");
+	}
 
 	@SuppressWarnings("unchecked")
 	public void messageFromClient(Message message) {

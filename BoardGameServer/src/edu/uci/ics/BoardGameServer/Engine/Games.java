@@ -37,6 +37,16 @@ public class Games implements Runnable {
 		games.put(gameNumber, game);
 		return gameNumber;
 	}
+	
+	public void gameCreated(int gameNumber) {
+		Game game = games.get(gameNumber);
+		if (game == null) {
+			System.err.println("Invalid gameNumber " + gameNumber);
+			return;
+		}
+		
+		game.gameCreated();
+	}
 
 	public void destroyGame(int gameNumber) {
 		games.remove(gameNumber);

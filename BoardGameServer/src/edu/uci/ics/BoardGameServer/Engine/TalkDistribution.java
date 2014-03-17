@@ -24,6 +24,10 @@ public class TalkDistribution {
 	public int createGame(int gameType, int numberOfPlayers) {
 		return games.createGame(gameType, numberOfPlayers);
 	}
+	
+	public void gameCreated(int gameId) {
+		games.gameCreated(gameId);
+	}
 
 	public void destroyGame(int gameNumber) {
 		games.destroyGame(gameNumber);

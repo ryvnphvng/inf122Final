@@ -17,6 +17,10 @@ public class Game {
 	public void setGames(Games games) {
 		this.games = games;
 	}
+	
+	public void gameCreated() {
+		action.gameCreated();
+	}
 
 	public void messageFromClient(Message message) {
 		action.messageFromClient(message);
