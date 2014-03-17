@@ -24,11 +24,13 @@ public class Action {
 	private ActionReactor reactor; // abstract
 	private GameObjectFactory gof;
 	private MoveValidator validator; // abstract
+	private int numberOfPlayers;
 
 	public Action(Game game, int gameType, int numberOfPlayers)
 	{
 		this.game = game;
 		this.gameType = gameType;
+		this.numberOfPlayers = numberOfPlayers;
 		gof = new GameObjectFactory();
 		board = createBoard(gameType, numberOfPlayers);
 		manipulator = new BoardManipulator(board, game, this);
@@ -49,9 +51,17 @@ public class Action {
 		this.gameType = gameType;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void gameCreated() {
-		// TODO: do stuff with this
-		System.out.println("gameCreated");
+		for(int i=0; i<numberOfPlayers; i++)
+		{
+			JSONObject gameMessage=new JSONObject();
+			gameMessage.put("MessageType", "BoardCreated");
+			gameMessage.put("GameID", -1);
+			gameMessage.put("PlayerID", i);
+			
+			game.messageToClient(encodeMessage(gameMessage));
+		}
 	}
 	
 	public void destroyGame() {
