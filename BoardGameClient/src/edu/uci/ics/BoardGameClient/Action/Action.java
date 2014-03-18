@@ -30,31 +30,6 @@ public class Action {
 		this.game = game;
 		gameType = -1; 
 		int numberOfPlayers = -1;
-		boolean validUser = false;
-		
-		while(!validUser)
-		{
-			String username = JOptionPane.showInputDialog("Username");
-			//if user cancels, it will quit the program for the client
-			if(username == null){
-				System.exit(1);
-			}
-			
-			String password = JOptionPane.showInputDialog("Password");
-			if(password == null){
-				System.exit(1);
-			}
-			
-			//validate user from file
-			if(true){//username.equals("a")){
-				validUser = true;
-			}
-			else{
-				JOptionPane.showMessageDialog(null, "incorrect info");
-			}
-		}
-		
-		//validate username and password
 		
 		Object[] options = { "TicTacToe", "Connect Four" };
 		int n = JOptionPane.showOptionDialog(null, "Please select a game",

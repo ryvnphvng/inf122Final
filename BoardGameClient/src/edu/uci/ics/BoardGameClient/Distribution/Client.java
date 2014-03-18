@@ -5,6 +5,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import javax.swing.JOptionPane;
+
 public class Client implements Runnable {
 
 	private final static int PORT = 54321;
@@ -27,6 +29,8 @@ public class Client implements Runnable {
 	public void run() {
 
 		connectToServer();
+		handleLogin();
+		
 		while (socket == null && !stopRunning) {
 			try {
 				Thread.sleep(1000);
@@ -85,9 +89,35 @@ public class Client implements Runnable {
 			e.printStackTrace();
 		}
 	}
+	
+	private void handleLogin()
+	{
+		Boolean validUser = false;
+		
+		while(!validUser)
+		{
+			String username = JOptionPane.showInputDialog("Username");
+			//if user cancels, it will quit the program for the client
+			if(username == null){
+				System.exit(1);
+			}
+			
+			String password = JOptionPane.showInputDialog("Password");
+			if(password == null){
+				System.exit(1);
+			}
+			
+			//validate user from file
+			if(true){//username.equals("a")){
+				validUser = true;
+			}
+			else{
+				JOptionPane.showMessageDialog(null, "incorrect info");
+			}
+		}
+	}
 
 	private void disconnectFromServer() {
-		messageToServer("disconnect");
 		try {
 			socket.close();
 		} catch (Exception e) {
