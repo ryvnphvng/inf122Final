@@ -71,7 +71,7 @@ public class Action {
 		if (gameType == Definitions.GAMETYPETICTACTOE) {
 			return new Board(3, 3, Definitions.GAMETYPETICTACTOE);
 		} else if (gameType == Definitions.GAMETYPECONNECTFOUR) {
-			return new Board(7, 6, Definitions.GAMETYPECONNECTFOUR);
+			return new Board(6, 7, Definitions.GAMETYPECONNECTFOUR);
 		}
 		return null;
 	}
@@ -169,6 +169,9 @@ public class Action {
 		if (gameType == Definitions.GAMETYPETICTACTOE) {
 			return new TicTacToeValidator(board);
 		}
+		else if (gameType == Definitions.GAMETYPECONNECTFOUR) {
+			return new Connect4Validator(board);
+		}
 		return null;
 	}
 
@@ -176,7 +179,11 @@ public class Action {
 	{
 		if (gameType == Definitions.GAMETYPETICTACTOE) {
 			return new TicTacToeReactor(gof, manipulator);
-		} else {
+		} 
+		else if (gameType == Definitions.GAMETYPECONNECTFOUR) {
+			return new Connect4Reactor(gof, manipulator);
+		} 
+		else {
 			return null;
 		}
 	}

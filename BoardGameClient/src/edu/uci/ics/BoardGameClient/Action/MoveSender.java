@@ -23,5 +23,15 @@ public class MoveSender {
 			  
 			action.getGame().messageToServer(action.encodeMessage(gameMessage));
 		}
+		if(gameType == Definitions.GAMETYPECONNECTFOUR)
+		{
+			JSONObject gameMessage=new JSONObject();
+			  gameMessage.put("MessageType", "Create");
+			  gameMessage.put("GameType", gameType);
+			  gameMessage.put("Row", row); //is this needed?
+			  gameMessage.put("Col", col);
+			  
+			action.getGame().messageToServer(action.encodeMessage(gameMessage));
+		}
 	}
 }
