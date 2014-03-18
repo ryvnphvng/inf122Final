@@ -4,6 +4,7 @@ import edu.uci.ics.BoardGameServer.Common.Message;
 import edu.uci.ics.BoardGameServer.Engine.TalkDistribution;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -51,11 +52,19 @@ public class Distribution implements Runnable {
 
 		// TODO: fix number of player depending on game type and etc
 		ClientWait clientFound = null;
-		for (ClientWait clientWaiting : clientWaits) {
-			if (clientWaiting.gameType == gameType) {
-				clientFound = clientWaiting;
+		Iterator<ClientWait> iteratorClientWaits = clientWaits.iterator();
+		while (iteratorClientWaits.hasNext()) {
+			ClientWait clientWaiting = iteratorClientWaits.next();
+			if (clientWaiting.gameType != gameType) {
+				continue;
 			}
+			if (!server.isConnectionAlive(clientWaiting.connectionId)) {
+				iteratorClientWaits.remove();
+				continue;
+			}
+			clientFound = clientWaiting;
 		}
+		
 		if (clientFound == null) {
 			clientFound = new ClientWait();
 			clientFound.connectionId = connectionId;
@@ -63,7 +72,7 @@ public class Distribution implements Runnable {
 			clientWaits.add(clientFound);
 			return;
 		}
-		
+
 		clientWaits.remove(clientFound);
 
 		ClientGame clientGame = new ClientGame();
@@ -87,10 +96,10 @@ public class Distribution implements Runnable {
 		}
 
 		talkDistribution.destroyGame(clientGame.gameId);
-		
+
 		// TODO: delay remove from clientGames and gameIdToClientGame
 	}
-	
+
 	public void removeConnectionId(int connectionId) {
 		connectionIdToClientGame.remove(connectionId);
 	}
@@ -124,7 +133,7 @@ public class Distribution implements Runnable {
 		if (clientGame == null) {
 			return;
 		}
-		
+
 		int connectionId = clientGame.connectionIds.get(message.playerNumber);
 		server.messageToClient(connectionId, message.message);
 	}

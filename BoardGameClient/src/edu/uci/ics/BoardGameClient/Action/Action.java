@@ -1,9 +1,5 @@
 package edu.uci.ics.BoardGameClient.Action;
 
-import java.awt.Component;
-
-import javax.swing.JOptionPane;
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -28,59 +24,56 @@ public class Action {
 
 	public Action(Game game) {
 		this.game = game;
-		gameType = -1; 
-		int numberOfPlayers = -1;
-		
-		Object[] options = { "TicTacToe", "Connect Four" };
-		int n = JOptionPane.showOptionDialog(null, "Please select a game",
-				"Status", JOptionPane.YES_NO_OPTION,
-				JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-		if (n == 0) {  //TicTacToe was selected
-			gameType = Definitions.GAMETYPETICTACTOE;
-			numberOfPlayers = 2;
-		} 
-		else if (n == 1) {  //ConnectFour was selected
-			gameType = Definitions.GAMETYPECONNECTFOUR;
-			numberOfPlayers = 2;
-		} 
-		
-		createGame(gameType);
+
+		gui = new GUI(this);
+
+		// TODO; comment out the below line when testing login
+		gui.setToPickGame();
 	}
 
-	
-	private void setUp(int gameType, int numberOfPlayers){
-		this.gameType = gameType;
-		gof = new GameObjectFactory();
-		
-		board = createBoard(gameType, numberOfPlayers);
-		manipulator = new BoardManipulator(board, game, this);
-		reactor = setActionReactor();
-		System.out.println("Game Type: " + gameType);
-		gui = new GUI(this, board, gameType);
-	}
-	
-	public void createGame(int gameType) {
-		game.createGame(gameType);
-	}
-		
 	public void setGame(Game game) {
 		this.game = game;
 	}
 
-	public int getGameType() {
-		return gameType;
-	}
-	
 	public Game getGame() {
 		return game;
 	}
-
+	
 	public void setNumberOfPlayers(int numberOfPlayers) {
 		this.numberOfPlayers = numberOfPlayers;
+	}
+	
+	public int getGameType() {
+		return gameType;
 	}
 
 	public void shutdown() {
 		game.shutdown();
+	}
+	
+	public void createGame(int gameType) {
+		numberOfPlayers = 2;
+
+		gof = new GameObjectFactory();
+		board = createBoard(gameType, numberOfPlayers);
+		manipulator = new BoardManipulator(board, game, this);
+		reactor = setActionReactor();
+
+		game.createGame(gameType);
+
+		gui.setBoard(board);
+		gui.setToBoard();
+		gui.printText("Looking for game");
+	}
+
+	private Board createBoard(int gameType, int playerNum) // Perhaps encapsulate this in its own object?
+	{
+		if (gameType == Definitions.GAMETYPETICTACTOE) {
+			return new Board(3, 3, Definitions.GAMETYPETICTACTOE);
+		} else if (gameType == Definitions.GAMETYPECONNECTFOUR) {
+			return new Board(7, 6, Definitions.GAMETYPECONNECTFOUR);
+		}
+		return null;
 	}
 
 	public void messageFromServer(Message message) {
@@ -88,16 +81,11 @@ public class Action {
 		// The client receives messages from the server and implements them
 		try {
 			gameMessage = (JSONObject) new JSONParser().parse(message.message);
-			
-			// Remove
-			System.out.println("&*&*&*&*&*&*&*&*&*&*&*&*");
-			System.out.println(gameMessage.toJSONString());
-			System.out.println("&*&*&*&*&*&*&*&*&*&*&*&*");
-			
+
 			if (gameMessage.get("MessageType").equals("BoardCreated")) { // Game has been created
-				setUp(gameType, numberOfPlayers);
-			}
-			else if (gameMessage.get("MessageType").equals("Create")) { // Client Side create game object
+				gui.updateBoard();
+				gui.printText("Joined game");
+			} else if (gameMessage.get("MessageType").equals("Create")) { // Client Side create game object
 
 				Integer gameType = new Integer(((Long) gameMessage.get("GameType")).intValue());
 				Integer playerID = new Integer(((Long) gameMessage.get("PlayerID")).intValue());
@@ -111,8 +99,8 @@ public class Action {
 						gameType, objectID, objectType, playerID, row, col);
 
 				reactor.updateBoard();
-				
-				gui.update();
+
+				gui.updateBoard();
 
 			} else if (gameMessage.get("MessageType").equals("Delete")) { // Client Side delete game object
 				Integer playerID = new Integer(((Long) gameMessage.get("PlayerID")).intValue());
@@ -122,8 +110,8 @@ public class Action {
 				manipulator.deleteGameObject(objectID, gameID, playerID);
 
 				reactor.updateBoard();
-				
-				gui.update();
+
+				gui.updateBoard();
 
 			} else if (gameMessage.get("MessageType").equals("Move")) { // Client Side move game object
 				Integer playerID = new Integer(((Long) gameMessage.get("PlayerID")).intValue());
@@ -135,8 +123,8 @@ public class Action {
 				manipulator.moveGameObject(objectID, playerID, row, col, gameID);
 
 				reactor.updateBoard();
-				
-				gui.update();
+
+				gui.updateBoard();
 
 			} else if (gameMessage.get("MessageType").equals("Swap")) { // Client Side swap game object
 				Integer objectID1 = new Integer(((Long) gameMessage.get("ObjectID1")).intValue());
@@ -148,17 +136,16 @@ public class Action {
 
 				reactor.updateBoard();
 
-				gui.update();
-				
-			} else if (gameMessage.get("MessageType").equals("Win")) { // Client Side recognize winners
-				// GUI should display game won message to each player that won
+				gui.updateBoard();
 
-			} else if (gameMessage.get("MessageType").equals("Lose")) { // Client Side recognize losers
-				// GUI should display game lost message to each player that lost
-			} else if (gameMessage.get("MessageType").equals("Tie")) { // Client Side recognizes a tie
-				// GUI should display game tie message to each player that tie
-			} else if (gameMessage.get("MessageType").equals("InvalidMove")) { // Client Side invalid move handling
-				// GUI should display that chosen move is invalid
+			} else if (gameMessage.get("MessageType").equals("Win")) {
+				gui.printText("You have won the game");
+			} else if (gameMessage.get("MessageType").equals("Lose")) {
+				gui.printText("You have lost the game");
+			} else if (gameMessage.get("MessageType").equals("Tie")) {
+				gui.printText("The game is a tie");
+			} else if (gameMessage.get("MessageType").equals("InvalidMove")) {
+				gui.printText("Invalid move");
 			}
 
 		} catch (ParseException e) {
@@ -177,23 +164,6 @@ public class Action {
 
 	}
 
-	private Board createBoard(int gameType, int playerNum) // Perhaps encapsulate this in its own object?
-	{
-		if (gameType == Definitions.GAMETYPETICTACTOE) {
-			int TicTacToe_BoardHeight = 3;
-			int TicTacToe_BoardWidth = 3;
-
-			return new Board(TicTacToe_BoardHeight, TicTacToe_BoardWidth, Definitions.GAMETYPETICTACTOE);
-		}
-		else if (gameType == Definitions.GAMETYPECONNECTFOUR) {
-			int ConnectFour_BoardHeight = 7;
-			int ConnectFour_BoardWidth = 6;
-
-			return new Board(ConnectFour_BoardHeight, ConnectFour_BoardWidth, Definitions.GAMETYPECONNECTFOUR);
-		}
-		return null;
-	}
-
 	private MoveValidator setMoveValidator() // Perhaps encapsulate this in its own object?
 	{
 		if (gameType == Definitions.GAMETYPETICTACTOE) {
@@ -209,5 +179,12 @@ public class Action {
 		} else {
 			return null;
 		}
+	}
+
+	public boolean loginUser(String username, String password) {
+		// TODO: Add path to Distribution to check login with Server
+
+		gui.setToPickGame();
+		return true;
 	}
 }

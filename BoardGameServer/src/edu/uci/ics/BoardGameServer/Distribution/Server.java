@@ -56,10 +56,9 @@ public class Server implements Runnable {
 				recivedMessage = true;
 				processMessage(clientConnection, message);
 			}
-
-			checkConnectionsIfAlive();
-
+			
 			if (!recivedMessage) {
+				checkConnectionsIfAlive();
 				// note: should do something better than sleep, but code is much more complicated
 				try {
 					Thread.sleep(300);
@@ -68,7 +67,7 @@ public class Server implements Runnable {
 				}
 			}
 		}
-		
+
 		serverAccept.stop();
 		threadServerAccept.interrupt();
 
@@ -111,10 +110,10 @@ public class Server implements Runnable {
 	private void checkConnectionsIfAlive() {
 		List<Integer> clientConnectionsToRemove = new ArrayList<Integer>();
 		List<Integer> gamesToDestroy = new ArrayList<Integer>();
-		
-		for (int key : clientConnections.keySet()) { 
-			if (clientConnections.get(key).lastMessagetime + 15000 < System.currentTimeMillis()){
-				clientConnections.get(key).alive = false;	
+
+		for (int key : clientConnections.keySet()) {
+			if (clientConnections.get(key).lastMessagetime + 15000 < System.currentTimeMillis()) {
+				clientConnections.get(key).alive = false;
 			}
 			if (!clientConnections.get(key).alive) {
 				try {
@@ -129,16 +128,23 @@ public class Server implements Runnable {
 				clientConnectionsToRemove.add(key);
 			}
 		}
-		
-		
-		for(int connectionId : gamesToDestroy ) {
+
+		for (int connectionId : gamesToDestroy) {
 			distribution.destroyGame(connectionId);
 		}
-		
-		for(int key : clientConnectionsToRemove ) {
+
+		for (int key : clientConnectionsToRemove) {
 			distribution.removeConnectionId(clientConnections.get(key).connectionId);
 			clientConnections.remove(key);
 		}
+	}
+
+	public boolean isConnectionAlive(int connectionId) {
+		ClientConnection clientConnection = clientConnections.get(connectionId);
+		if (clientConnection == null) {
+			return false;
+		}
+		return clientConnection.alive;
 	}
 
 	public void messageToClient(int connectionId, String message) {
