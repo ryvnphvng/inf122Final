@@ -95,7 +95,11 @@ public class GUI {
 		boardGUI.update();
 	}
 	
-	public void printText(String text) {
+	public void setText(String text) {
+		textConsole.setText(text);
+	}
+	
+	public void appendText(String text) {
 		textConsole.append(text + " \n");
 	}
 
