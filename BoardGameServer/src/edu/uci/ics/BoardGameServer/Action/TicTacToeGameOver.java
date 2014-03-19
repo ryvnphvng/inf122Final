@@ -124,104 +124,19 @@ public class TicTacToeGameOver extends GameOver {
 	}
 
 	public ArrayList<Integer> isLoseConditionMet(JSONObject o) {
+		
 		ArrayList<Integer> losers = new ArrayList<Integer>();
+		ArrayList<Integer> winners = this.isWinConditionMet(o);		
 		
-		// Check if there is a horizontal three in a row
-		for(int i=0; i<3; i++)
+		if(winners.size() > 0)
 		{
-			if(board.getTile(i, 0).getGameObjects().size() > 0 &&
-			   board.getTile(i, 1).getGameObjects().size() > 0 &&
-			   board.getTile(i, 2).getGameObjects().size() > 0)
+			if(winners.get(0) == GameObjectDefinitions.TICTACTOE_X) // Player 1 is a winner.
 			{
-				GameObject go1 = board.getTile(i, 0).getGameObjects().get(0);
-				GameObject go2 = board.getTile(i, 1).getGameObjects().get(0);
-				GameObject go3 = board.getTile(i, 2).getGameObjects().get(0);
-				
-				if(go1.getObjectType() == go2.getObjectType() &&
-				   go1.getObjectType() == go3.getObjectType())
-				{
-					if(go1.getObjectType() == GameObjectDefinitions.TICTACTOE_X)
-					{
-						losers.add(1); // Player 2 is a loser
-					}
-					else
-					{
-						losers.add(0); // Player 1 is a loser
-					}
-				}
+				losers.add(1); //Player 2 lost.
 			}
-			
-		}
-		
-		// Check if there is a vertical three in a row
-		for(int i=0; i<3; i++)
-		{
-			if(board.getTile(0, i).getGameObjects().size() > 0 &&
-			   board.getTile(1, i).getGameObjects().size() > 0 &&
-			   board.getTile(2, i).getGameObjects().size() > 0)
+			else // Player 2 is a winner.
 			{
-				GameObject go1 = board.getTile(0, i).getGameObjects().get(0);
-				GameObject go2 = board.getTile(1, i).getGameObjects().get(0);
-				GameObject go3 = board.getTile(2, i).getGameObjects().get(0);
-				
-				if(go1.getObjectType() == go2.getObjectType() &&
-				   go1.getObjectType() == go3.getObjectType())
-				{
-					if(go1.getObjectType() == GameObjectDefinitions.TICTACTOE_X)
-					{
-						losers.add(1); // Player 2 is a loser
-					}
-					else
-					{
-						losers.add(0); // Player 1 is a loser
-					}
-				}
-			}
-			
-		}
-		
-		// Check if there is a diagonal three in a row
-		if(board.getTile(0, 0).getGameObjects().size() > 0 &&
-		   board.getTile(1, 1).getGameObjects().size() > 0 &&
-		   board.getTile(2, 2).getGameObjects().size() > 0)
-		{
-			GameObject go1 = board.getTile(0, 0).getGameObjects().get(0);
-			GameObject go2 = board.getTile(1, 1).getGameObjects().get(0);
-			GameObject go3 = board.getTile(2, 2).getGameObjects().get(0);
-			
-			if(go1.getObjectType() == go2.getObjectType() &&
-			   go1.getObjectType() == go3.getObjectType())
-			{
-				if(go1.getObjectType() == GameObjectDefinitions.TICTACTOE_X)
-				{
-					losers.add(1); // Player 2 is a loser
-				}
-				else
-				{
-					losers.add(0); // Player 1 is a loser
-				}
-			}
-		}
-		
-		if(board.getTile(0, 2).getGameObjects().size() > 0 &&
-		   board.getTile(1, 1).getGameObjects().size() > 0 &&
-		   board.getTile(2, 0).getGameObjects().size() > 0)
-		{
-			GameObject go1 = board.getTile(0, 2).getGameObjects().get(0);
-			GameObject go2 = board.getTile(1, 1).getGameObjects().get(0);
-			GameObject go3 = board.getTile(2, 0).getGameObjects().get(0);
-			
-			if(go1.getObjectType() == go2.getObjectType() &&
-			   go1.getObjectType() == go3.getObjectType())
-			{
-				if(go1.getObjectType() == GameObjectDefinitions.TICTACTOE_X)
-				{
-					losers.add(1); // Player 2 is a loser
-				}
-				else
-				{
-					losers.add(0); // Player 1 is a loser
-				}
+				losers.add(0); // Player 1 lost.
 			}
 		}
 		
