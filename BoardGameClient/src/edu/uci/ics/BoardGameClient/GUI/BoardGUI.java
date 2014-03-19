@@ -61,7 +61,6 @@ public class BoardGUI {
 	class BoardPanel extends JPanel {
 		private static final long serialVersionUID = 0001;
 
-		// Not sure if setting to final will break things.
 		public BoardPanel(final Action action, Tile tile, final int row, final int col, final int gameType) {
 
 			Color bgColor = new Color(255, 255, 255);

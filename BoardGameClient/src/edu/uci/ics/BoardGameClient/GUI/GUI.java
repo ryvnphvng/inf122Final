@@ -32,6 +32,7 @@ public class GUI {
 
 	private void setupWindow() {
 		
+		textConsole.setEditable(false);
 		textConsole.setRows(4);
 		textConsole.append("Welcome to the Board Game Client! \n");
 		
