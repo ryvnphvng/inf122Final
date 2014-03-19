@@ -7,10 +7,9 @@ import edu.uci.ics.BoardGameClient.Engine.Game;
 
 public class MoveSender {
 
-	Game game;
-	Action action;
-	int gameType;
+	private MoveSender() {}
 	
+	@SuppressWarnings("unchecked")
 	public static void sendMessage(Action action, Integer gameType, Integer row, Integer col)
 	{
 		if(gameType == Definitions.GAMETYPETICTACTOE)

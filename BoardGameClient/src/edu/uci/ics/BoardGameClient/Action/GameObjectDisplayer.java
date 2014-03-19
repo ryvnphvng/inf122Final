@@ -14,14 +14,14 @@ public class GameObjectDisplayer {
 	{
 		if(objectType == GameObjectDefinitions.TICTACTOE_X)
 		{
-			return new JLabel("<html><font color='red'>X</font></html>");
+			return new JLabel("<html><font color='red' size='20'>X</font></html>");
 			//JLabel j = new JLabel();
 			//j.setBackground(Color.RED);
 			//return j;
 		}
 		else if(objectType == GameObjectDefinitions.TICTACTOE_O)
 		{
-			return new JLabel("O");
+			return new JLabel("<html><font color='black' size='20'>O</font></html>");
 			//JLabel j = new JLabel();
 			//j.setBackground(Color.BLUE);
 			//return j;

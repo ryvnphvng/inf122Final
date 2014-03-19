@@ -1,21 +1,22 @@
 package edu.uci.ics.BoardGameClient.GUI;
 
-import edu.uci.ics.BoardGameClient.Board.Board;
-
-import edu.uci.ics.BoardGameClient.Action.Action;
-import edu.uci.ics.BoardGameClient.Action.GameObjectDisplayer;
-import edu.uci.ics.BoardGameClient.Action.MoveSender;
-import edu.uci.ics.BoardGameClient.Board.Tile;
-
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+
+import edu.uci.ics.BoardGameClient.Action.Action;
+import edu.uci.ics.BoardGameClient.Action.GameObjectDisplayer;
+import edu.uci.ics.BoardGameClient.Action.MoveSender;
+import edu.uci.ics.BoardGameClient.Board.Board;
+import edu.uci.ics.BoardGameClient.Board.Tile;
 
 public class BoardGUI {
 
@@ -50,7 +51,9 @@ public class BoardGUI {
 
 		for (int i = 0; i < board.getHeight(); i++) {
 			for (int j = 0; j < board.getWidth(); j++) {
-				paneBoard.add(new BoardPanel(action, board.getTile(i, j), i, j, board.getGameType()));
+				BoardPanel p = new BoardPanel(action, board.getTile(i, j), i, j, board.getGameType());
+				p.setLayout(new GridBagLayout());
+				paneBoard.add(p);
 			}
 		}
 
