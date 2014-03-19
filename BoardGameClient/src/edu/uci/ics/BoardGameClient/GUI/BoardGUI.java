@@ -67,9 +67,10 @@ public class BoardGUI {
 		public BoardPanel(final Action action, Tile tile, final int row, final int col, final int gameType) {
 
 			Color bgColor = new Color(255, 255, 255);
+			int textAreaSize = 100;
 
 			int panelWidth = frame.getWidth()/board.getWidth();
-			int panelHeight = frame.getHeight()/board.getHeight();
+			int panelHeight = (frame.getHeight()-textAreaSize)/board.getHeight();
 			
 			setPreferredSize(new Dimension(panelWidth, panelHeight));
 

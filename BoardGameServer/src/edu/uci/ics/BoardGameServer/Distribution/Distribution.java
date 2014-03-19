@@ -9,9 +9,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 public class Distribution implements Runnable {
 
 	private TalkDistribution talkDistribution;
+	private Login login = new Login();
 	private volatile boolean stopRunning = false;
 	private Server server;
 	private Thread threadServer;
@@ -106,10 +111,33 @@ public class Distribution implements Runnable {
 
 	public void messageFromClient(int connectionId, String data) {
 		ClientGame clientGame = connectionIdToClientGame.get(connectionId);
-
+		
 		if (clientGame == null) {
-			System.err.println("Message sent without matching game " + data);
-			return;
+			try {
+				JSONObject loginMessage = (JSONObject) new JSONParser().parse(data);
+				if(loginMessage.get("MessageType").equals("Login"))
+				{
+					if(login.validate(loginMessage))
+					{
+						Message messageToClient = new Message();
+						messageToClient.message = loginMessage.toJSONString();
+						server.messageToClient(connectionId, messageToClient.message);
+						return;
+					}
+					else //not a valid login
+					{
+						return;
+					}
+				}
+				else
+				{
+					System.err.println("Message sent without matching game " + data);
+					return;
+				}
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		Message message = new Message();

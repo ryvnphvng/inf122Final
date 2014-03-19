@@ -88,7 +88,13 @@ public class Action {
 			e.printStackTrace();
 			return;
 		}
-
+		if (gameMessage.get("MessageType").equals("Login"))
+		{
+			String username = new String ((String) gameMessage.get("Username"));
+			String password = new String ((String) gameMessage.get("Password"));
+			gui.appendText("Hello " + username);
+		}
+		
 		if (gameMessage.get("MessageType").equals("BoardCreated")) {
 			// Game has been created
 			gui.updateBoard();
@@ -221,9 +227,17 @@ public class Action {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public boolean loginUser(String username, String password) {
-		// TODO: Add path to Distribution to check login with Server
+		
+		JSONObject loginMessage = new JSONObject();
+		loginMessage.put("MessageType", "Login");
+		loginMessage.put("Username", username);
+		loginMessage.put("Password", password);
 
+		Message message = encodeMessage(loginMessage);
+		game.messageToServer(message);
+		
 		gui.setToPickGame();
 		return true;
 	}
