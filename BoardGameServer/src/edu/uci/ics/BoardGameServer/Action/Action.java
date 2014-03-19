@@ -238,7 +238,13 @@ public class Action {
 			
 			return new Board(TicTacToe_BoardHeight, TicTacToe_BoardWidth, Definitions.GAMETYPETICTACTOE);
 		}
-		
+		else if(gameType == Definitions.GAMETYPECONNECTFOUR)
+		{
+			int Connect4_BoardHeight = 6;
+			int Connect4_BoardWidth = 7;
+			
+			return new Board(Connect4_BoardHeight, Connect4_BoardWidth, Definitions.GAMETYPECONNECTFOUR);
+		}
 		return null;
 	}
 
@@ -248,6 +254,10 @@ public class Action {
 		{
 			return new TicTacToeValidator(board, numberOfPlayers);
 		}
+		else if(gameType == Definitions.GAMETYPECONNECTFOUR)
+		{
+			return new Connect4Validator(board, numberOfPlayers);
+		}
 		return null;
 	}
 
@@ -256,6 +266,10 @@ public class Action {
 		if(gameType == Definitions.GAMETYPETICTACTOE)
 		{
 			return new TicTacToeReactor(gof, manipulator);
+		}
+		else if(gameType == Definitions.GAMETYPECONNECTFOUR)
+		{
+			return new Connect4Reactor(gof, manipulator);
 		}
 		else
 		{
@@ -269,6 +283,10 @@ public class Action {
 		{
 			return new TicTacToeGameOver(b);
 		}
+		else if(gameType == Definitions.GAMETYPECONNECTFOUR)
+		{
+			return new Connect4GameOver(b);
+		}
 		else
 		{
 			return null;
@@ -280,6 +298,10 @@ public class Action {
 		if(gameType == Definitions.GAMETYPETICTACTOE)
 		{
 			return; // No set up required for TicTacToe.
+		}
+		else if(gameType == Definitions.GAMETYPECONNECTFOUR)
+		{
+			return;
 		}
 	}
 }
