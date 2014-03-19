@@ -26,7 +26,7 @@ public class Action {
 	public Action(Game game) {
 		this.game = game;
 		allowFurtherMoves = true;
-		
+
 		gui = new GUI(this);
 
 		// TODO: comment out the below line when testing login
@@ -92,9 +92,19 @@ public class Action {
 		{
 			String username = new String ((String) gameMessage.get("Username"));
 			String password = new String ((String) gameMessage.get("Password"));
-			gui.appendText("Hello " + username);
+			boolean loginSuccessful = ((boolean) gameMessage.get("LoginSuccessful"));
+			
+			if(loginSuccessful)
+			{
+				String email = new String ((String) gameMessage.get("Email"));
+				gui.appendText("Hello " + username);
+				gui.appendText("Your email is " + email);
+				gui.setToPickGame();
+			}
+			else 
+				gui.appendText("Login Invalid");
 		}
-		
+
 		if (gameMessage.get("MessageType").equals("BoardCreated")) {
 			// Game has been created
 			gui.updateBoard();
@@ -196,12 +206,12 @@ public class Action {
 		messageToServer.message = gameMessage.toJSONString();
 		return messageToServer;
 	}
-	
+
 	public boolean areFurtherMovesAllowed()
 	{
 		return this.allowFurtherMoves;
 	}
-	
+
 	public void disallowNewMovesToServer()
 	{
 		this.allowFurtherMoves = false;
@@ -229,16 +239,17 @@ public class Action {
 
 	@SuppressWarnings("unchecked")
 	public boolean loginUser(String username, String password) {
-		
+
 		JSONObject loginMessage = new JSONObject();
 		loginMessage.put("MessageType", "Login");
 		loginMessage.put("Username", username);
 		loginMessage.put("Password", password);
+		loginMessage.put("LoginSuccessful", false);
 
 		Message message = encodeMessage(loginMessage);
 		game.messageToServer(message);
-		
-		gui.setToPickGame();
+
+
 		return true;
 	}
 }

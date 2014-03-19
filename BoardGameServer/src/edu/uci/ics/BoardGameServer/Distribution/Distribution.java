@@ -117,15 +117,22 @@ public class Distribution implements Runnable {
 				JSONObject loginMessage = (JSONObject) new JSONParser().parse(data);
 				if(loginMessage.get("MessageType").equals("Login"))
 				{
-					if(login.validate(loginMessage))
+					if(login.validate((String) loginMessage.get("Username"), (String) loginMessage.get("Password")))
 					{
 						Message messageToClient = new Message();
+						String email = login.getEmail((String) loginMessage.get("Username"), (String) loginMessage.get("Password"));
+						loginMessage.put("Email", email);
+						loginMessage.put("LoginSuccessful", true);
 						messageToClient.message = loginMessage.toJSONString();
 						server.messageToClient(connectionId, messageToClient.message);
 						return;
 					}
 					else //not a valid login
 					{
+						Message messageToClient = new Message();
+						loginMessage.put("LoginSuccessful", false);
+						messageToClient.message = loginMessage.toJSONString();
+						server.messageToClient(connectionId, messageToClient.message);
 						return;
 					}
 				}
