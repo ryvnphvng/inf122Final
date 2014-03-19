@@ -21,10 +21,12 @@ public class Action {
 	private MoveValidator validator; // abstract How are we to use this?
 	private int numberOfPlayers;
 	private GUI gui;
+	private boolean allowFurtherMoves;
 
 	public Action(Game game) {
 		this.game = game;
-
+		allowFurtherMoves = true;
+		
 		gui = new GUI(this);
 
 		// TODO: comment out the below line when testing login
@@ -160,16 +162,19 @@ public class Action {
 
 		if (gameMessage.get("MessageType").equals("Win")) {
 			gui.appendText("You have won the game");
+			disallowNewMovesToServer();
 			return;
 		}
 
 		if (gameMessage.get("MessageType").equals("Lose")) {
 			gui.appendText("You have lost the game");
+			disallowNewMovesToServer();
 			return;
 		}
 
 		if (gameMessage.get("MessageType").equals("Tie")) {
 			gui.appendText("The game is a tie");
+			disallowNewMovesToServer();
 			return;
 		}
 
@@ -184,6 +189,16 @@ public class Action {
 		Message messageToServer = new Message();
 		messageToServer.message = gameMessage.toJSONString();
 		return messageToServer;
+	}
+	
+	public boolean areFurtherMovesAllowed()
+	{
+		return this.allowFurtherMoves;
+	}
+	
+	public void disallowNewMovesToServer()
+	{
+		this.allowFurtherMoves = false;
 	}
 
 	private MoveValidator setMoveValidator() {

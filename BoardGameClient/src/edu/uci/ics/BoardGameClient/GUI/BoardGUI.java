@@ -85,7 +85,10 @@ public class BoardGUI {
 
 			this.addMouseListener(new MouseAdapter() {
 				public void mousePressed(MouseEvent e) {
-					MoveSender.sendMessage(action, gameType, row, col);
+					if(action.areFurtherMovesAllowed())
+					{
+						MoveSender.sendMessage(action, gameType, row, col);
+					}
 				}
 			});
 		}
