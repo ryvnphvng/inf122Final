@@ -102,12 +102,10 @@ public class BoardManipulator {
 		  
 	}
 	
-	
-	
-	
-	
-	
-	
+	public Board getBoard()
+	{
+		return board;
+	}
 	
 	
 }
