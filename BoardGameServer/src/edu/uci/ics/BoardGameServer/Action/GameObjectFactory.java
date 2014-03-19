@@ -32,7 +32,23 @@ public class GameObjectFactory {
 				return null;
 			}
 		}
-		
+		else if(gameType == Definitions.GAMETYPECONNECTFOUR)
+		{
+			if(playerNum == 0) // Creating a game object for the first player
+			{
+				 // First player is always X
+				return new GameObject(row, col, idGen.getNextID(), GameObjectDefinitions.CONNECT4_RED, playerNum);
+			}
+			else if(playerNum == 1) // Creating a game object for the second player
+			{
+				// Second player is always O
+				return new GameObject(row, col, idGen.getNextID(), GameObjectDefinitions.CONNECT4_YELLOW, playerNum);
+			}
+			else
+			{
+				return null;
+			}
+		}
 		return null;
 	}	
 }
