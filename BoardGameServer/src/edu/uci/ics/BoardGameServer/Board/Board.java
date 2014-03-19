@@ -16,6 +16,10 @@ public class Board {
 	
 	public Board(int height, int width, int gameType)
 	{
+		this.height = height;
+		this.width = width;
+		this.gameType = gameType;
+		
 		board = new Tile[height][width];
 		
 		for(int i=0;i<height;i++)
