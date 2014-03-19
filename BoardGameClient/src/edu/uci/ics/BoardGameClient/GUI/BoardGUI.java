@@ -66,8 +66,8 @@ public class BoardGUI {
 
 			Color bgColor = new Color(255, 255, 255);
 
-			int panelWidth = 600/board.getWidth();
-			int panelHeight = 500/board.getHeight();
+			int panelWidth = frame.getWidth()/board.getWidth();
+			int panelHeight = frame.getHeight()/board.getHeight();
 			
 			setPreferredSize(new Dimension(panelWidth, panelHeight));
 
