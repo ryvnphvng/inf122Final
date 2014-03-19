@@ -66,7 +66,10 @@ public class BoardGUI {
 
 			Color bgColor = new Color(255, 255, 255);
 
-			setPreferredSize(new Dimension(100, 100));
+			int panelWidth = 600/board.getWidth();
+			int panelHeight = 500/board.getHeight();
+			
+			setPreferredSize(new Dimension(panelWidth, panelHeight));
 
 			this.setBackground(bgColor);
 			this.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
