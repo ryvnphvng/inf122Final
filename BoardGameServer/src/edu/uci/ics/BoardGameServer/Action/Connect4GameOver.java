@@ -57,7 +57,8 @@ public class Connect4GameOver extends GameOver {
 				if(board.getTile(j, i).getGameObjects().size() > 0 &&
 						board.getTile(j+1, i).getGameObjects().size() > 0 &&
 						board.getTile(j+2, i).getGameObjects().size() > 0 &&
-						board.getTile(j+3, i).getGameObjects().get(0).getObjectType() 
+						board.getTile(j+3, i).getGameObjects().size() > 0 &&
+						board.getTile(j, i).getGameObjects().get(0).getObjectType() 
 						== board.getTile(j + 1, i).getGameObjects().get(0).getObjectType() &&
 						board.getTile(j, i).getGameObjects().get(0).getObjectType() 
 						== board.getTile(j + 2, i).getGameObjects().get(0).getObjectType() &&
