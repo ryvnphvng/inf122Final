@@ -18,7 +18,6 @@ public class Action {
 	private BoardManipulator manipulator;
 	private ActionReactor reactor; // abstract
 	private GameObjectFactory gof;
-	private MoveValidator validator; // abstract How are we to use this?
 	private int numberOfPlayers;
 	private GUI gui;
 	private boolean allowFurtherMoves;
@@ -217,16 +216,6 @@ public class Action {
 	public void disallowNewMovesToServer()
 	{
 		this.allowFurtherMoves = false;
-	}
-
-	private MoveValidator setMoveValidator() {
-		if (gameType == Definitions.GAMETYPETICTACTOE) {
-			return new TicTacToeValidator(board);
-		}
-		if (gameType == Definitions.GAMETYPECONNECTFOUR) {
-			return new Connect4Validator(board);
-		}
-		return null;
 	}
 
 	private ActionReactor setActionReactor() {
