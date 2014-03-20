@@ -94,7 +94,7 @@ public class Action {
 					
 					manipulator.createGameObject(g, gameID, gameType, g.getObjID(), g.getObjectType(), playerID, row, col, numberOfPlayers);
 					
-					reactor.updateBoard();
+					reactor.updateBoard(gameMessage);
 					
 					ArrayList<Integer> winners = gameOver.isWinConditionMet(gameMessage);
 					ArrayList<Integer> losers = gameOver.isLoseConditionMet(gameMessage);
@@ -113,7 +113,7 @@ public class Action {
 					
 					manipulator.deleteGameObject(objectID, gameID, playerID, numberOfPlayers);
 					
-					reactor.updateBoard();
+					reactor.updateBoard(gameMessage);
 					
 					ArrayList<Integer> winners = gameOver.isWinConditionMet(gameMessage);
 					ArrayList<Integer> losers = gameOver.isLoseConditionMet(gameMessage);
@@ -133,7 +133,7 @@ public class Action {
 					
 					manipulator.moveGameObject(objectID, playerID, row, col, gameID, numberOfPlayers);
 					
-					reactor.updateBoard();
+					reactor.updateBoard(gameMessage);
 					
 					ArrayList<Integer> winners = gameOver.isWinConditionMet(gameMessage);
 					ArrayList<Integer> losers = gameOver.isLoseConditionMet(gameMessage);
@@ -152,7 +152,7 @@ public class Action {
 					
 					manipulator.swapGameObjects(objectID1, objectID2, playerID, gameID, numberOfPlayers);
 					
-					reactor.updateBoard();
+					reactor.updateBoard(gameMessage);
 					
 					ArrayList<Integer> winners = gameOver.isWinConditionMet(gameMessage);
 					ArrayList<Integer> losers = gameOver.isLoseConditionMet(gameMessage);

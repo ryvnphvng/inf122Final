@@ -1,6 +1,6 @@
 package edu.uci.ics.BoardGameServer.Action;
 
-import edu.uci.ics.BoardGameServer.Board.GameObjectDefinitions;
+import org.json.simple.JSONObject;
 
 public class Connect4Reactor extends ActionReactor{
 
@@ -8,7 +8,7 @@ public class Connect4Reactor extends ActionReactor{
 		super(gof, bm);
 	}
 
-	public void updateBoard() {
+	public void updateBoard(JSONObject o) {
 		for(int i = 0; i < bm.getBoard().getHeight(); i++)
 		{
 			for(int j = 0; j < bm.getBoard().getWidth(); j++)

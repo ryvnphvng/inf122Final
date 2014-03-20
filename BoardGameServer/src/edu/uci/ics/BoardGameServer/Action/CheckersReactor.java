@@ -1,5 +1,7 @@
 package edu.uci.ics.BoardGameServer.Action;
 
+import org.json.simple.JSONObject;
+
 public class CheckersReactor extends ActionReactor{
 
 	public CheckersReactor(GameObjectFactory gof, BoardManipulator bm) {
@@ -8,9 +10,8 @@ public class CheckersReactor extends ActionReactor{
 	}
 
 	@Override
-	public void updateBoard() {
-		// TODO Auto-generated method stub
-		return;
+	public void updateBoard(JSONObject o) {
+		
 	}
 
 }

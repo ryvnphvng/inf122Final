@@ -1,5 +1,7 @@
 package edu.uci.ics.BoardGameServer.Action;
 
+import org.json.simple.JSONObject;
+
 
 public abstract class ActionReactor {
 	GameObjectFactory gof;
@@ -10,5 +12,5 @@ public abstract class ActionReactor {
 		this.bm = bm;
 	}
 
-	public abstract void updateBoard();
+	public abstract void updateBoard(JSONObject o);
 }
