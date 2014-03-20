@@ -40,6 +40,10 @@ public class Action {
 		return game;
 	}
 
+	public Board getBoard() {
+		return board;
+	}
+	
 	public void setNumberOfPlayers(int numberOfPlayers) {
 		this.numberOfPlayers = numberOfPlayers;
 	}
@@ -221,20 +225,6 @@ public class Action {
 		this.allowFurtherMoves = false;
 	}
 
-	private ActionReactor setActionReactor() {
-		if (gameType == Definitions.GAMETYPETICTACTOE) {
-			return new TicTacToeReactor(gof, manipulator);
-		}
-		if (gameType == Definitions.GAMETYPECONNECTFOUR) {
-			return new Connect4Reactor(gof, manipulator);
-		}
-		else if (gameType == Definitions.GAMETYPECHECKERS)
-		{
-			return new CheckersReactor(gof, manipulator);
-		}
-		return null;
-	}
-
 	@SuppressWarnings("unchecked")
 	public boolean loginUser(String username, String password) {
 
@@ -249,5 +239,19 @@ public class Action {
 
 
 		return true;
+	}
+
+	private ActionReactor setActionReactor() {
+		if (gameType == Definitions.GAMETYPETICTACTOE) {
+			return new TicTacToeReactor(gof, manipulator);
+		}
+		if (gameType == Definitions.GAMETYPECONNECTFOUR) {
+			return new Connect4Reactor(gof, manipulator);
+		}
+		else if (gameType == Definitions.GAMETYPECHECKERS)
+		{
+			return new CheckersReactor(gof, manipulator);
+		}
+		return null;
 	}
 }

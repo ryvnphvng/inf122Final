@@ -50,6 +50,10 @@ public class Action {
 		this.gameType = gameType;
 	}
 	
+	public Board getBoard() {
+		return board;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public void gameCreated() {
 		for(int i=0; i<numberOfPlayers; i++)
