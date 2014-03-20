@@ -15,12 +15,17 @@ public class Connect4Reactor extends ActionReactor{
 			{
 				if (bm.getBoard().getTile(i, j).getGameObjects().size() > 0)
 				{
-					if (bm.getBoard().getTile(i, j).getGameObjects().size() == 0)
-					{
-						//bm.moveGameObject(bm.getBoard().getTile(i, j).getGameObjects().get(0).getObjID(), bm.getBoard().getTile(i, j).getGameObjects().get(0).getOwner(), j-1, i, bm.getBoard().g, numberOfPlayers);
-					}
+					dropPiece(i, j);
 				}
 			}
+		}
+	}
+	
+	public void dropPiece(int y, int x)
+	{
+		while (y <  bm.getBoard().getHeight() - 1 && bm.getBoard().getTile(y + 1, x).getGameObjects().size() == 0)
+		{
+			bm.moveGameObject(bm.getBoard().getTile(y, x).getGameObjects().get(0).getObjID(), bm.getBoard().getTile(y, x).getGameObjects().get(0).getOwner(), ++y, x, 0, 2);
 		}
 	}
 
