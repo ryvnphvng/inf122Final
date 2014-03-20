@@ -48,6 +48,10 @@ public class Board {
 		return board[row][column]; 
 	}
 	
+	public GameObject getGameObject(int objID) {
+		return gameObjectMap.get(objID);
+	}
+	
 	public int getPlayerScore(int playerID){
 		return playerMap.get(playerID).getScore();
 	}

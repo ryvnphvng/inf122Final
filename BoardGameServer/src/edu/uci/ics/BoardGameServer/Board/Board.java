@@ -3,6 +3,8 @@ package edu.uci.ics.BoardGameServer.Board;
 import java.util.Map;
 import java.util.TreeMap;
 
+import edu.uci.ics.BoardGameServer.Board.GameObject;
+
 
 
 public class Board {
@@ -48,6 +50,10 @@ public class Board {
 	
 	public Tile getTile(int row, int column){
 		return board[row][column]; 
+	}
+	
+	public GameObject getGameObject(int objID) {
+		return gameObjectMap.get(objID);
 	}
 	
 	public int getPlayerScore(int playerID){

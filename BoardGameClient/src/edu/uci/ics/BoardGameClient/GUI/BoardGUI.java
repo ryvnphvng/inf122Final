@@ -51,8 +51,13 @@ public class BoardGUI {
 
 		for (int i = 0; i < board.getHeight(); i++) {
 			for (int j = 0; j < board.getWidth(); j++) {
-				BoardPanel p = new BoardPanel(action, board.getTile(i, j), i, j, board.getGameType());
+				BoardPanel p = new BoardPanel(action, board.getTile(i, j), i, j, board.getGameType(), this);
 				p.setLayout(new GridBagLayout());
+				
+				if(board.getTile(i, j).isSelected()) {
+					p.setBackground(Color.YELLOW);
+				}
+				
 				paneBoard.add(p);
 			}
 		}
@@ -64,7 +69,7 @@ public class BoardGUI {
 	class BoardPanel extends JPanel {
 		private static final long serialVersionUID = 0001;
 
-		public BoardPanel(final Action action, Tile tile, final int row, final int col, final int gameType) {
+		public BoardPanel(final Action action, Tile tile, final int row, final int col, final int gameType, final BoardGUI boardGui) {
 
 			Color bgColor = new Color(255, 255, 255);
 			int textAreaSize = 100;
@@ -91,6 +96,8 @@ public class BoardGUI {
 					if(action.areFurtherMovesAllowed())
 					{
 						MoveSender.sendMessage(action, gameType, row, col);
+						
+						boardGui.update();
 					}
 				}
 			});
