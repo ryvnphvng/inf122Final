@@ -16,7 +16,6 @@ public class Action {
 	private int gameType;
 	private Board board;
 	private BoardManipulator manipulator;
-	private ActionReactor reactor; // abstract
 	private GameObjectFactory gof;
 	private int numberOfPlayers;
 	private GUI gui;
@@ -62,7 +61,6 @@ public class Action {
 		gof = new GameObjectFactory();
 		board = createBoard(gameType, numberOfPlayers);
 		manipulator = new BoardManipulator(board, game, this);
-		reactor = setActionReactor();
 
 		game.createGame(gameType);
 
@@ -133,8 +131,6 @@ public class Action {
 			manipulator.createGameObject(gof.createGameObject(playerID, objectType, objectID, row, col), gameID,
 					gameType, objectID, objectType, playerID, row, col);
 
-			reactor.updateBoard();
-
 			gui.updateBoard();
 			return;
 		}
@@ -146,8 +142,6 @@ public class Action {
 			Integer objectID = new Integer(((Long) gameMessage.get("ObjectID")).intValue());
 
 			manipulator.deleteGameObject(objectID, gameID, playerID);
-
-			reactor.updateBoard();
 
 			gui.updateBoard();
 			return;
@@ -163,8 +157,6 @@ public class Action {
 
 			manipulator.moveGameObject(objectID, playerID, row, col, gameID);
 
-			reactor.updateBoard();
-
 			gui.updateBoard();
 			return;
 		}
@@ -177,8 +169,6 @@ public class Action {
 			Integer playerID = new Integer(((Long) gameMessage.get("PlayerID")).intValue());
 
 			manipulator.swapGameObjects(objectID1, objectID2, playerID, gameID);
-
-			reactor.updateBoard();
 
 			gui.updateBoard();
 			return;
@@ -239,19 +229,5 @@ public class Action {
 
 
 		return true;
-	}
-
-	private ActionReactor setActionReactor() {
-		if (gameType == Definitions.GAMETYPETICTACTOE) {
-			return new TicTacToeReactor(gof, manipulator);
-		}
-		if (gameType == Definitions.GAMETYPECONNECTFOUR) {
-			return new Connect4Reactor(gof, manipulator);
-		}
-		else if (gameType == Definitions.GAMETYPECHECKERS)
-		{
-			return new CheckersReactor(gof, manipulator);
-		}
-		return null;
 	}
 }
