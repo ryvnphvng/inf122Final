@@ -164,7 +164,7 @@ public class Connect4GameOver extends GameOver {
 		
 		for(int i=0; i<board.getWidth(); i++)
 		{
-			for(int j=0; j<board.getWidth(); j++)
+			for(int j=0; j<board.getHeight(); j++)
 			{
 				if(board.getTile(j, i).getGameObjects().size() == 0)
 				{
