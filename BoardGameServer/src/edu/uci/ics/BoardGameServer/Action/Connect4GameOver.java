@@ -25,7 +25,11 @@ public class Connect4GameOver extends GameOver {
 		{
 			for(int j=0; j< board.getHeight(); j++)
 			{
-				if(board.getTile(j, i).getGameObjects().get(0).getObjectType() 
+				if(board.getTile(j, i).getGameObjects().size() > 0 &&
+						board.getTile(j, i+1).getGameObjects().size() > 0 &&
+						board.getTile(j, i+2).getGameObjects().size() > 0 &&
+						board.getTile(j, i+3).getGameObjects().size() > 0 &&
+						board.getTile(j, i).getGameObjects().get(0).getObjectType() 
 						== board.getTile(j, i+1).getGameObjects().get(0).getObjectType() &&
 						board.getTile(j, i).getGameObjects().get(0).getObjectType() 
 						== board.getTile(j, i+2).getGameObjects().get(0).getObjectType() &&
@@ -35,10 +39,12 @@ public class Connect4GameOver extends GameOver {
 					if(board.getTile(j, i).getGameObjects().get(0).getObjectType() == GameObjectDefinitions.CONNECT4_RED)
 					{
 						winners.add(0); // Player 1 is a winner
+						return winners;
 					}
 					else
 					{
 						winners.add(1); // Player 2 is a winner
+						return winners;
 					}
 				}
 			}
@@ -48,7 +54,10 @@ public class Connect4GameOver extends GameOver {
 		{
 			for(int j=0; j<board.getHeight() - 3; j++)
 			{
-				if(board.getTile(j, i).getGameObjects().get(0).getObjectType() 
+				if(board.getTile(j, i).getGameObjects().size() > 0 &&
+						board.getTile(j+1, i).getGameObjects().size() > 0 &&
+						board.getTile(j+2, i).getGameObjects().size() > 0 &&
+						board.getTile(j+3, i).getGameObjects().get(0).getObjectType() 
 						== board.getTile(j + 1, i).getGameObjects().get(0).getObjectType() &&
 						board.getTile(j, i).getGameObjects().get(0).getObjectType() 
 						== board.getTile(j + 2, i).getGameObjects().get(0).getObjectType() &&
@@ -58,10 +67,12 @@ public class Connect4GameOver extends GameOver {
 					if(board.getTile(j, i).getGameObjects().get(0).getObjectType() == GameObjectDefinitions.CONNECT4_RED)
 					{
 						winners.add(0); // Player 1 is a winner
+						return winners;
 					}
 					else
 					{
 						winners.add(1); // Player 2 is a winner
+						return winners;
 					}
 				}
 			}
@@ -71,7 +82,11 @@ public class Connect4GameOver extends GameOver {
 		{
 			for(int j=0; j<board.getHeight() - 3; j++)
 			{
-				if(board.getTile(j, i).getGameObjects().get(0).getObjectType() 
+				if(board.getTile(j, i).getGameObjects().size() > 0 &&
+						board.getTile(j+1, i+1).getGameObjects().size() > 0 &&
+						board.getTile(j+2, i+2).getGameObjects().size() > 0 &&
+						board.getTile(j+3, i+3).getGameObjects().size() > 0 &&
+						board.getTile(j, i).getGameObjects().get(0).getObjectType() 
 						== board.getTile(j + 1, i + 1).getGameObjects().get(0).getObjectType() &&
 						board.getTile(j, i).getGameObjects().get(0).getObjectType() 
 						== board.getTile(j + 2, i + 2).getGameObjects().get(0).getObjectType() &&
@@ -81,20 +96,26 @@ public class Connect4GameOver extends GameOver {
 					if(board.getTile(j, i).getGameObjects().get(0).getObjectType() == GameObjectDefinitions.CONNECT4_RED)
 					{
 						winners.add(0); // Player 1 is a winner
+						return winners;
 					}
 					else
 					{
 						winners.add(1); // Player 2 is a winner
+						return winners;
 					}
 				}
 			}
 		}
 		//check board forward diagonal
-				for(int i=board.getWidth(); i > 3; i--)
+				for(int i=board.getWidth() - 1; i > 3; i--)
 				{
-					for(int j=board.getHeight(); j > 3; j--)
+					for(int j=board.getHeight() - 1; j > 3; j--)
 					{
-						if(board.getTile(j, i).getGameObjects().get(0).getObjectType() 
+						if(board.getTile(j, i).getGameObjects().size() > 0 &&
+								board.getTile(j-1, i-1).getGameObjects().size() > 0 &&
+								board.getTile(j-2, i-2).getGameObjects().size() > 0 &&
+								board.getTile(j-3, i-3).getGameObjects().size() > 0 &&
+								board.getTile(j, i).getGameObjects().get(0).getObjectType() 
 								== board.getTile(j - 1, i - 1).getGameObjects().get(0).getObjectType() &&
 								board.getTile(j, i).getGameObjects().get(0).getObjectType() 
 								== board.getTile(j - 2, i - 2).getGameObjects().get(0).getObjectType() &&
@@ -104,10 +125,12 @@ public class Connect4GameOver extends GameOver {
 							if(board.getTile(j, i).getGameObjects().get(0).getObjectType() == GameObjectDefinitions.CONNECT4_RED)
 							{
 								winners.add(0); // Player 1 is a winner
+								return winners;
 							}
 							else
 							{
 								winners.add(1); // Player 2 is a winner
+								return winners;
 							}
 						}
 					}
@@ -118,99 +141,19 @@ public class Connect4GameOver extends GameOver {
 
 	public ArrayList<Integer> isLoseConditionMet(JSONObject o) {
 		ArrayList<Integer> losers = new ArrayList<Integer>();
+		ArrayList<Integer> winners = this.isWinConditionMet(o);		
 		
-		//check board horizontal
-		for(int i=0; i<board.getWidth() - 3; i++)
+		if(winners.size() > 0)
 		{
-			for(int j=0; j<board.getHeight(); j++)
+			if(winners.get(0) == 0) // Player 1 is a winner.
 			{
-				if(board.getTile(j, i).getGameObjects().get(0).getObjectType() 
-						== board.getTile(j, i+1).getGameObjects().get(0).getObjectType() &&
-						board.getTile(j, i).getGameObjects().get(0).getObjectType() 
-						== board.getTile(j, i+2).getGameObjects().get(0).getObjectType() &&
-						board.getTile(j, i).getGameObjects().get(0).getObjectType() 
-						== board.getTile(j, i+3).getGameObjects().get(0).getObjectType())
-				{
-					if(board.getTile(j, i).getGameObjects().get(0).getObjectType() == GameObjectDefinitions.CONNECT4_RED)
-					{
-						losers.add(1); // Player 1 is a winner
-					}
-					else
-					{
-						losers.add(0); // Player 2 is a winner
-					}
-				}
+				losers.add(1); //Player 2 lost.
+			}
+			else // Player 2 is a winner.
+			{
+				losers.add(0); // Player 1 lost.
 			}
 		}
-		//check board vertical
-		for(int i=0; i<board.getWidth(); i++)
-		{
-			for(int j=0; j<board.getHeight() - 3; j++)
-			{
-				if(board.getTile(j, i).getGameObjects().get(0).getObjectType() 
-						== board.getTile(j + 1, i).getGameObjects().get(0).getObjectType() &&
-						board.getTile(j, i).getGameObjects().get(0).getObjectType() 
-						== board.getTile(j + 2, i).getGameObjects().get(0).getObjectType() &&
-						board.getTile(j, i).getGameObjects().get(0).getObjectType() 
-						== board.getTile(j + 3, i).getGameObjects().get(0).getObjectType())
-				{
-					if(board.getTile(j, i).getGameObjects().get(0).getObjectType() == GameObjectDefinitions.CONNECT4_RED)
-					{
-						losers.add(1); // Player 1 is a winner
-					}
-					else
-					{
-						losers.add(0); // Player 2 is a winner
-					}
-				}
-			}
-		}
-		//check board forward diagonal
-		for(int i=0; i<board.getWidth() - 3; i++)
-		{
-			for(int j=0; j<board.getHeight() - 3; j++)
-			{
-				if(board.getTile(j, i).getGameObjects().get(0).getObjectType() 
-						== board.getTile(j + 1, i + 1).getGameObjects().get(0).getObjectType() &&
-						board.getTile(j, i).getGameObjects().get(0).getObjectType() 
-						== board.getTile(j + 2, i + 2).getGameObjects().get(0).getObjectType() &&
-						board.getTile(j, i).getGameObjects().get(0).getObjectType() 
-						== board.getTile(j + 3, i + 3).getGameObjects().get(0).getObjectType())
-				{
-					if(board.getTile(j, i).getGameObjects().get(0).getObjectType() == GameObjectDefinitions.CONNECT4_RED)
-					{
-						losers.add(1); // Player 1 is a winner
-					}
-					else
-					{
-						losers.add(0); // Player 2 is a winner
-					}
-				}
-			}
-		}
-		//check board forward diagonal
-				for(int i=board.getWidth(); i > 3; i--)
-				{
-					for(int j=board.getHeight(); j > 3; j--)
-					{
-						if(board.getTile(j, i).getGameObjects().get(0).getObjectType() 
-								== board.getTile(j - 1, i - 1).getGameObjects().get(0).getObjectType() &&
-								board.getTile(j, i).getGameObjects().get(0).getObjectType() 
-								== board.getTile(j - 2, i - 2).getGameObjects().get(0).getObjectType() &&
-								board.getTile(j, i).getGameObjects().get(0).getObjectType() 
-								== board.getTile(j - 3, i - 3).getGameObjects().get(0).getObjectType())
-						{
-							if(board.getTile(j, i).getGameObjects().get(0).getObjectType() == GameObjectDefinitions.CONNECT4_RED)
-							{
-								losers.add(1); // Player 1 is a winner
-							}
-							else
-							{
-								losers.add(0); // Player 2 is a winner
-							}
-						}
-					}
-				}
 		
 		return losers;
 	}
