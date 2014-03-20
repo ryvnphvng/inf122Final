@@ -77,6 +77,8 @@ public class Client implements Runnable {
 
 	private void connectToServer() {
 		try {
+			//replace local host with server ip address
+			//TODO
 			socket = new Socket("localhost", PORT);
 		} catch (Exception e) {
 			if (e.getMessage().equals("Connection refused: connect")) {

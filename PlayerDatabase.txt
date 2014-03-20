@@ -1,5 +1,12 @@
-ronnie password itsjustronnie@yahoo.com
-jeff password1 fellowsj@uci.edu
+ronnie ronnie itsjustronnie@yahoo.com
+jeff jeff fellowsj@uci.edu
 badPlayer badPassword badpass@gmail.com
 goodPlayer great bestPlayerEver@gmail.com
-Emily infx122 professor@uci.edu
+emily infx122 professor@uci.edu
+max max max@uci.edu
+steven steven steven@uci.edu
+rohan rohan rohan@uci.edu
+sofanah sofanah sofanah@uci.edu
+ryan ryan ryan@uci.edu
+michael michael michael@uci.edu
+daniel daniel daniel@uci.edu

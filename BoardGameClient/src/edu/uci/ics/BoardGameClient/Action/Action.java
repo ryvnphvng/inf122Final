@@ -30,7 +30,7 @@ public class Action {
 		gui = new GUI(this);
 
 		// TODO: comment out the below line when testing login
-		gui.setToPickGame();
+		//gui.setToPickGame();
 	}
 
 	public void setGame(Game game) {
@@ -97,8 +97,10 @@ public class Action {
 			if(loginSuccessful)
 			{
 				String email = new String ((String) gameMessage.get("Email"));
-				gui.appendText("Hello " + username);
-				gui.appendText("Your email is " + email);
+				gui.appendText("User Profile");
+				gui.appendText("--------------");
+				gui.appendText("Username: " + username);
+				gui.appendText("Email: " + email);
 				gui.setToPickGame();
 			}
 			else 
