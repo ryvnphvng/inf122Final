@@ -17,9 +17,10 @@ public class Connect4Validator extends MoveValidator {
 		if(gameMessage.get("MessageType").equals("Create") && 
 		   message.playerNumber == this.getCurrentPlayerTurn())
 		{
+			int row = Integer.parseInt(gameMessage.get("Row").toString());
 			int col = Integer.parseInt(gameMessage.get("Col").toString());
 			
-			if(getBoard().getTile(0, col).getGameObjects().size() > 0)
+			if(getBoard().getTile(row, col).getGameObjects().size() > 0)
 			{
 				return false; // Column is filled - move is invalid
 			}
