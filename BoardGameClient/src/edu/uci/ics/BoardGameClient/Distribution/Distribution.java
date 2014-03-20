@@ -43,8 +43,8 @@ public class Distribution implements Runnable {
 			client.messageToServer("createGame " + Definitions.GAMETYPETICTACTOE);
 		else if(gameType == 1)
 			client.messageToServer("createGame " + Definitions.GAMETYPECONNECTFOUR);
-		else if(gameType == 2)
-			client.messageToServer("createGame " + Definitions.GAMETYPEMATCHING);
+		else if(gameType == Definitions.GAMETYPECHECKERS)
+			client.messageToServer("createGame " + Definitions.GAMETYPECHECKERS);
 	}
 
 	public void messageFromServer(String data) {

@@ -334,34 +334,35 @@ public class Action {
 					int row = 0;
 					int col = i;
 					GameObject g = gof.createGameObject(gameType, player2, row, col);
-					manipulator.createGameObject(g, gameType, g.getObjID(), g.getObjectType(), g.getOwner(), g.getRow(), g.getCol(), numberOfPlayers);
+
+					manipulator.createGameObject(g, -1, gameType, g.getObjID(), g.getObjectType(), g.getOwner(), g.getRow(), g.getCol(), numberOfPlayers);
 					
 					row = 2;
 					col = i;
 					g = gof.createGameObject(gameType, player2, row, col);
-					manipulator.createGameObject(g, gameType, g.getObjID(), g.getObjectType(), g.getOwner(), g.getRow(), g.getCol(), numberOfPlayers);
+					manipulator.createGameObject(g, -1, gameType, g.getObjID(), g.getObjectType(), g.getOwner(), g.getRow(), g.getCol(), numberOfPlayers);
 					
 					row = 6;
 					col = i;
 					g = gof.createGameObject(gameType, player1, row, col);
-					manipulator.createGameObject(g, gameType, g.getObjID(), g.getObjectType(), g.getOwner(), g.getRow(), g.getCol(), numberOfPlayers);
+					manipulator.createGameObject(g, -1, gameType, g.getObjID(), g.getObjectType(), g.getOwner(), g.getRow(), g.getCol(), numberOfPlayers);
 				}
 				else // i % 2 == 0
 				{
 					int row = 1;
 					int col = i;
 					GameObject g = gof.createGameObject(gameType, player2, row, col);
-					manipulator.createGameObject(g, gameType, g.getObjID(), g.getObjectType(), g.getOwner(), g.getRow(), g.getCol(), numberOfPlayers);
+					manipulator.createGameObject(g, -1, gameType, g.getObjID(), g.getObjectType(), g.getOwner(), g.getRow(), g.getCol(), numberOfPlayers);
 					
 					row = 5;
 					col = i;
 					g = gof.createGameObject(gameType, player1, row, col);
-					manipulator.createGameObject(g, gameType, g.getObjID(), g.getObjectType(), g.getOwner(), g.getRow(), g.getCol(), numberOfPlayers);
+					manipulator.createGameObject(g, -1, gameType, g.getObjID(), g.getObjectType(), g.getOwner(), g.getRow(), g.getCol(), numberOfPlayers);
 					
 					row = 7;
 					col = i;
 					g = gof.createGameObject(gameType, player1, row, col);
-					manipulator.createGameObject(g, gameType, g.getObjID(), g.getObjectType(), g.getOwner(), g.getRow(), g.getCol(), numberOfPlayers);
+					manipulator.createGameObject(g, -1, gameType, g.getObjID(), g.getObjectType(), g.getOwner(), g.getRow(), g.getCol(), numberOfPlayers);
 				}
 			}
 					

@@ -24,6 +24,7 @@ public class PickGame {
 	private JPanel panelLogin;
 	private JRadioButton buttonTicTacToe;
 	private JRadioButton buttonConnectFour;
+	private JRadioButton buttonCheckers;
 
 	public PickGame(Action action, JTextArea textConsole) {
 		this.action = action;
@@ -49,6 +50,9 @@ public class PickGame {
 
 		buttonConnectFour = new JRadioButton("Connect Four");
 		buttonConnectFour.setAlignmentX(JRadioButton.LEFT_ALIGNMENT);
+		
+		buttonCheckers = new JRadioButton("Checkers");
+		buttonCheckers.setAlignmentX(JRadioButton.LEFT_ALIGNMENT);
 
 		Component boxBeforeSelect = Box.createRigidArea(new Dimension(0, 20));
 		JButton buttonSelect = new JButton("Select");
@@ -63,6 +67,7 @@ public class PickGame {
 		panelLogin.add(boxSelectGame);
 		panelLogin.add(buttonTicTacToe);
 		panelLogin.add(buttonConnectFour);
+		panelLogin.add(buttonCheckers);
 		panelLogin.add(boxBeforeSelect);
 		panelLogin.add(buttonSelect);
 
@@ -88,6 +93,11 @@ public class PickGame {
 		if (buttonConnectFour.isSelected()) {
 			textConsole.append("Great choice, you selected Connect Four \n");
 			action.createGame(Definitions.GAMETYPECONNECTFOUR);
+			return;
+		}
+		if (buttonCheckers.isSelected()) {
+			textConsole.append("Great choice, you selected Checkers \n");
+			action.createGame(Definitions.GAMETYPECHECKERS);
 			return;
 		}
 		textConsole.append("Please select a game \n");
