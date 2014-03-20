@@ -10,3 +10,4 @@ sofanah sofanah sofanah@uci.edu
 ryan ryan ryan@uci.edu
 michael michael michael@uci.edu
 daniel daniel daniel@uci.edu
+username password email@uci.edu
