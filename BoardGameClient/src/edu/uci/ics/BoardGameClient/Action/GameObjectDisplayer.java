@@ -29,14 +29,14 @@ public class GameObjectDisplayer {
 		
 		if(objectType == GameObjectDefinitions.CONNECT4_RED)
 		{
-			return new JLabel("<html><font color='red'>O</font></html>");
+			return new JLabel("<html><font color='red' size='20'>O</font></html>");
 			//JLabel j = new JLabel();
 			//j.setBackground(Color.RED);
 			//return j;
 		}
 		else if(objectType == GameObjectDefinitions.CONNECT4_YELLOW)
 		{
-			return new JLabel("<html><font color='yellow'>O</font></html>");
+			return new JLabel("<html><font color='yellow' size='20'>O</font></html>");
 			//JLabel j = new JLabel();
 			//j.setBackground(Color.BLUE);
 			//return j;
