@@ -20,32 +20,22 @@ public class CheckersGameOver extends GameOver {
 	public ArrayList<Integer> isWinConditionMet(JSONObject o) {
 		ArrayList<Integer> winners = new ArrayList<Integer>();
 		
-		boolean foundRedPiece = false;
-		boolean foundBlackPiece = false;
-		
-		
-		for(int i=0; i<board.getHeight(); i++) {
-			for(int j=0; j<board.getWidth(); j++) {
-				if(board.getTile(i, j).getGameObjects().size() > 0) {
-					if(board.getTile(i, j).getGameObjects().get(0).getObjectType() == GameObjectDefinitions.CHECKERS_RED) {
-						foundRedPiece = true;
-					}
-					else if(board.getTile(i, j).getGameObjects().get(0).getObjectType() == GameObjectDefinitions.CHECKERS_BLACK) {
-						foundBlackPiece = true;
-					}
-				}
-				
-				if(foundRedPiece && foundBlackPiece) { // Both red and black sill have remaining pieces.
+		for(int j=0; j<board.getWidth(); j++) {
+			if(board.getTile(0, j).getGameObjects().size() > 0) {
+				if(board.getTile(0, j).getGameObjects().get(0).getObjectType() == GameObjectDefinitions.CHECKERS_RED) {
+					winners.add(0);
 					return winners;
 				}
 			}
 		}
 		
-		if(!foundRedPiece) { // There were no remaining red pieces. Black wins.
-			winners.add(1);
-		}
-		else if(!foundBlackPiece) { //// There were no more black pieces. Red wins.
-			winners.add(0);
+		for(int j=0; j<board.getWidth(); j++) {
+			if(board.getTile(board.getHeight()-1, j).getGameObjects().size() > 0) {
+				if(board.getTile(board.getHeight()-1, j).getGameObjects().get(0).getObjectType() == GameObjectDefinitions.CHECKERS_BLACK) {
+					winners.add(1);
+					return winners;
+				}
+			}
 		}
 		
 		return winners;
@@ -78,7 +68,7 @@ public class CheckersGameOver extends GameOver {
 		boolean blackHasOpenMove = false;
 		boolean redHasOpenMove = false;
 		
-		for(int i=0; i<board.getHeight()-1; i++) {
+		for(int i=0; i<board.getHeight(); i++) {
 			for(int j=0; j<board.getWidth(); j++) {
 				if(board.getTile(i, j).getGameObjects().size() > 0) {
 					if(board.getTile(i, j).getGameObjects().get(0).getObjectType() == GameObjectDefinitions.CHECKERS_RED) {
@@ -87,10 +77,26 @@ public class CheckersGameOver extends GameOver {
 								if(board.getTile(i-1, j+1).getGameObjects().size() == 0) {
 									redHasOpenMove = true;
 								}
+								if(i > 2) {
+									if(board.getTile(i-2, j+2).getGameObjects().size() == 0 && 
+									   board.getTile(i-1, j+1).getGameObjects().size() > 0 &&
+									   board.getTile(i-1, j+1).getGameObjects().get(0).getObjectType() == 
+									   GameObjectDefinitions.CHECKERS_BLACK) {
+										blackHasOpenMove = true;
+									}
+								}
 							}
 							else if(j == board.getWidth() -1) {
 								if(board.getTile(i-1, j-1).getGameObjects().size() == 0) {
 									redHasOpenMove = true;
+								}
+								if(i > 2) {
+									if(board.getTile(i-2, j-2).getGameObjects().size() == 0 && 
+									   board.getTile(i-1, j-1).getGameObjects().size() > 0 &&
+									   board.getTile(i-1, j-1).getGameObjects().get(0).getObjectType() == 
+									   GameObjectDefinitions.CHECKERS_BLACK) {
+										blackHasOpenMove = true;
+									}
 								}
 							}
 							else {
@@ -98,25 +104,74 @@ public class CheckersGameOver extends GameOver {
 								   board.getTile(i-1, j+1).getGameObjects().size() == 0) {
 									redHasOpenMove = true;
 								}
+								if(i > 2 && j<board.getWidth()-2 && j>2) {
+									if(board.getTile(i-2, j+2).getGameObjects().size() == 0 && 
+									   board.getTile(i-1, j+1).getGameObjects().size() > 0 &&
+									   board.getTile(i-1, j+1).getGameObjects().get(0).getObjectType() == 
+									   GameObjectDefinitions.CHECKERS_BLACK) {
+										blackHasOpenMove = true;
+									}
+									if(board.getTile(i-2, j-2).getGameObjects().size() == 0 && 
+									   board.getTile(i-1, j-1).getGameObjects().size() > 0 &&
+									   board.getTile(i-1, j-1).getGameObjects().get(0).getObjectType() == 
+									   GameObjectDefinitions.CHECKERS_BLACK) {
+										blackHasOpenMove = true;
+									}
+								}
 							}
 						}
 					}
 					else { //Game Piece is black
-						if( i < board.getHeight()) {
+						if( i < board.getHeight()-1) {
 							if(j == 0) {
 								if(board.getTile(i+1, j+1).getGameObjects().size() == 0) {
 									blackHasOpenMove = true;
+								}
+								if(i<board.getHeight()-2) {
+									if(board.getTile(i+2, j+2).getGameObjects().size() == 0 && 
+									   board.getTile(i+1, j+1).getGameObjects().size() > 0 &&
+									   board.getTile(i+1, j+1).getGameObjects().get(0).getObjectType() == 
+									   GameObjectDefinitions.CHECKERS_RED) {
+										blackHasOpenMove = true;
+									}
 								}
 							}
 							else if(j == board.getWidth() - 1) {
 								if(board.getTile(i+1, j-1).getGameObjects().size() == 0) {
 									blackHasOpenMove = true;
 								}
+								if(i<board.getHeight()-2) {
+									if(board.getTile(i+2, j-2).getGameObjects().size() == 0 && 
+									   board.getTile(i+1, j-1).getGameObjects().size() > 0 &&
+									   board.getTile(i+1, j-1).getGameObjects().get(0).getObjectType() == 
+									   GameObjectDefinitions.CHECKERS_RED) {
+										blackHasOpenMove = true;
+									}
+								}
 							}
 							else {
 								if(board.getTile(i+1, j-1).getGameObjects().size() == 0 ||
 								   board.getTile(i+1, j+1).getGameObjects().size() == 0) {
 									blackHasOpenMove = true;
+								}
+								if(i<board.getHeight()-2 && j<board.getWidth()-2 && j>2)
+								{
+									if(i<board.getHeight()-2) {
+										if(board.getTile(i+2, j+2).getGameObjects().size() == 0 && 
+										   board.getTile(i+1, j+1).getGameObjects().size() > 0 &&
+										   board.getTile(i+1, j+1).getGameObjects().get(0).getObjectType() == 
+										   GameObjectDefinitions.CHECKERS_RED) {
+											blackHasOpenMove = true;
+										}
+									}
+									if(i<board.getHeight()-2) {
+										if(board.getTile(i+2, j-2).getGameObjects().size() == 0 && 
+										   board.getTile(i+1, j-1).getGameObjects().size() > 0 &&
+										   board.getTile(i+1, j-1).getGameObjects().get(0).getObjectType() == 
+										   GameObjectDefinitions.CHECKERS_RED) {
+											blackHasOpenMove = true;
+										}
+									}
 								}
 							}
 						}
