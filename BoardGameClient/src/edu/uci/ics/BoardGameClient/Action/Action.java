@@ -92,7 +92,7 @@ public class Action {
 		{
 			String username = new String ((String) gameMessage.get("Username"));
 			String password = new String ((String) gameMessage.get("Password"));
-			boolean loginSuccessful = ((boolean) gameMessage.get("LoginSuccessful"));
+			boolean loginSuccessful = ((Boolean) gameMessage.get("LoginSuccessful"));
 			
 			if(loginSuccessful)
 			{
