@@ -1,15 +1,17 @@
 package edu.uci.ics.BoardGameClient.GUI;
 
-import edu.uci.ics.BoardGameClient.Action.Action;
-import edu.uci.ics.BoardGameClient.Board.Board;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+
+import edu.uci.ics.BoardGameClient.Action.Action;
+import edu.uci.ics.BoardGameClient.Board.Board;
 
 public class GUI {
 
@@ -17,7 +19,7 @@ public class GUI {
 	private Board board;
 	private JFrame frame = new JFrame("Board Game Client");
 	private JTextArea textConsole = new JTextArea();
-	private JPanel panelMain;
+	private JLayeredPane panelMain;
 	private BoardGUI boardGUI;
 
 	public GUI(Action action) {
@@ -38,9 +40,15 @@ public class GUI {
 		
 		Login login = new Login(action, textConsole);
 
-		panelMain = new JPanel(new BorderLayout());
-		panelMain.add(login.getPanel(), BorderLayout.NORTH, 0);
+		panelMain = new JLayeredPane();
+		panelMain.setLayout(new BorderLayout());
+		
+		JPanel loginPanel = login.getPanel();
+		panelMain.add(loginPanel, BorderLayout.NORTH, 0);
+		panelMain.setLayer(loginPanel, 1);
+		
 		panelMain.add(textConsole, BorderLayout.SOUTH, 1);
+		panelMain.setLayer(textConsole, -1);
 
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.addWindowListener(new WindowAdapter() {
@@ -69,7 +77,11 @@ public class GUI {
 		panelMain.remove(0);
 		
 		Login login = new Login(action, textConsole);
-		panelMain.add(login.getPanel(), BorderLayout.NORTH, 0);
+		
+		JPanel loginPanel = login.getPanel();
+		panelMain.add(loginPanel, BorderLayout.NORTH, 0);
+		panelMain.setLayer(loginPanel, 1);
+		
 		panelMain.revalidate();
 		frame.repaint();
 	}
@@ -78,7 +90,11 @@ public class GUI {
 		panelMain.remove(0);
 		
 		PickGame pickGame = new PickGame(action, textConsole);
-		panelMain.add(pickGame.getPanel(), BorderLayout.NORTH, 0);
+		
+		JPanel pickGamePanel = pickGame.getPanel();
+		panelMain.add(pickGamePanel, BorderLayout.NORTH, 0);
+		panelMain.setLayer(pickGamePanel, 1);
+		
 		panelMain.revalidate();
 		frame.repaint();
 	}
@@ -87,7 +103,11 @@ public class GUI {
 		panelMain.remove(0);
 		
 		boardGUI = new BoardGUI(action, board, frame, textConsole);
-		panelMain.add(boardGUI.getPanel(), BorderLayout.NORTH, 0);
+		
+		JPanel boardPanel = boardGUI.getPanel();
+		panelMain.add(boardPanel, BorderLayout.NORTH, 0);
+		panelMain.setLayer(boardPanel, 1);
+		
 		panelMain.revalidate();
 		frame.repaint();
 	}
