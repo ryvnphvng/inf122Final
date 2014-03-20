@@ -49,6 +49,23 @@ public class GameObjectFactory {
 				return null;
 			}
 		}
+		else if(gameType == Definitions.GAMETYPECHECKERS)
+		{
+			if(playerNum == 0) // Creating a game object for the first player
+			{
+				 // First player is always Red
+				return new GameObject(row, col, idGen.getNextID(), GameObjectDefinitions.CHECKERS_RED, playerNum);
+			}
+			else if(playerNum == 1) // Creating a game object for the second player
+			{
+				// Second player is always Black
+				return new GameObject(row, col, idGen.getNextID(), GameObjectDefinitions.CHECKERS_BLACK, playerNum);
+			}
+			else
+			{
+				return null;
+			}
+		}
 		return null;
 	}	
 }

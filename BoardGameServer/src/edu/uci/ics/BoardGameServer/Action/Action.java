@@ -8,6 +8,7 @@ import org.json.simple.parser.ParseException;
 
 import edu.uci.ics.BoardGameServer.Board.Board;
 import edu.uci.ics.BoardGameServer.Board.GameObject;
+import edu.uci.ics.BoardGameServer.Board.GameObjectDefinitions;
 import edu.uci.ics.BoardGameServer.Common.Definitions;
 import edu.uci.ics.BoardGameServer.Common.Message;
 import edu.uci.ics.BoardGameServer.Engine.Game;
@@ -38,8 +39,6 @@ public class Action {
 		reactor = setActionReactor();
 		validator = setMoveValidator();
 		gameOver = setGameOver(board);
-		
-		populateBoard();
 	}
 	
 
@@ -61,6 +60,8 @@ public class Action {
 			
 			game.messageToClient(encodeMessage(gameMessage));
 		}
+		
+		populateBoard();
 	}
 	
 	public void destroyGame() {
@@ -245,6 +246,13 @@ public class Action {
 			
 			return new Board(Connect4_BoardHeight, Connect4_BoardWidth, Definitions.GAMETYPECONNECTFOUR);
 		}
+		else if(gameType == Definitions.GAMETYPECHECKERS)
+		{
+			int Checkers_BoardHeight = 8;
+			int Checkers_BoardWidth = 8;
+			
+			return new Board(Checkers_BoardHeight, Checkers_BoardWidth, Definitions.GAMETYPECHECKERS);
+		}
 		return null;
 	}
 
@@ -258,6 +266,10 @@ public class Action {
 		{
 			return new Connect4Validator(board, numberOfPlayers);
 		}
+		else if(gameType == Definitions.GAMETYPECHECKERS)
+		{
+			return new CheckersValidator(board, numberOfPlayers);
+		}
 		return null;
 	}
 
@@ -270,6 +282,10 @@ public class Action {
 		else if(gameType == Definitions.GAMETYPECONNECTFOUR)
 		{
 			return new Connect4Reactor(gof, manipulator);
+		}
+		else if(gameType == Definitions.GAMETYPECHECKERS)
+		{
+			return new CheckersReactor(gof, manipulator);
 		}
 		else
 		{
@@ -287,6 +303,10 @@ public class Action {
 		{
 			return new Connect4GameOver(b);
 		}
+		else if(gameType == Definitions.GAMETYPECHECKERS)
+		{
+			return new CheckersGameOver(b);
+		}
 		else
 		{
 			return null;
@@ -302,6 +322,49 @@ public class Action {
 		else if(gameType == Definitions.GAMETYPECONNECTFOUR)
 		{
 			return;
+		}
+		else if(gameType == Definitions.GAMETYPECHECKERS)
+		{
+			int player1 = 0;
+			int player2 = 1;
+			for(int i=0; i<board.getWidth(); i++)
+			{
+				if(i % 2 == 1)
+				{
+					int row = 0;
+					int col = i;
+					GameObject g = gof.createGameObject(gameType, player2, row, col);
+					manipulator.createGameObject(g, gameType, g.getObjID(), g.getObjectType(), g.getOwner(), g.getRow(), g.getCol(), numberOfPlayers);
+					
+					row = 2;
+					col = i;
+					g = gof.createGameObject(gameType, player2, row, col);
+					manipulator.createGameObject(g, gameType, g.getObjID(), g.getObjectType(), g.getOwner(), g.getRow(), g.getCol(), numberOfPlayers);
+					
+					row = 6;
+					col = i;
+					g = gof.createGameObject(gameType, player1, row, col);
+					manipulator.createGameObject(g, gameType, g.getObjID(), g.getObjectType(), g.getOwner(), g.getRow(), g.getCol(), numberOfPlayers);
+				}
+				else // i % 2 == 0
+				{
+					int row = 1;
+					int col = i;
+					GameObject g = gof.createGameObject(gameType, player2, row, col);
+					manipulator.createGameObject(g, gameType, g.getObjID(), g.getObjectType(), g.getOwner(), g.getRow(), g.getCol(), numberOfPlayers);
+					
+					row = 5;
+					col = i;
+					g = gof.createGameObject(gameType, player1, row, col);
+					manipulator.createGameObject(g, gameType, g.getObjID(), g.getObjectType(), g.getOwner(), g.getRow(), g.getCol(), numberOfPlayers);
+					
+					row = 7;
+					col = i;
+					g = gof.createGameObject(gameType, player1, row, col);
+					manipulator.createGameObject(g, gameType, g.getObjID(), g.getObjectType(), g.getOwner(), g.getRow(), g.getCol(), numberOfPlayers);
+				}
+			}
+					
 		}
 	}
 }

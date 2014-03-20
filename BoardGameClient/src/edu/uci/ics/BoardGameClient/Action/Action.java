@@ -74,6 +74,9 @@ public class Action {
 		if (gameType == Definitions.GAMETYPECONNECTFOUR) {
 			return new Board(6, 7, Definitions.GAMETYPECONNECTFOUR);
 		}
+		else if (gameType == Definitions.GAMETYPECHECKERS) {
+			return new Board(8, 8, Definitions.GAMETYPECHECKERS);
+		}
 		return null;
 	}
 
@@ -224,6 +227,10 @@ public class Action {
 		}
 		if (gameType == Definitions.GAMETYPECONNECTFOUR) {
 			return new Connect4Reactor(gof, manipulator);
+		}
+		else if (gameType == Definitions.GAMETYPECHECKERS)
+		{
+			return new CheckersReactor(gof, manipulator);
 		}
 		return null;
 	}

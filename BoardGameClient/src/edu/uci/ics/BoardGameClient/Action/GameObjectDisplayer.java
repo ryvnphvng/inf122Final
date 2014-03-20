@@ -42,6 +42,15 @@ public class GameObjectDisplayer {
 			//return j;
 		}
 		
+		else if(objectType == GameObjectDefinitions.CHECKERS_RED)
+		{
+			return new JLabel("<html><font color='red' size='20'>O</font></html>");
+		}
+		else if(objectType == GameObjectDefinitions.CHECKERS_BLACK)
+		{
+			return new JLabel("<html><font color='black' size='20'>O</font></html>");
+		}
+		
 		return null;
 	}
 }
