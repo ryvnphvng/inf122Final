@@ -54,6 +54,8 @@ public class MoveSender {
 							  gameMessage.put("GameID", 0);
 							  gameMessage.put("Row", row);
 							  gameMessage.put("Col", col);
+							  gameMessage.put("InitialRow", b.getTile(i, j).getGameObjects().get(0).getRow());
+							  gameMessage.put("InitialCol", b.getTile(i, j).getGameObjects().get(0).getCol());
 							  
 							action.getGame().messageToServer(action.encodeMessage(gameMessage));
 						}
