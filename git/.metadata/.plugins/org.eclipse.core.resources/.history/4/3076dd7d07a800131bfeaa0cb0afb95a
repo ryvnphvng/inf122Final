@@ -1,0 +1,12 @@
+package edu.uci.ics.BoardGameServer.Board;
+
+public class GameObject {
+	
+	private int x;
+	private int y;
+	
+	
+	public int getX(){
+		return 
+	}
+}

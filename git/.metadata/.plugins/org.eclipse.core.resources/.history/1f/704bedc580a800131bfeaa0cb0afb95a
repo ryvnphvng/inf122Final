@@ -1,0 +1,9 @@
+package edu.uci.ics.BoardGameServer.Board;
+
+public class Tile {
+	private GameObject gameobject; //should this be an array of GO??
+	
+	public void getGameObjects(){
+		//this should return an array of game objects.
+	}
+}
